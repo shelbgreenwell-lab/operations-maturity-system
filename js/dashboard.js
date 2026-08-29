@@ -146,9 +146,58 @@
     });
   }
 
+  /* ----------------------------------------------------------
+     System Architecture — a light Organization Blueprint summary.
+     Reads live from js/blueprint-core.js; does not duplicate its
+     analysis logic, just surfaces the headline numbers here.
+     ---------------------------------------------------------- */
+
+  function criticalObjectCount(bp, BP) {
+    var count = 0;
+    BP.ENTITY_ORDER.forEach(function (type) {
+      (bp.data[type] || []).forEach(function (item) {
+        var c = item.criticality || item.impact || item.priority;
+        if (c === 'Critical') count++;
+      });
+    });
+    return count;
+  }
+
+  function renderSystemArchitecture() {
+    var mount = byId('system-architecture-mount');
+    if (!mount) return;
+    var BP = global.OMSBlueprint;
+    var bp = BP && BP.store.mostRecent();
+
+    if (!bp) {
+      mount.innerHTML =
+        '<p class="callout">You haven\'t mapped an Organization Blueprint yet. The Blueprint shows how outcomes, capabilities, processes, and the rest of the system connect &mdash; and what could be affected if one part fails.</p>' +
+        '<a class="btn btn--primary" href="blueprint.html">Create Your Blueprint</a>';
+      return;
+    }
+
+    var completeness = BP.completeness(bp);
+    var gap = BP.designRealityGap(bp);
+    var risks = BP.systemicRisks(bp);
+    var gaps = BP.ownershipGaps(bp);
+    var unownedCritical = gaps.filter(function (g) { return g.severity === 'critical'; }).length;
+    var criticalCount = criticalObjectCount(bp, BP);
+
+    mount.innerHTML =
+      '<div class="metric-grid" style="margin-bottom:var(--space-5)">' +
+        '<div class="metric-card"><span class="metric-card__label">Blueprint Completeness</span><span class="metric-card__value metric-card__value--accent">' + completeness.percent + '%</span><span class="metric-card__note">' + bp.name + '</span></div>' +
+        '<div class="metric-card"><span class="metric-card__label">Design / Reality Gap</span><span class="metric-card__value metric-card__value--accent">' + gap.level + '</span><span class="metric-card__note">' + gap.count + ' difference' + (gap.count === 1 ? '' : 's') + ' recorded</span></div>' +
+        '<div class="metric-card"><span class="metric-card__label">Critical Dependencies</span><span class="metric-card__value metric-card__value--accent">' + criticalCount + '</span><span class="metric-card__note">objects marked Critical</span></div>' +
+        '<div class="metric-card"><span class="metric-card__label">Systemic Risks</span><span class="metric-card__value metric-card__value--accent">' + risks.length + '</span><span class="metric-card__note">deterministic structural checks</span></div>' +
+        '<div class="metric-card"><span class="metric-card__label">Unowned Critical Components</span><span class="metric-card__value metric-card__value--accent">' + unownedCritical + '</span><span class="metric-card__note">processes, decisions &amp; outcomes</span></div>' +
+      '</div>' +
+      '<a class="btn btn--secondary" href="blueprint.html?blueprint=' + encodeURIComponent(bp.id) + '">Open Blueprint &rarr;</a>';
+  }
+
   function init() {
     var stored = global.OMSData.storage.get('assessment', null);
     render(stored || DEMO_RESULTS);
+    renderSystemArchitecture();
   }
 
   global.OMSDashboard = { init: init };

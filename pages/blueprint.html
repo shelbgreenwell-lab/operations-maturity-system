@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Organization Blueprint — Operations Maturity System</title>
-  <meta name="description" content="A visual model of how an organization turns strategy into repeatable business outcomes.">
+  <meta name="description" content="See the system behind the organization: how strategic outcomes become capabilities, value streams, roles, processes, and the connections between them.">
 
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/components.css">
@@ -21,52 +21,60 @@
 
     <header class="page-header">
       <div class="container">
-        <span class="eyebrow">Build &rsaquo; Blueprint</span>
-        <h1>Organization Blueprint</h1>
+        <span class="eyebrow">Organization Blueprint</span>
+        <h1>See the system behind the organization.</h1>
         <p class="lede">
-          A visual model of how an organization turns strategy into repeatable
-          business outcomes &mdash; capabilities, value streams, roles, and the
-          systems that connect them.
+          An org chart tells you who reports to whom. A process map tells you how
+          one workflow operates. The Organization Blueprint shows how the
+          organization actually produces outcomes &mdash; and how changing one
+          thing affects everything connected to it.
         </p>
-        <div class="foundational-notice">
-          <span class="badge">Coming Into The System</span>
-        </div>
       </div>
     </header>
 
     <section class="section">
       <div class="container container--narrow">
-        <div class="framework-preview">
-          <h3 style="margin-bottom: var(--space-4);">What the Blueprint will map</h3>
-          <div class="tag-list">
-            <span class="pill">Strategic outcomes</span>
-            <span class="pill">Customer &amp; business value</span>
-            <span class="pill">Capabilities</span>
-            <span class="pill">Value streams</span>
-            <span class="pill">Functions &amp; teams</span>
-            <span class="pill">Roles &amp; ownership</span>
-            <span class="pill">Core processes</span>
-            <span class="pill">Technology</span>
-            <span class="pill">Data</span>
-            <span class="pill">Metrics</span>
-            <span class="pill">Governance</span>
+
+        <div id="blueprint-launcher">
+          <div style="display:flex; gap: var(--space-3); flex-wrap: wrap;">
+            <button type="button" class="btn btn--primary" id="new-blueprint-btn">Create Blueprint</button>
+            <button type="button" class="btn btn--secondary" id="load-sample-blueprint-btn">Load Sample Blueprint</button>
+            <label class="btn btn--secondary" style="cursor:pointer;margin:0">
+              Import JSON
+              <input type="file" id="import-blueprint-input" accept="application/json" style="display:none">
+            </label>
+          </div>
+          <div id="bp-resume-list"></div>
+        </div>
+
+        <div id="blueprint-wizard" hidden>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-5);flex-wrap:wrap;gap:var(--space-2)">
+            <button type="button" class="btn btn--ghost" id="builder-exit">&larr; Exit to My Blueprints</button>
+            <span id="builder-project-name" class="text-mono text-dim" style="font-size:var(--step--1)"></span>
+          </div>
+          <div id="builder-progress" class="builder-progress"></div>
+          <p id="builder-step-label" class="text-mono text-dim" style="font-size:var(--step--1);margin-bottom:var(--space-4)"></p>
+          <div id="builder-step-body"></div>
+          <div class="builder-step-nav">
+            <button type="button" class="btn btn--secondary" id="builder-prev">&larr; Previous</button>
+            <button type="button" class="btn btn--primary" id="builder-next">Next &rarr;</button>
           </div>
         </div>
 
-        <p class="callout" style="margin-top: var(--space-6);">
-          A future version will let you compare the <strong>designed organization</strong>
-          &mdash; how leadership believes the organization works &mdash; against the
-          <strong>actual organization</strong>: how work really moves through people,
-          processes, systems, decisions, handoffs, and workarounds.
-        </p>
+      </div>
+    </section>
 
-        <div style="margin-top: var(--space-6);">
-          <span class="eyebrow">Explore The Concepts Now</span>
-          <div class="related-links" style="margin-top: var(--space-4);">
-            <a href="explore.html?layer=design">Explore the Design Layer</a>
-            <a href="learn.html?resource=operating-models">Operating Models</a>
-            <a href="learn.html?resource=capability-mapping">Capability Mapping</a>
+    <section class="section" id="blueprint-viewer-section">
+      <div class="container">
+        <div id="blueprint-viewer" hidden>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);flex-wrap:wrap;gap:var(--space-3)">
+            <button type="button" class="btn btn--ghost" id="viewer-exit">&larr; Exit to My Blueprints</button>
+            <div style="display:flex;gap:var(--space-2);flex-wrap:wrap">
+              <button type="button" class="btn btn--secondary" id="viewer-edit">Edit Blueprint</button>
+              <button type="button" class="btn btn--secondary" id="viewer-export">Export JSON</button>
+            </div>
           </div>
+          <div id="blueprint-viewer-body"></div>
         </div>
       </div>
     </section>
@@ -77,15 +85,16 @@
 
   <script src="../js/data.js"></script>
   <script src="../js/navigation.js"></script>
-  <script src="../js/assessment.js"></script>
-  <script src="../js/diagnostics.js"></script>
-  <script src="../js/scenarios.js"></script>
-  <script src="../js/dashboard.js"></script>
-  <script src="../js/resource-detail.js"></script>
-  <script src="../js/explore.js"></script>
-  <script src="../js/learn.js"></script>
-  <script src="../js/anti-patterns.js"></script>
   <script src="../js/app.js"></script>
+  <script src="../js/builder-core.js"></script>
+  <script src="../js/blueprint-core.js"></script>
+  <script src="../js/blueprint-sample.js"></script>
+  <script src="../js/blueprint.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      OMSBlueprintPage.init();
+    });
+  </script>
 
 </body>
 </html>

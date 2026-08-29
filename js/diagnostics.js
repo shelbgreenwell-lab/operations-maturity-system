@@ -118,6 +118,20 @@
     var constraint = data.constraints[constraintId];
     if (!constraint) return;
 
+    var layerEntry = (constraint.investigateNext || []).filter(function (e) { return e.type === 'layer'; })[0];
+    var blueprintLinkHtml = '';
+    if (layerEntry && global.OMSBlueprint) {
+      var mostRecentBp = global.OMSBlueprint.store.mostRecent();
+      var bpHref = mostRecentBp
+        ? global.OMSData.href('pages/blueprint.html') + '?blueprint=' + encodeURIComponent(mostRecentBp.id) + '&focusLayer=' + encodeURIComponent(layerEntry.id)
+        : global.OMSData.href('pages/blueprint.html');
+      blueprintLinkHtml =
+        '<div class="next-action" style="margin-top:var(--space-4)">' +
+          '<span>See where this shows up in your Organization Blueprint</span>' +
+          '<a class="btn btn--secondary" href="' + bpHref + '">' + (mostRecentBp ? 'View In Blueprint' : 'Create A Blueprint') + ' &rarr;</a>' +
+        '</div>';
+    }
+
     var evidenceHtml = constraint.evidence.map(function (e) { return '<li>' + e + '</li>'; }).join('');
     var questionsHtml = constraint.questionsToAsk.map(function (q) { return '<li class="operator-question">' + q + '</li>'; }).join('');
     var notYetHtml = constraint.whatNotToDoYet.map(function (n) { return '<li>' + n + '</li>'; }).join('');
@@ -164,6 +178,7 @@
           '<a class="btn btn--secondary" href="' + global.OMSData.href('pages/' + constraint.builderRecommendation.href + '.html') + '">Build This System: ' + constraint.builderRecommendation.label + ' &rarr;</a>' +
         '</div>'
         : '') +
+      blueprintLinkHtml +
       '<button type="button" class="btn btn--ghost" id="diagnose-restart" style="margin-top:var(--space-7)">Investigate a different symptom</button>';
 
     var restart = byId('diagnose-restart');
