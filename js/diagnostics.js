@@ -121,26 +121,43 @@
     var evidenceHtml = constraint.evidence.map(function (e) { return '<li>' + e + '</li>'; }).join('');
     var questionsHtml = constraint.questionsToAsk.map(function (q) { return '<li class="operator-question">' + q + '</li>'; }).join('');
     var notYetHtml = constraint.whatNotToDoYet.map(function (n) { return '<li>' + n + '</li>'; }).join('');
-    var linksHtml = global.OMSLinks ? global.OMSLinks.renderList(constraint.investigateNext) : '';
+    var relatedSystemsHtml = global.OMSLinks ? global.OMSLinks.renderList(constraint.investigateNext) : '';
+    var antiPatternsHtml = global.OMSLinks && constraint.relatedAntiPatterns && constraint.relatedAntiPatterns.length
+      ? global.OMSLinks.renderList(constraint.relatedAntiPatterns) : '';
 
     els.outcomeMount.innerHTML =
       '<div class="section-head">' +
-        '<span class="eyebrow">Likely System Constraint</span>' +
+        '<span class="eyebrow">Observed Symptom</span>' +
+        '<h3 style="margin-top:var(--space-2)">' + state.symptom.symptom + '</h3>' +
+      '</div>' +
+      '<div class="section-head" style="margin-top:var(--space-6)">' +
+        '<span class="eyebrow">Likely Constraint &mdash; Not A Confirmed Diagnosis</span>' +
         '<h2>' + constraint.name + '</h2>' +
-        '<p class="lede">Symptom investigated: ' + state.symptom.symptom + '</p>' +
+        '<p class="lede">This is a potential cause based on your answers. Validate it with evidence before intervening.</p>' +
       '</div>' +
       '<div class="constraint-panel" style="margin-bottom:var(--space-6)">' +
         '<span class="eyebrow">Why This May Be Happening</span>' +
         '<p style="margin-top:var(--space-3)">' + constraint.why + '</p>' +
       '</div>' +
       '<div class="outcome-grid">' +
-        '<div class="outcome-block"><h4>Evidence To Look For</h4><ul>' + evidenceHtml + '</ul></div>' +
+        '<div class="outcome-block"><h4>Evidence To Validate</h4><ul>' + evidenceHtml + '</ul></div>' +
         '<div class="outcome-block"><h4>Questions To Ask</h4><ul>' + questionsHtml + '</ul></div>' +
         '<div class="outcome-block"><h4>What Not To Do Yet</h4><ul>' + notYetHtml + '</ul></div>' +
       '</div>' +
+      (antiPatternsHtml ?
+        '<hr class="divider">' +
+        '<span class="eyebrow">Common Anti-Patterns Here</span>' +
+        '<div class="related-links" style="margin-top:var(--space-4)">' + antiPatternsHtml + '</div>'
+        : '') +
       '<hr class="divider">' +
-      '<span class="eyebrow">What To Investigate Next</span>' +
-      '<div class="related-links" style="margin-top:var(--space-4)">' + linksHtml + '</div>' +
+      '<span class="eyebrow">Related Systems &amp; What To Investigate Next</span>' +
+      '<div class="related-links" style="margin-top:var(--space-4)">' + relatedSystemsHtml + '</div>' +
+      (constraint.resourceToStudy ?
+        '<div class="next-action">' +
+          '<span>Resource to study</span>' +
+          '<a class="btn btn--primary" href="' + global.OMSLinks.resolve(constraint.resourceToStudy) + '">' + constraint.resourceToStudy.label + ' &rarr;</a>' +
+        '</div>'
+        : '') +
       '<button type="button" class="btn btn--ghost" id="diagnose-restart" style="margin-top:var(--space-7)">Investigate a different symptom</button>';
 
     var restart = byId('diagnose-restart');
@@ -169,6 +186,12 @@
     global.OMSData.load('diagnostics.json').then(function (json) {
       data = json;
       renderIntro();
+
+      var params = new URLSearchParams(global.location.search);
+      var requestedSymptom = params.get('symptom');
+      if (requestedSymptom && data.diagnostics.some(function (d) { return d.id === requestedSymptom; })) {
+        selectSymptom(requestedSymptom);
+      }
     });
   }
 

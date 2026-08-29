@@ -1,5 +1,5 @@
 {
-  "description": "Defines the six core layers of the Operations Maturity System and the operational domains contained within each layer.",
+  "description": "Defines the six core layers of the Operations Maturity System, the operational domains contained within each layer, and how each layer's maturity progresses across the five levels.",
   "layers": [
     {
       "id": "direction",
@@ -31,8 +31,41 @@
       "dependsOn": ["evolution"],
       "enables": ["design"],
       "relatedResources": [
-        { "label": "Operating Models", "type": "resource", "id": "operating-models" },
-        { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" }
+        { "label": "Strategy Translation", "type": "resource", "id": "strategy-translation" },
+        { "label": "Prioritization", "type": "resource", "id": "prioritization" },
+        { "label": "Strategic Alignment", "type": "resource", "id": "strategic-alignment" }
+      ],
+      "domains": [
+        { "id": "strategy-translation", "name": "Strategy Translation", "isFlagship": true, "resourceId": "strategy-translation" },
+        { "id": "business-outcomes", "name": "Business Outcomes", "isFlagship": false, "systemCategory": "Foundational Systems",
+          "question": "What outcome is this work actually supposed to produce?",
+          "whatItIs": "The specific, measurable results the business exists to produce, distinct from the activities performed to reach them.",
+          "whyItMatters": "Without named outcomes, teams optimize activity instead of results and cannot tell productive work from busy work." },
+        { "id": "customer-promise", "name": "Customer Promise", "isFlagship": false, "systemCategory": "Foundational Systems",
+          "question": "What are we committing to deliver, and to whom?",
+          "whatItIs": "The explicit commitment an organization makes to its customers about what they will experience, on what terms.",
+          "whyItMatters": "Operations without a stated promise has no standard to design against, or to notice itself failing to meet." },
+        { "id": "objectives", "name": "Objectives", "isFlagship": false, "systemCategory": "Foundational Systems",
+          "question": "What are we trying to accomplish in this period, specifically?",
+          "whatItIs": "Time-bound, specific targets that translate strategy into something a team can actually plan against.",
+          "whyItMatters": "Vague objectives produce vague accountability; nobody can be behind or ahead of a target that was never defined." },
+        { "id": "prioritization", "name": "Prioritization", "isFlagship": true, "resourceId": "prioritization" },
+        { "id": "constraints", "name": "Constraints", "isFlagship": false, "systemCategory": "Foundational Systems",
+          "question": "What limits are we actually operating inside?",
+          "whatItIs": "The budget, time, regulatory, technical, and capacity limits that bound what the organization can realistically pursue.",
+          "whyItMatters": "Plans built without naming constraints look ambitious on paper and fail on contact with reality." },
+        { "id": "risk-appetite", "name": "Risk Appetite", "isFlagship": false, "systemCategory": "Foundational Systems",
+          "question": "How much risk are we willing to accept to move faster?",
+          "whatItIs": "An explicit statement of how much uncertainty, exposure, or potential loss the organization will tolerate in pursuit of its objectives.",
+          "whyItMatters": "Without a stated risk appetite, every risk decision is renegotiated from scratch, usually by whoever is most anxious in the room." },
+        { "id": "strategic-alignment", "name": "Strategic Alignment", "isFlagship": true, "resourceId": "strategic-alignment" }
+      ],
+      "byLevel": [
+        { "level": 1, "likelyState": "Strategy exists only as leadership intent; teams interpret direction independently and inconsistently.", "primaryRisk": "Effort is spent on work that doesn't connect to any stated outcome, and nobody notices until results disappoint.", "toReachNext": ["Write down the top three business outcomes for this period.", "State the customer promise in one sentence.", "Name at least one explicit constraint or tradeoff rule."] },
+        { "level": 2, "likelyState": "Direction is understood informally by tenured staff but isn't consistently communicated to newer team members.", "primaryRisk": "Direction quality depends on who explains it, so alignment quietly degrades as the team grows.", "toReachNext": ["Document objectives so they don't depend on verbal retelling.", "Define priorities explicitly enough to resolve conflicts.", "State risk appetite instead of deciding it case by case."] },
+        { "level": 3, "likelyState": "Objectives, priorities, and constraints are documented and generally consistent across teams.", "primaryRisk": "Direction can go stale — teams keep executing last quarter's stated priorities even after circumstances changed.", "toReachNext": ["Review and re-cascade direction on a fixed cadence.", "Measure whether teams can trace their work to an outcome.", "Track how tradeoff decisions are actually being made."] },
+        { "level": 4, "likelyState": "Direction is actively cascaded, tracked, and reinforced through a defined process.", "primaryRisk": "Direction can become rigid, arriving as a mandate rather than an input teams can question with evidence.", "toReachNext": ["Build feedback loops so execution evidence can inform strategy.", "Formalize how risk appetite gets revisited as conditions change.", "Track cascade speed from strategy change to team-level clarity."] },
+        { "level": 5, "likelyState": "Strategy and operating direction adjust deliberately as evidence, risk, and market conditions change.", "primaryRisk": "Mature direction-setting can still outpace the organization's capacity to absorb change — verify Change Management keeps up.", "toReachNext": ["Continue validating direction against leading indicators.", "Formalize how frequently direction is deliberately revisited.", "Extend cascade discipline to newly formed teams and functions."] }
       ]
     },
     {
@@ -66,9 +99,39 @@
       "dependsOn": ["direction"],
       "enables": ["execution"],
       "relatedResources": [
-        { "label": "Operating Models", "type": "resource", "id": "operating-models" },
-        { "label": "Capability Mapping", "type": "resource", "id": "capability-mapping" },
+        { "label": "Operating Model", "type": "resource", "id": "operating-models" },
+        { "label": "Capability Architecture", "type": "resource", "id": "capability-mapping" },
+        { "label": "Role Clarity", "type": "resource", "id": "role-clarity" },
         { "label": "Decision Rights", "type": "resource", "id": "decision-rights" }
+      ],
+      "domains": [
+        { "id": "operating-models", "name": "Operating Model", "isFlagship": true, "resourceId": "operating-models" },
+        { "id": "capability-mapping", "name": "Capability Architecture", "isFlagship": true, "resourceId": "capability-mapping" },
+        { "id": "organization-design", "name": "Organization Design", "isFlagship": false, "systemCategory": "Foundational Systems",
+          "question": "Is the structure built around how work actually flows?",
+          "whatItIs": "The deliberate arrangement of teams, reporting lines, and groupings intended to support the operating model.",
+          "whyItMatters": "Structure that isn't derived from the operating model optimizes for reporting convenience instead of execution." },
+        { "id": "role-clarity", "name": "Role Clarity", "isFlagship": true, "resourceId": "role-clarity" },
+        { "id": "accountability", "name": "Accountability", "isFlagship": false, "systemCategory": "Foundational Systems",
+          "question": "Who answers for this outcome, regardless of who performed the work?",
+          "whatItIs": "The assignment of ownership for an outcome, as distinct from responsibility for performing a task.",
+          "whyItMatters": "Responsibility without accountability lets everyone point to their piece of the work while no one owns the result." },
+        { "id": "decision-rights", "name": "Decision Rights", "isFlagship": true, "resourceId": "decision-rights" },
+        { "id": "cross-functional-interfaces", "name": "Cross-Functional Interfaces", "isFlagship": false, "systemCategory": "Foundational Systems",
+          "question": "How do two functions hand work to each other?",
+          "whatItIs": "The defined points where work, information, or decisions cross from one function or team to another.",
+          "whyItMatters": "Most operational failure happens at the seams between functions, not inside them." },
+        { "id": "service-models", "name": "Service Models", "isFlagship": false, "systemCategory": "Foundational Systems",
+          "question": "How does this function actually serve its internal or external customers?",
+          "whatItIs": "The definition of what a function provides, to whom, at what service level, and through what channel.",
+          "whyItMatters": "Functions without a service model negotiate their scope informally, request by request, forever." }
+      ],
+      "byLevel": [
+        { "level": 1, "likelyState": "Structure exists, but it reflects hiring history more than any deliberate operating model.", "primaryRisk": "Work depends on informal relationships rather than designed interfaces, so it breaks when key people leave.", "toReachNext": ["Name the organization's critical capabilities.", "Identify where two teams believe they own the same thing.", "Write down who currently makes which decisions."] },
+        { "level": 2, "likelyState": "Roles and ownership are recognized informally, but decision rights and interfaces aren't written down anywhere.", "primaryRisk": "The same ambiguity gets resolved differently each time it comes up, depending on who's in the room.", "toReachNext": ["Document decision rights for the most contested decisions.", "Define at least one cross-functional interface explicitly.", "Separate accountability from task responsibility in writing."] },
+        { "level": 3, "likelyState": "Operating model, roles, and decision rights are explicitly documented and mostly matched by behavior.", "primaryRisk": "The design can fall out of date as the organization grows, while everyone keeps referring to the old chart.", "toReachNext": ["Review the operating model on a fixed cadence, not just after a reorg.", "Measure decision rights against how decisions are actually made.", "Formalize cross-functional interfaces beyond the ones under active stress."] },
+        { "level": 4, "likelyState": "Design decisions are actively governed, and drift between design and actual behavior is caught quickly.", "primaryRisk": "Governance overhead can start to slow the organization down if applied uniformly regardless of decision stakes.", "toReachNext": ["Tier governance by decision risk and reversibility.", "Track decision-rights conflicts as a monitored metric.", "Build a standard process for redesigning around new capabilities."] },
+        { "level": 5, "likelyState": "Organization design evolves deliberately as strategy, scale, and capability needs shift.", "primaryRisk": "Frequent redesign can itself become a source of instability if not paced against the organization's absorption capacity.", "toReachNext": ["Sequence design changes against change-management capacity.", "Continue validating that structure still matches how value flows.", "Extend design discipline to newly acquired or merged teams."] }
       ]
     },
     {
@@ -104,8 +167,55 @@
       "dependsOn": ["design"],
       "enables": ["management"],
       "relatedResources": [
+        { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
         { "label": "Process Ownership", "type": "resource", "id": "process-ownership" },
-        { "label": "Process Architecture", "type": "resource", "id": "process-architecture" }
+        { "label": "Handoffs", "type": "resource", "id": "handoffs" },
+        { "label": "Operational Controls", "type": "resource", "id": "operational-controls" }
+      ],
+      "domains": [
+        { "id": "process-architecture", "name": "Process Architecture", "isFlagship": true, "resourceId": "process-architecture" },
+        { "id": "process-ownership", "name": "Process Ownership", "isFlagship": true, "resourceId": "process-ownership" },
+        { "id": "workflow-design", "name": "Workflow Design", "isFlagship": false, "systemCategory": "Running the Business",
+          "question": "What is the actual sequence of steps this work follows?",
+          "whatItIs": "The deliberate design of task sequence, branching, and routing within a process.",
+          "whyItMatters": "Undesigned workflow accretes steps nobody remembers the reason for, and loses steps nobody assigned." },
+        { "id": "sops", "name": "SOPs", "isFlagship": false, "systemCategory": "Running the Business",
+          "question": "Could someone new do this correctly using only what's written down?",
+          "whatItIs": "Written, step-by-step instructions for performing a specific task consistently.",
+          "whyItMatters": "SOPs are the artifact, not the maturity — see Process Ownership for what actually keeps them true." },
+        { "id": "handoffs", "name": "Handoffs", "isFlagship": true, "resourceId": "handoffs" },
+        { "id": "standards", "name": "Standards", "isFlagship": false, "systemCategory": "Running the Business",
+          "question": "What does 'done correctly' mean for this work?",
+          "whatItIs": "The explicit definition of acceptable quality, format, or method that execution is expected to meet.",
+          "whyItMatters": "Without stated standards, good work is whatever the reviewer personally prefers that day." },
+        { "id": "slas", "name": "SLAs", "isFlagship": false, "systemCategory": "Running the Business",
+          "question": "How fast, and how reliably, are we committing to deliver this?",
+          "whatItIs": "A defined commitment on the speed and reliability of a service or process, usually with a measurable threshold.",
+          "whyItMatters": "Without an SLA, 'too slow' is a matter of opinion, and every delay is negotiated after the fact." },
+        { "id": "operational-controls", "name": "Operational Controls", "isFlagship": true, "resourceId": "operational-controls" },
+        { "id": "exception-management", "name": "Exception Management", "isFlagship": false, "systemCategory": "Running the Business",
+          "question": "What happens when this case doesn't fit the standard process?",
+          "whatItIs": "The deliberate handling path for cases that fall outside a process's normal design.",
+          "whyItMatters": "Unmanaged exceptions either get forced through a process that wasn't built for them, or quietly become their own undocumented process." },
+        { "id": "escalation", "name": "Escalation", "isFlagship": false, "systemCategory": "Running the Business",
+          "question": "When should this move to someone else, and to whom?",
+          "whatItIs": "The defined path and threshold for moving a decision or problem to a different owner.",
+          "whyItMatters": "Escalation without defined thresholds becomes a habit rather than a mechanism — see Decision Rights for the deeper cause." },
+        { "id": "technology-enablement", "name": "Technology Enablement", "isFlagship": false, "systemCategory": "Running the Business",
+          "question": "Does the system support how the work actually needs to happen?",
+          "whatItIs": "The alignment of tools and systems to the process they are meant to support, rather than the reverse.",
+          "whyItMatters": "Technology introduced before the process is understood usually digitizes the workaround, not the fix." },
+        { "id": "automation", "name": "Automation", "isFlagship": false, "systemCategory": "Scaling the Business",
+          "question": "Is this task suitable to remove from human execution entirely?",
+          "whatItIs": "The replacement of a manual, well-understood, stable task with a system that performs it without human execution.",
+          "whyItMatters": "Automating an unstable or undocumented process just makes its failures faster and harder to trace." }
+      ],
+      "byLevel": [
+        { "level": 1, "likelyState": "Execution quality depends on who is doing the work; there is no shared, reliable method.", "primaryRisk": "The organization is one departure away from losing the ability to perform a critical process at all.", "toReachNext": ["Document the actual steps of your most critical process.", "Name a single accountable owner for it.", "Identify where the process most often breaks down."] },
+        { "level": 2, "likelyState": "Informal patterns exist and tenured staff can describe 'how we usually do it,' but execution still varies.", "primaryRisk": "Quality and speed swing with individual judgment, and nobody can predict which version of the process will run.", "toReachNext": ["Turn the informal pattern into a written standard.", "Define what 'done correctly' means explicitly.", "Give the process owner real authority to enforce the standard."] },
+        { "level": 3, "likelyState": "Standards, ownership, and documented processes exist and are generally followed.", "primaryRisk": "Documentation can quietly diverge from practice once nobody is actively checking that the two still match.", "toReachNext": ["Add controls that catch deviation before it reaches a customer.", "Track handoff quality between teams, not just within them.", "Build a defined path for handling exceptions."] },
+        { "level": 4, "likelyState": "Execution is actively controlled: deviations are caught, escalation paths work, and performance is measured.", "primaryRisk": "Controls calibrated for yesterday's risk can create friction without adding protection as conditions change.", "toReachNext": ["Review controls periodically against actual failure data.", "Begin automating the most stable, well-controlled steps.", "Measure handoff and exception rates as standing metrics."] },
+        { "level": 5, "likelyState": "Execution is resilient, measured, and improved continuously, with automation applied where it earns its cost.", "primaryRisk": "Automation can outpace the organization's ability to safely change what's now running unattended.", "toReachNext": ["Continue expanding automation only where it earns its cost.", "Feed execution data back into process redesign, not just monitoring.", "Extend the same rigor to newly added processes as they're created."] }
       ]
     },
     {
@@ -142,8 +252,50 @@
       "enables": ["intelligence"],
       "relatedResources": [
         { "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" },
-        { "label": "Governance", "type": "resource", "id": "governance" },
-        { "label": "Capacity Management", "type": "resource", "id": "capacity-management" }
+        { "label": "Capacity Management", "type": "resource", "id": "capacity-management" },
+        { "label": "Work Intake", "type": "resource", "id": "work-intake" },
+        { "label": "Governance", "type": "resource", "id": "governance" }
+      ],
+      "domains": [
+        { "id": "operating-rhythms", "name": "Operating Rhythms", "isFlagship": true, "resourceId": "operating-rhythms" },
+        { "id": "performance-management", "name": "Performance Management", "isFlagship": false, "systemCategory": "Running the Business",
+          "question": "How do we know if a person or team is performing well?",
+          "whatItIs": "The mechanisms for setting performance expectations, observing actual performance, and responding to gaps.",
+          "whyItMatters": "Without a performance management system, feedback is sporadic, inconsistent, and disconnected from actual outcomes." },
+        { "id": "capacity-management", "name": "Capacity Management", "isFlagship": true, "resourceId": "capacity-management" },
+        { "id": "resource-planning", "name": "Resource Planning", "isFlagship": false, "systemCategory": "Running the Business",
+          "question": "Do we have the people and budget this plan actually requires?",
+          "whatItIs": "The deliberate matching of people, budget, and time to planned work before it is committed to.",
+          "whyItMatters": "Plans built without resource planning are aspirations, not commitments." },
+        { "id": "work-intake", "name": "Work Intake", "isFlagship": true, "resourceId": "work-intake" },
+        { "id": "operational-prioritization", "name": "Prioritization", "isFlagship": false, "systemCategory": "Running the Business",
+          "question": "What gets worked on first when everything can't be done at once?",
+          "whatItIs": "The day-to-day sequencing of work within a team, distinct from strategic prioritization at the organizational level.",
+          "whyItMatters": "Without an explicit sequencing method, prioritization defaults to whoever asked most recently or most loudly." },
+        { "id": "issue-management", "name": "Issue Management", "isFlagship": false, "systemCategory": "Running the Business",
+          "question": "Where do problems go once someone notices them?",
+          "whatItIs": "The system for capturing, tracking, and resolving operational problems to closure.",
+          "whyItMatters": "Without issue management, problems are solved once, informally, and resurface with no memory that they happened before." },
+        { "id": "risk-management", "name": "Risk Management", "isFlagship": false, "systemCategory": "Running the Business",
+          "question": "What could go wrong here, and who is watching for it?",
+          "whatItIs": "The ongoing practice of identifying, tracking, and mitigating operational risk before it becomes an incident.",
+          "whyItMatters": "Risk that isn't tracked is discovered instead of managed — usually at the worst possible time." },
+        { "id": "change-management", "name": "Change Management", "isFlagship": false, "systemCategory": "Running the Business",
+          "question": "How is this change being sequenced against everything else in flight?",
+          "whatItIs": "The deliberate planning of how a change is introduced, communicated, and absorbed by the people affected by it.",
+          "whyItMatters": "Change introduced without a management plan competes with existing work for the same finite attention and capacity." },
+        { "id": "communication-architecture", "name": "Communication Architecture", "isFlagship": false, "systemCategory": "Running the Business",
+          "question": "How does information reliably reach the people who need it?",
+          "whatItIs": "The deliberate design of what information flows where, through which channel, and on what cadence.",
+          "whyItMatters": "Without a designed architecture, communication happens by proximity — whoever is in the room hears it, and everyone else finds out late." },
+        { "id": "governance", "name": "Governance", "isFlagship": true, "resourceId": "governance" }
+      ],
+      "byLevel": [
+        { "level": 1, "likelyState": "There is no active management system; execution runs on individual effort and improvisation.", "primaryRisk": "Problems are found by customers, not by any internal mechanism designed to catch them first.", "toReachNext": ["Establish one recurring rhythm with a real decision to make.", "Make capacity visible, even informally.", "Create a single place issues get tracked instead of just discussed."] },
+        { "level": 2, "likelyState": "Management practices exist but vary by leader or team.", "primaryRisk": "Execution depends too heavily on individual management behavior.", "toReachNext": ["Establish operating rhythms.", "Establish performance standards.", "Establish escalation mechanisms.", "Establish capacity visibility."] },
+        { "level": 3, "likelyState": "Operating rhythms, capacity tracking, and issue management are defined and consistently used.", "primaryRisk": "The mechanisms exist but may not yet be tested under real pressure — verify they hold up during a crunch, not just in steady state.", "toReachNext": ["Track whether rhythms actually produce decisions, not just discussion.", "Use capacity data to make prioritization tradeoffs, not just report status.", "Add a defined process for managing change alongside existing work."] },
+        { "level": 4, "likelyState": "Management systems are actively governed: decisions are tracked to completion and capacity drives real tradeoffs.", "primaryRisk": "A well-managed system can still fail to adapt if it isn't allowed to evolve — process can calcify into ritual.", "toReachNext": ["Periodically review whether each rhythm still earns its place.", "Forecast capacity, not just track current utilization.", "Formalize how competing changes get sequenced against each other."] },
+        { "level": 5, "likelyState": "Management systems evolve deliberately, with rhythms, capacity models, and change practices refined based on evidence.", "primaryRisk": "Sophistication can create a barrier to entry for new managers who haven't internalized why each mechanism exists.", "toReachNext": ["Document the reasoning behind each rhythm so it survives leadership turnover.", "Continue forecasting and stress-testing capacity models.", "Extend management discipline consistently as the organization keeps growing."] }
       ]
     },
     {
@@ -181,7 +333,56 @@
       "enables": ["evolution"],
       "relatedResources": [
         { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" },
-        { "label": "Operational Health", "type": "resource", "id": "operational-health" }
+        { "label": "Operational Health", "type": "resource", "id": "operational-health" },
+        { "label": "Data Quality", "type": "resource", "id": "data-quality" }
+      ],
+      "domains": [
+        { "id": "kpi-architecture", "name": "KPI Architecture", "isFlagship": true, "resourceId": "kpi-architecture" },
+        { "id": "leading-indicators", "name": "Leading Indicators", "isFlagship": false, "systemCategory": "Measuring the Business",
+          "question": "What tells us a problem is coming before it arrives?",
+          "whatItIs": "Metrics that predict future performance rather than report on what has already happened.",
+          "whyItMatters": "An organization with only lagging indicators finds out about problems from its customers." },
+        { "id": "lagging-indicators", "name": "Lagging Indicators", "isFlagship": false, "systemCategory": "Measuring the Business",
+          "question": "What did we actually deliver?",
+          "whatItIs": "Metrics that report on outcomes after the fact, confirming what already happened.",
+          "whyItMatters": "Lagging indicators are necessary for accountability, but they arrive too late to change the outcome they describe." },
+        { "id": "quality-measurement", "name": "Quality Measurement", "isFlagship": false, "systemCategory": "Measuring the Business",
+          "question": "How do we know the work meets the standard, not just that it got done?",
+          "whatItIs": "The measurement of whether output meets defined standards, as distinct from whether output was produced at all.",
+          "whyItMatters": "Volume metrics without quality metrics reward throughput even when throughput is producing defects." },
+        { "id": "operational-health", "name": "Operational Health", "isFlagship": true, "resourceId": "operational-health" },
+        { "id": "dashboards", "name": "Dashboards", "isFlagship": false, "systemCategory": "Measuring the Business",
+          "question": "Does this view actually change what someone does next?",
+          "whatItIs": "A visual presentation of metrics intended to support faster or better decisions.",
+          "whyItMatters": "A dashboard nobody acts on is reporting theater, not intelligence — see Operational Health for the discipline this requires." },
+        { "id": "forecasting", "name": "Forecasting", "isFlagship": false, "systemCategory": "Measuring the Business",
+          "question": "What do we expect to happen, and how confident are we?",
+          "whatItIs": "The disciplined projection of future demand, performance, or risk based on current signals and trends.",
+          "whyItMatters": "Without forecasting, planning is always a reaction to what already happened rather than a preparation for what's coming." },
+        { "id": "customer-signals", "name": "Customer Signals", "isFlagship": false, "systemCategory": "Measuring the Business",
+          "question": "What is the customer experience actually telling us?",
+          "whatItIs": "Direct and indirect signals from customers — complaints, churn, satisfaction, behavior — read as operational input.",
+          "whyItMatters": "Customer signals often reveal operating system failures long before they surface in internal metrics." },
+        { "id": "employee-signals", "name": "Employee Signals", "isFlagship": false, "systemCategory": "Measuring the Business",
+          "question": "What is the workforce experience telling us about the system?",
+          "whatItIs": "Signals such as turnover, engagement, and workload strain, read as evidence of how the operating system is functioning.",
+          "whyItMatters": "Employee strain is frequently the earliest visible symptom of a capacity or process failure." },
+        { "id": "financial-signals", "name": "Financial Signals", "isFlagship": false, "systemCategory": "Measuring the Business",
+          "question": "What is the P&L or unit economics telling us operationally?",
+          "whatItIs": "Financial data read for what it reveals about operational performance, not just accounting results.",
+          "whyItMatters": "Cost and margin trends often surface an operational constraint well before it's visible in any operational metric." },
+        { "id": "data-quality", "name": "Data Quality", "isFlagship": true, "resourceId": "data-quality" },
+        { "id": "decision-intelligence", "name": "Decision Intelligence", "isFlagship": false, "systemCategory": "Measuring the Business",
+          "question": "Does this information actually change a decision?",
+          "whatItIs": "The deliberate design of what information a decision-maker needs, in what form, at what moment.",
+          "whyItMatters": "More data does not create better decisions; the right data, connected to the right decision, does." }
+      ],
+      "byLevel": [
+        { "level": 1, "likelyState": "Metrics, where they exist, are reviewed occasionally but rarely change a decision.", "primaryRisk": "Leadership finds out about serious problems from a customer or a public failure, not from an internal signal.", "toReachNext": ["Pick the three to five metrics that matter most and define them once.", "Assign an owner to each metric's accuracy.", "Connect at least one metric to a specific recurring decision."] },
+        { "level": 2, "likelyState": "Some metrics are reviewed regularly, but different teams report different numbers for the same thing.", "primaryRisk": "Meetings get spent debating whose number is correct instead of deciding what to do about it.", "toReachNext": ["Establish a single source of truth for each core metric.", "Document how each metric is calculated.", "Retire metrics nobody is using to decide anything."] },
+        { "level": 3, "likelyState": "Core metrics are reliable, tied to specific decisions, and reviewed on a defined schedule.", "primaryRisk": "Measurement may still be mostly lagging, so problems are confirmed after they've already affected customers.", "toReachNext": ["Add leading indicators for your highest-risk processes.", "Build a composite operational health view, not just individual metrics.", "Actively monitor and fix known data quality issues."] },
+        { "level": 4, "likelyState": "Leading indicators catch problems early, and data quality is actively monitored, not just assumed.", "primaryRisk": "A mature measurement system can still miss what it was never designed to look for, as the business changes.", "toReachNext": ["Periodically ask what isn't currently being measured that should be.", "Refine the metric set as the business model evolves.", "Extend measurement rigor into newly formed teams and processes."] },
+        { "level": 5, "likelyState": "The measurement system itself is treated as a product: refined, pruned, and improved based on what's proven useful.", "primaryRisk": "A highly tuned measurement system can create false confidence if its assumptions quietly stop matching reality.", "toReachNext": ["Periodically re-validate that leading indicators still predict what they used to.", "Continue pruning metrics that have stopped driving decisions.", "Keep data quality monitoring itself under active measurement."] }
       ]
     },
     {
@@ -220,6 +421,57 @@
       "relatedResources": [
         { "label": "Root Cause Analysis", "type": "resource", "id": "root-cause-analysis" },
         { "label": "Continuous Improvement", "type": "resource", "id": "continuous-improvement" }
+      ],
+      "domains": [
+        { "id": "root-cause-analysis", "name": "Root Cause Analysis", "isFlagship": true, "resourceId": "root-cause-analysis" },
+        { "id": "continuous-improvement", "name": "Continuous Improvement", "isFlagship": true, "resourceId": "continuous-improvement" },
+        { "id": "experimentation", "name": "Experimentation", "isFlagship": false, "systemCategory": "Improving the Business",
+          "question": "How do we test a change before committing to it fully?",
+          "whatItIs": "The disciplined practice of testing a change on a limited scale before full rollout.",
+          "whyItMatters": "Without experimentation, every change is a full bet, and failure is expensive and hard to attribute." },
+        { "id": "innovation", "name": "Innovation", "isFlagship": false, "systemCategory": "Improving the Business",
+          "question": "Where are we deliberately creating space for new approaches?",
+          "whatItIs": "The deliberate pursuit of new capabilities, offerings, or methods, distinct from optimizing what already exists.",
+          "whyItMatters": "An operating system tuned only for efficiency will optimize itself out of the ability to change direction." },
+        { "id": "process-optimization", "name": "Process Optimization", "isFlagship": false, "systemCategory": "Improving the Business",
+          "question": "Is this process still the best way to produce this outcome?",
+          "whatItIs": "The ongoing refinement of an existing, stable process to improve its speed, cost, or quality.",
+          "whyItMatters": "Optimization applied to an unstable process locks in inconsistency instead of removing it." },
+        { "id": "automation-readiness", "name": "Automation Readiness", "isFlagship": false, "systemCategory": "Scaling the Business",
+          "question": "Is this process stable and well-understood enough to automate?",
+          "whatItIs": "An assessment of whether a process has the standardization and stability required before automation is applied.",
+          "whyItMatters": "Automating a process before it's ready hard-codes today's inconsistency into tomorrow's system." },
+        { "id": "ai-enablement", "name": "AI Enablement", "isFlagship": false, "systemCategory": "Scaling the Business",
+          "question": "Where would judgment or pattern-recognition at scale actually help this system?",
+          "whatItIs": "The deliberate identification of where AI-based tools can support decisions, execution, or analysis within a mature process.",
+          "whyItMatters": "AI applied to an undefined process automates ambiguity instead of resolving it." },
+        { "id": "knowledge-management", "name": "Knowledge Management", "isFlagship": false, "systemCategory": "Improving the Business",
+          "question": "Where does what we've learned actually live?",
+          "whatItIs": "The systematic capture, organization, and reuse of operational knowledge and lessons learned.",
+          "whyItMatters": "Without knowledge management, expertise leaves the building every time an experienced person does." },
+        { "id": "scaling", "name": "Scaling", "isFlagship": false, "systemCategory": "Scaling the Business",
+          "question": "What happens to this system at twice the current volume?",
+          "whatItIs": "The deliberate preparation of a process, team, or system to handle significantly more volume without proportional degradation.",
+          "whyItMatters": "Scale does not create operational ambiguity — it exposes ambiguity that was already there." },
+        { "id": "organizational-learning", "name": "Organizational Learning", "isFlagship": false, "systemCategory": "Improving the Business",
+          "question": "Does the organization get better at getting better?",
+          "whatItIs": "The organization's capacity to systematically turn experience into improved future performance, not just individual learning.",
+          "whyItMatters": "Without organizational learning, every team relearns the same lessons independently, at full cost, every time." },
+        { "id": "process-governance", "name": "Process Governance", "isFlagship": false, "systemCategory": "Improving the Business",
+          "question": "What keeps this process from drifting after it's been designed?",
+          "whatItIs": "The ongoing mechanism that reviews, approves, and controls changes to a process after it has been defined.",
+          "whyItMatters": "A process without governance decays the moment attention moves elsewhere." },
+        { "id": "maturity-management", "name": "Maturity Management", "isFlagship": false, "systemCategory": "Scaling the Business",
+          "question": "Are we deliberately advancing our own operating maturity, or just reacting?",
+          "whatItIs": "The active practice of assessing, targeting, and advancing the organization's operating maturity over time.",
+          "whyItMatters": "Maturity that isn't managed deliberately drifts backward under pressure, even after real progress has been made." }
+      ],
+      "byLevel": [
+        { "level": 1, "likelyState": "The same problems recur because only symptoms get addressed, one incident at a time.", "primaryRisk": "The organization pays the cost of the same failure repeatedly without ever reducing its likelihood.", "toReachNext": ["Run a real root cause investigation on your most recurring problem.", "Write down what was learned somewhere others can find it.", "Pick one baseline metric before attempting any fix."] },
+        { "level": 2, "likelyState": "Improvement happens in bursts, usually triggered by frustration rather than a deliberate process.", "primaryRisk": "Gains from past improvement efforts erode quietly because nothing was standardized to hold them in place.", "toReachNext": ["Standardize the last improvement that actually worked.", "Set a baseline before starting the next improvement effort.", "Create one place lessons learned get captured."] },
+        { "level": 3, "likelyState": "Root cause analysis and improvement work follow a defined process with a measured baseline.", "primaryRisk": "Improvement can become procedural without becoming systemic — fixing instances instead of the conditions that produce them.", "toReachNext": ["Track whether standardized fixes are actually holding over time.", "Connect improvement priorities to your weakest measured layer.", "Build a lightweight way to test changes before full rollout."] },
+        { "level": 4, "likelyState": "Improvement is measured against baselines, with clear decisions to standardize or roll back each change.", "primaryRisk": "A well-managed improvement process can still stay reactive if it only responds to problems rather than anticipating them.", "toReachNext": ["Begin experimenting proactively, not just in response to problems.", "Assess which stable processes are genuinely ready for automation.", "Formalize how lessons learned get applied across teams, not just within one."] },
+        { "level": 5, "likelyState": "The organization treats its own operating maturity as something to deliberately manage and advance.", "primaryRisk": "Adaptive systems can still stagnate if the organization stops questioning its own assumptions.", "toReachNext": ["Keep experimentation deliberate and evidence-based, not just constant.", "Continue reassessing maturity targets as scale and strategy shift.", "Extend organizational learning practices to every new team as it forms."] }
       ]
     }
   ]

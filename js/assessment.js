@@ -373,28 +373,63 @@
     evolution: '--layer-evolution'
   };
 
-  function renderResults(results, levels) {
-    if (!els.results) return;
-    var level = levelFor(results.overall, levels);
+  function renderLayerDetail(layer, def, score, levels) {
+    var level = levelFor(score, levels);
+    var levelIndex = levels.indexOf(level);
+    var nextLevel = levels[levelIndex + 1];
+    var byLevel = def && def.byLevel ? def.byLevel.filter(function (l) { return l.level === level.level; })[0] : null;
+    var pct = Math.round((score / 5) * 100);
 
-    var barsHtml = LAYER_ORDER.map(function (layer) {
-      var score = results.layerScores[layer];
-      var pct = Math.round((score / 5) * 100);
-      return '' +
-        '<div class="layer-bar-row">' +
+    var toReachHtml = '';
+    if (nextLevel && byLevel && byLevel.toReachNext && byLevel.toReachNext.length) {
+      toReachHtml = '<h4 style="font-family:var(--font-mono);font-size:var(--step--1);letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-dim);margin:var(--space-5) 0 var(--space-3)">To Reach ' + nextLevel.name + '</h4>' +
+        '<ul>' + byLevel.toReachNext.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>';
+    } else if (!nextLevel && byLevel && byLevel.toReachNext && byLevel.toReachNext.length) {
+      toReachHtml = '<h4 style="font-family:var(--font-mono);font-size:var(--step--1);letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-dim);margin:var(--space-5) 0 var(--space-3)">To Stay Adaptive</h4>' +
+        '<ul>' + byLevel.toReachNext.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>';
+    }
+
+    var recommendedLink = def && def.relatedResources && def.relatedResources.length
+      ? '<a class="btn btn--secondary" href="' + (global.OMSLinks ? global.OMSLinks.resolve(def.relatedResources[0]) : '#') + '" style="margin-top:var(--space-5)">Study ' + def.relatedResources[0].label + ' &rarr;</a>'
+      : '';
+
+    return '' +
+      '<details class="layer-result-detail">' +
+        '<summary class="layer-bar-row">' +
           '<span class="layer-bar-row__label">' + LAYER_NAMES[layer] + '</span>' +
           '<span class="layer-bar-row__track"><span class="layer-bar-row__fill" style="width:' + pct +
             '%;--layer-color:var(' + LAYER_COLOR_VAR[layer] + ')"></span></span>' +
           '<span class="layer-bar-row__value">' + score.toFixed(1) + '</span>' +
-        '</div>';
-    }).join('');
+        '</summary>' +
+        '<div class="layer-result-detail__body">' +
+          '<div class="score-display" style="gap:var(--space-3)">' +
+            '<span class="score-display__level">' + level.name + '</span>' +
+            '<span class="text-dim text-mono" style="font-size:var(--step--1)">' + score.toFixed(1) + ' / 5</span>' +
+          '</div>' +
+          '<h4 style="font-family:var(--font-mono);font-size:var(--step--1);letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-dim);margin:var(--space-5) 0 var(--space-2)">Likely State</h4>' +
+          '<p class="text-muted">' + (byLevel ? byLevel.likelyState : level.description) + '</p>' +
+          (byLevel ? '<h4 style="font-family:var(--font-mono);font-size:var(--step--1);letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-dim);margin:var(--space-5) 0 var(--space-2)">Primary Risk</h4><p class="text-muted">' + byLevel.primaryRisk + '</p>' : '') +
+          toReachHtml +
+          recommendedLink +
+        '</div>' +
+      '</details>';
+  }
 
+  function renderResults(results, levels) {
+    if (!els.results) return;
+    var level = levelFor(results.overall, levels);
     var weakLayer = results.weakest;
     var strongLayer = results.strongest;
 
     global.OMSData.load('operating-layers.json').then(function (layersData) {
-      var weakDef = layersData.layers.filter(function (l) { return l.id === weakLayer; })[0];
+      var defsById = {};
+      layersData.layers.forEach(function (l) { defsById[l.id] = l; });
+      var weakDef = defsById[weakLayer];
       var linksHtml = global.OMSLinks ? global.OMSLinks.renderList(weakDef && weakDef.relatedResources) : '';
+
+      var layerDetailsHtml = LAYER_ORDER.map(function (layer) {
+        return renderLayerDetail(layer, defsById[layer], results.layerScores[layer], levels);
+      }).join('');
 
       els.results.innerHTML =
         '<div class="section-head">' +
@@ -407,8 +442,8 @@
           '<p class="lede">' + level.description + '</p>' +
         '</div>' +
         '<div class="card" style="margin-bottom:var(--space-6)">' +
-          '<div class="card__eyebrow">By Operating Layer</div>' +
-          '<div class="layer-bars" style="margin-top:var(--space-4)">' + barsHtml + '</div>' +
+          '<div class="card__eyebrow">By Operating Layer &mdash; select a layer for detail</div>' +
+          '<div class="layer-bars" style="margin-top:var(--space-4)">' + layerDetailsHtml + '</div>' +
         '</div>' +
         '<div class="constraint-panel" style="margin-bottom:var(--space-6)">' +
           '<span class="eyebrow">Primary Maturity Constraint</span>' +

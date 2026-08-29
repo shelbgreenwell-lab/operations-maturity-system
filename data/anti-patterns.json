@@ -74,7 +74,7 @@
       "investigate": [
         { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" },
         { "label": "Operational Health", "type": "resource", "id": "operational-health" },
-        { "label": "Explore the Intelligence Layer", "type": "layer", "id": "intelligence" }
+        { "label": "Data Quality", "type": "resource", "id": "data-quality" }
       ]
     },
     {
@@ -148,9 +148,9 @@
       ],
       "likelySystemCause": "direction",
       "investigate": [
+        { "label": "Prioritization", "type": "resource", "id": "prioritization" },
         { "label": "Capacity Management", "type": "resource", "id": "capacity-management" },
-        { "label": "Explore the Direction Layer", "type": "layer", "id": "direction" },
-        { "label": "Explore the Management Layer", "type": "layer", "id": "management" }
+        { "label": "Work Intake", "type": "resource", "id": "work-intake" }
       ]
     },
     {
@@ -169,7 +169,7 @@
       "investigate": [
         { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
         { "label": "Process Ownership", "type": "resource", "id": "process-ownership" },
-        { "label": "Run the Diagnostic", "type": "page", "id": "diagnose" }
+        { "label": "Handoffs", "type": "resource", "id": "handoffs" }
       ]
     },
     {
@@ -207,7 +207,7 @@
       "investigate": [
         { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" },
         { "label": "Operational Health", "type": "resource", "id": "operational-health" },
-        { "label": "Explore the Intelligence Layer", "type": "layer", "id": "intelligence" }
+        { "label": "Data Quality", "type": "resource", "id": "data-quality" }
       ]
     },
     {
@@ -225,8 +225,8 @@
       "likelySystemCause": "decision rights",
       "investigate": [
         { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
-        { "label": "Governance", "type": "resource", "id": "governance" },
-        { "label": "Explore the Design Layer", "type": "layer", "id": "design" }
+        { "label": "Role Clarity", "type": "resource", "id": "role-clarity" },
+        { "label": "Governance", "type": "resource", "id": "governance" }
       ]
     },
     {
@@ -262,9 +262,9 @@
       ],
       "likelySystemCause": "operating model",
       "investigate": [
-        { "label": "Operating Models", "type": "resource", "id": "operating-models" },
-        { "label": "Capability Mapping", "type": "resource", "id": "capability-mapping" },
-        { "label": "Explore the Design Layer", "type": "layer", "id": "design" }
+        { "label": "Operating Model", "type": "resource", "id": "operating-models" },
+        { "label": "Strategic Alignment", "type": "resource", "id": "strategic-alignment" },
+        { "label": "Capability Architecture", "type": "resource", "id": "capability-mapping" }
       ]
     }
   ]

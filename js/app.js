@@ -23,7 +23,9 @@
   /* ----------------------------------------------------------
      Cross-link resolution
      Shared "link object" shape used across every /data file:
-       { label, type: 'resource'|'layer'|'antipattern'|'page', id }
+       { label, type: 'resource'|'layer'|'domain'|'antipattern'|'diagnostic'|'page', id, layer? }
+     'domain' links carry a `layer` field naming which layer the
+     (usually non-flagship) domain belongs to.
      ---------------------------------------------------------- */
 
   function resolveLink(link) {
@@ -31,6 +33,7 @@
     switch (link.type) {
       case 'resource': return global.OMSData.href('pages/learn.html?resource=' + link.id);
       case 'layer': return global.OMSData.href('pages/explore.html?layer=' + link.id);
+      case 'domain': return global.OMSData.href('pages/explore.html?layer=' + link.layer + '&domain=' + link.id);
       case 'antipattern': return global.OMSData.href('pages/anti-patterns.html?pattern=' + link.id);
       case 'diagnostic': return global.OMSData.href('pages/diagnose.html?symptom=' + link.id);
       case 'page': return global.OMSData.href('pages/' + link.id + '.html');

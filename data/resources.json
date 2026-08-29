@@ -1,245 +1,1925 @@
 {
-  "description": "Central knowledge library for the Operations Maturity System, containing educational resources, frameworks, implementation guidance, examples, and related operating concepts.",
+  "description": "The Operations Maturity System knowledge library. Flagship resources carry the full operating-system depth: what the system is, what good and bad execution look like, how it matures, what it depends on and enables, how it fails, and what to build, govern, and measure. Artifacts are evidence. Behavior is maturity.",
   "resources": [
     {
+      "id": "strategy-translation",
+      "title": "Strategy Translation",
+      "layer": "direction",
+      "systemCategory": "Foundational Systems",
+      "isFlagship": true,
+      "question": "How does strategic intent actually reach the team executing the work, without losing or distorting it on the way?",
+      "whatItIs": "The deliberate process of converting strategy into objectives, priorities, and constraints that a team can act on without having to reinterpret it themselves.",
+      "whyThisExists": "Strategy is written at a level of abstraction no team can execute directly. Something has to convert \"grow enterprise revenue\" into what a specific team does differently this quarter — that conversion doesn't happen by osmosis.",
+      "whyItMatters": "Without translation, every layer of management re-authors the strategy in its own words, and by the time it reaches the front line it barely resembles what leadership intended.",
+      "goodLooksLike": "A documented cascade runs from company strategy to function strategy to team objectives, and a frontline employee can trace their current work back to it in under a minute.",
+      "badLooksLike": "Strategy lives in an all-hands slide deck. Each manager explains it differently downstream, and team objectives get written after the fact to match whatever the team was already doing.",
+      "failureSymptoms": [
+        "Teams can recite the company mission but not how this week's work connects to it.",
+        "Two departments pursue objectives that quietly conflict with each other.",
+        "Strategy changes, and nothing downstream visibly changes for months.",
+        "Frontline priorities are set by whichever manager spoke most recently, not by the strategy."
+      ],
+      "commonFailureModes": [
+        "Treating the strategy deck itself as the translation, instead of building an actual cascade.",
+        "Translating once at launch and never re-cascading as strategy shifts mid-year.",
+        "Skipping the middle layer of translation so strategy jumps straight to task lists with no context."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Strategy is communicated once, broadly, and each team interprets what it means for them independently." },
+        { "level": 2, "name": "Repeatable", "description": "Managers informally translate strategy into team priorities, but the translation isn't written down or consistent across teams." },
+        { "level": 3, "name": "Defined", "description": "A documented cascade connects company strategy to function and team-level objectives." },
+        { "level": 4, "name": "Managed", "description": "Cascade speed and fidelity are tracked; leadership can see how quickly and accurately strategy reaches execution." },
+        { "level": 5, "name": "Adaptive", "description": "Translation runs continuously, updating team objectives as strategy shifts rather than waiting for the next planning cycle." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Business Outcomes", "type": "domain", "layer": "direction", "id": "business-outcomes" },
+          { "label": "Objectives", "type": "domain", "layer": "direction", "id": "objectives" }
+        ],
+        "enables": [
+          { "label": "Strategic Alignment", "type": "resource", "id": "strategic-alignment" },
+          { "label": "Prioritization", "type": "resource", "id": "prioritization" }
+        ],
+        "influences": [{ "label": "Operating Model", "type": "resource", "id": "operating-models" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": [{ "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" }]
+      },
+      "whatBreaksWhenWeak": [
+        "Teams optimize for locally reasonable goals that don't add up to the company's actual strategy.",
+        "Reorganizations happen without anyone revisiting whether objectives still make sense.",
+        "Leadership is surprised that \"everyone understood the strategy\" still produced inconsistent results.",
+        "New initiatives compete with unstated existing priorities instead of replacing them."
+      ],
+      "commonMisdiagnoses": ["Communication problem", "Needs an alignment workshop", "Leadership visibility problem"],
+      "whenToUse": "Any time strategy or direction changes materially — a new plan, a pivot, a new leader, a shift in market conditions.",
+      "whenNotToUse": "Not needed for routine, unchanged execution where objectives are already current and understood.",
+      "howToBuild": [
+        "Write the strategy as three to five explicit business outcomes.",
+        "Cascade each outcome into one objective per function.",
+        "Cascade each function objective into team-level priorities.",
+        "Re-run the cascade whenever strategy changes materially, not just annually."
+      ],
+      "howToGovern": [
+        "Assign a single owner (usually strategy or operations) accountable for confirming the cascade happened.",
+        "Re-trigger the cascade on a fixed cadence, not only during annual planning."
+      ],
+      "howToMeasure": [
+        "Percentage of teams that can name the outcome their current work supports.",
+        "Time from a strategy change to updated team-level objectives.",
+        "Number of teams pursuing objectives that conflict with each other."
+      ],
+      "operatorQuestions": [
+        "If I asked five people on this team why they're doing this work, would their answers agree?",
+        "How long ago was this objective last connected back to current strategy?",
+        "Who is accountable for re-cascading direction when it changes?"
+      ],
+      "operatorMode": {
+        "investigate": ["Ask three individual contributors, separately, what the company's top priority is this quarter.", "Compare current team objectives against the most recent strategy document."],
+        "evidence": ["The most recent strategy communication.", "Current team-level objectives or OKRs.", "Org chart showing who owns translation at each level."],
+        "observe": ["Whether managers explain strategy in their own words versus a shared translation.", "Whether new objectives were derived from strategy or just carried over from last quarter."],
+        "measure": ["Time from strategy change to updated objectives.", "Consistency of stated priorities across teams."],
+        "doNotYet": ["Don't rewrite team objectives before confirming what the current strategy actually says.", "Don't blame a team for \"misalignment\" before checking whether translation ever reached them."]
+      },
+      "signals": {
+        "healthy": ["A new hire can trace their task back to strategy within their first month."],
+        "warning": ["Objectives haven't been revisited since the last strategy update, even though strategy has changed."],
+        "failure": ["Teams openly disagree about what the company's actual priority is."]
+      },
+      "relatedResources": [
+        { "label": "Prioritization", "type": "resource", "id": "prioritization" },
+        { "label": "Strategic Alignment", "type": "resource", "id": "strategic-alignment" },
+        { "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" }
+      ],
+      "relatedAntiPatterns": [{ "label": "Everything Is Priority", "type": "antipattern", "id": "everything-is-priority" }],
+      "relatedDiagnostics": [{ "label": "Growth Is Creating Chaos", "type": "diagnostic", "id": "growth-creating-chaos" }],
+      "nextBestAction": { "label": "Explore Strategic Alignment", "type": "resource", "id": "strategic-alignment" }
+    },
+    {
+      "id": "prioritization",
+      "title": "Prioritization",
+      "layer": "direction",
+      "systemCategory": "Foundational Systems",
+      "isFlagship": true,
+      "question": "When two important things compete for the same time and money, what actually decides which one wins?",
+      "whatItIs": "An explicit method for ranking competing initiatives against stated outcomes and constraints, so tradeoffs are made on criteria instead of being re-litigated every time.",
+      "whyThisExists": "Resources are always finite. Without a stated method for prioritizing, the organization still prioritizes — it just does it invisibly, through whoever escalates loudest or holds the most influence.",
+      "whyItMatters": "A team can't tell the difference between a real priority and a loud request without a shared method for weighing them.",
+      "goodLooksLike": "A documented set of criteria exists for ranking initiatives, tradeoffs are explained in terms of that criteria, and deprioritized work is actually named as deprioritized.",
+      "badLooksLike": "Everything is labeled top priority. Sequencing is decided by whoever asked most recently, and nothing is ever formally taken off the list.",
+      "failureSymptoms": [
+        "More than a handful of concurrent initiatives are all labeled P1.",
+        "Teams can't say what they'd stop doing to take on new work.",
+        "Prioritization conversations end without anything actually being deprioritized.",
+        "The roadmap changes direction every time a senior stakeholder makes a request."
+      ],
+      "commonFailureModes": [
+        "Confusing \"important\" with \"urgent\" and letting urgency always win by default.",
+        "Prioritizing without checking against actual capacity, producing a plan nobody can deliver.",
+        "Avoiding the discomfort of telling a stakeholder their request isn't the priority."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Whoever escalates loudest or highest gets prioritized." },
+        { "level": 2, "name": "Repeatable", "description": "The same one or two leaders resolve conflicts case by case, with no consistent method." },
+        { "level": 3, "name": "Defined", "description": "A known process weighs tradeoffs against stated priorities and constraints." },
+        { "level": 4, "name": "Managed", "description": "Tradeoffs are made against explicit criteria and capacity, and the reasoning is communicated to affected teams." },
+        { "level": 5, "name": "Adaptive", "description": "Prioritization criteria are continuously refined based on what's learned from past tradeoffs." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Business Outcomes", "type": "domain", "layer": "direction", "id": "business-outcomes" },
+          { "label": "Constraints", "type": "domain", "layer": "direction", "id": "constraints" }
+        ],
+        "enables": [
+          { "label": "Work Intake", "type": "resource", "id": "work-intake" },
+          { "label": "Capacity Management", "type": "resource", "id": "capacity-management" }
+        ],
+        "influences": [{ "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": []
+      },
+      "whatBreaksWhenWeak": [
+        "Capacity gets fragmented across too many simultaneous initiatives.",
+        "Nothing finishes on schedule because everything is competing for the same time.",
+        "Teams burn out trying to serve every stakeholder's stated top priority.",
+        "Strategic initiatives lose to whichever request is loudest this week."
+      ],
+      "commonMisdiagnoses": ["Team needs to work harder", "Poor time management", "Leadership indecision"],
+      "whenToUse": "Whenever demand exceeds capacity — which, in most organizations, is constantly.",
+      "whenNotToUse": "Not a substitute for capacity planning: prioritization decides sequence, it doesn't create capacity that doesn't exist.",
+      "howToBuild": [
+        "Define three to five explicit criteria for ranking initiatives (e.g. outcome impact, risk, cost, urgency).",
+        "Score current initiatives against those criteria in the open.",
+        "Name what is being deprioritized, not just what is being prioritized.",
+        "Revisit the ranking on a fixed cadence, not only when something new demands attention."
+      ],
+      "howToGovern": [
+        "Give one forum authority to make the final call when criteria don't produce a clear answer.",
+        "Require any new \"top priority\" request to displace something already on the list, explicitly."
+      ],
+      "howToMeasure": [
+        "Number of concurrent initiatives labeled top priority.",
+        "Percentage of prioritized work actually completed versus reshuffled.",
+        "Time spent in meetings re-litigating priority order."
+      ],
+      "operatorQuestions": [
+        "What would we have to stop doing to take this on?",
+        "What criteria decided this ranking, and would a different stakeholder describe the same criteria?",
+        "What was deprioritized to make room for this?"
+      ],
+      "operatorMode": {
+        "investigate": ["Count how many active initiatives are currently labeled P1 or top priority.", "Ask two different leaders to independently rank the same five initiatives."],
+        "evidence": ["Current roadmap or initiative list with priority labels.", "Capacity or headcount allocation across those initiatives."],
+        "observe": ["Whether deprioritization is ever said out loud, or only prioritization.", "Whether ranking changes based on who's in the room."],
+        "measure": ["Ratio of labeled top priorities to team capacity.", "Frequency of re-ranking within a quarter."],
+        "doNotYet": ["Don't introduce a new prioritization framework before understanding why the current one isn't followed.", "Don't just add more capacity — first confirm the constraint is actually capacity and not sequencing."]
+      },
+      "signals": {
+        "healthy": ["Stakeholders can accept being told their request isn't this quarter's priority, because the criteria are visible."],
+        "warning": ["The list of \"top priorities\" is growing without anything being removed."],
+        "failure": ["Every initiative is labeled urgent and important, with no way to distinguish between them."]
+      },
+      "relatedResources": [
+        { "label": "Strategy Translation", "type": "resource", "id": "strategy-translation" },
+        { "label": "Work Intake", "type": "resource", "id": "work-intake" },
+        { "label": "Capacity Management", "type": "resource", "id": "capacity-management" }
+      ],
+      "relatedAntiPatterns": [{ "label": "Everything Is Priority", "type": "antipattern", "id": "everything-is-priority" }],
+      "relatedDiagnostics": [{ "label": "Teams Are Overloaded", "type": "diagnostic", "id": "teams-overloaded" }],
+      "nextBestAction": { "label": "Study Work Intake", "type": "resource", "id": "work-intake" }
+    },
+    {
+      "id": "strategic-alignment",
+      "title": "Strategic Alignment",
+      "layer": "direction",
+      "systemCategory": "Foundational Systems",
+      "isFlagship": true,
+      "question": "Are the organization's structure, priorities, and daily decisions actually pointed at the same outcome?",
+      "whatItIs": "The ongoing state — not a one-time event — in which strategy, operating model, priorities, and metrics all reinforce the same intended direction rather than quietly working against each other.",
+      "whyThisExists": "Strategy, structure, incentives, and metrics are usually designed at different times, by different people, for different reasons. Left alone, they drift apart; alignment is the active work of keeping them pointed the same way.",
+      "whyItMatters": "Misalignment doesn't announce itself. It shows up as functions optimizing locally while the organization underperforms globally, with everyone individually convinced they're doing the right thing.",
+      "goodLooksLike": "A change to strategy visibly triggers review of structure, incentives, and metrics, and leaders can point to specific evidence that these are still pointed the same direction.",
+      "badLooksLike": "Strategy says one thing, incentive structures reward another, and nobody has ever compared the two side by side.",
+      "failureSymptoms": [
+        "A function hits its own targets while the company misses its overall goal.",
+        "Incentive plans reward behavior that contradicts the stated strategy.",
+        "Leaders individually agree with the strategy but describe different priorities for their teams.",
+        "Structural or metric misalignment is discovered only during a crisis, not through routine review."
+      ],
+      "commonFailureModes": [
+        "Treating alignment as a single workshop or offsite rather than an ongoing practice.",
+        "Aligning language without aligning incentives or metrics.",
+        "Assuming agreement in a meeting equals alignment in daily decisions."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Alignment is assumed because leadership agreed on strategy in a room together." },
+        { "level": 2, "name": "Repeatable", "description": "Misalignment is noticed occasionally and patched informally, function by function." },
+        { "level": 3, "name": "Defined", "description": "Structure, incentives, and metrics are explicitly checked against strategy at defined checkpoints." },
+        { "level": 4, "name": "Managed", "description": "Alignment is actively measured, and drift between functions is caught and corrected before it compounds." },
+        { "level": 5, "name": "Adaptive", "description": "Alignment checks are built into how change is introduced, so drift is prevented rather than discovered." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Strategy Translation", "type": "resource", "id": "strategy-translation" },
+          { "label": "Operating Model", "type": "resource", "id": "operating-models" }
+        ],
+        "enables": [{ "label": "Decision Velocity", "type": "domain", "layer": "design", "id": "decision-rights" }],
+        "influences": [{ "label": "Performance Management", "type": "domain", "layer": "management", "id": "performance-management" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": [{ "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" }]
+      },
+      "whatBreaksWhenWeak": [
+        "Functions compete instead of cooperating because their incentives are locally, not globally, optimized.",
+        "Strategic initiatives stall because the structure built to execute them wasn't actually redesigned around them.",
+        "Leadership spends recurring meeting time resolving conflicts that alignment would have prevented.",
+        "Good individual performance adds up to a mediocre company result."
+      ],
+      "commonMisdiagnoses": ["Poor collaboration between teams", "Personality conflict between leaders", "Communication breakdown"],
+      "whenToUse": "After any strategy change, reorganization, or new incentive structure — and on a recurring review cadence otherwise.",
+      "whenNotToUse": "Not a diagnostic for a single underperforming team; check Process Ownership or Capacity first if the issue is localized.",
+      "howToBuild": [
+        "Map current incentive structures against stated strategic outcomes and flag contradictions.",
+        "Review structure and metrics together whenever either one changes.",
+        "Create one forum with authority to resolve cross-functional misalignment when it's found."
+      ],
+      "howToGovern": [
+        "Assign alignment review to a standing operating rhythm, not an annual event.",
+        "Require new incentive plans to be checked against current strategy before approval."
+      ],
+      "howToMeasure": [
+        "Number of identified conflicts between incentives and strategy.",
+        "Time between a structural change and an alignment review of it.",
+        "Cross-functional escalations caused by conflicting local priorities."
+      ],
+      "operatorQuestions": [
+        "If this function fully hit its metrics, would the company actually be better off?",
+        "Does anyone get rewarded for behavior that contradicts our stated strategy?",
+        "When did we last check whether structure still matches strategy?"
+      ],
+      "operatorMode": {
+        "investigate": ["List each function's top metric and check it against the company's stated strategic outcome.", "Ask two functional leaders where they'd trade off against each other, and see if their answers conflict."],
+        "evidence": ["Current strategy statement.", "Functional-level incentive and metric definitions.", "Org structure relative to the operating model."],
+        "observe": ["Where functions optimize locally in ways that create friction elsewhere.", "Whether cross-functional conflict repeats at the same seam."],
+        "measure": ["Frequency of cross-functional escalation.", "Time lag between strategy change and structural or metric review."],
+        "doNotYet": ["Don't reorganize before confirming the incentives are the actual source of misalignment.", "Don't assume verbal agreement in a leadership meeting reflects daily behavior."]
+      },
+      "signals": {
+        "healthy": ["Leaders proactively flag when their own metrics might conflict with another function's."],
+        "warning": ["Two functions each hit their targets but the joint outcome between them slips."],
+        "failure": ["Functions actively work against each other while each believes it's executing the strategy correctly."]
+      },
+      "relatedResources": [
+        { "label": "Strategy Translation", "type": "resource", "id": "strategy-translation" },
+        { "label": "Operating Model", "type": "resource", "id": "operating-models" },
+        { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" }
+      ],
+      "relatedAntiPatterns": [{ "label": "Local Optimum", "type": "antipattern", "id": "local-optimum" }],
+      "relatedDiagnostics": [{ "label": "Performance Is Declining", "type": "diagnostic", "id": "performance-declining" }],
+      "nextBestAction": { "label": "Study Operating Model", "type": "resource", "id": "operating-models" }
+    },
+    {
       "id": "operating-models",
-      "title": "Operating Models",
+      "title": "Operating Model",
       "layer": "design",
-      "definition": "An operating model is the explicit design of how capabilities, people, process, and technology combine to deliver an organization's strategy. It is the blueprint for how work actually gets done, not a description of who reports to whom.",
-      "whyItMatters": "Without an explicit operating model, structure gets designed around personalities and history rather than around how value is created. Strategy changes, but the operating model doesn't move with it, so execution quietly drifts away from intent.",
-      "goodLooksLike": "Leaders can describe how the organization delivers value end to end, and structural changes are justified by operating-model changes, not the reverse.",
+      "systemCategory": "Foundational Systems",
+      "isFlagship": true,
+      "question": "How do our capabilities, people, process, and technology actually combine to deliver the strategy?",
+      "whatItIs": "The explicit design of how capabilities, people, process, and technology combine to deliver an organization's strategy — the blueprint for how work gets done, not a description of who reports to whom.",
+      "whyThisExists": "Strategy defines what an organization is trying to achieve. Nothing about a strategy statement tells you how to organize to execute it — that translation is the operating model's job, and if nobody does it deliberately, structure just accretes.",
+      "whyItMatters": "Without an explicit operating model, structure gets designed around personalities and history rather than around how value is actually created, and it silently drifts away from strategy as both change.",
+      "goodLooksLike": "Leaders can describe how the organization delivers value end to end, and structural changes are justified by operating-model changes, not the other way around.",
       "badLooksLike": "The org chart is the only artifact anyone can point to, and it explains reporting lines but not how work moves or who is accountable for outcomes.",
-      "failureModes": [
-        "Reorganizing structure without ever revisiting the underlying operating model.",
-        "Copying another company's operating model without adapting it to this business's capabilities.",
-        "Treating the operating model as a one-time design exercise instead of a living system."
+      "failureSymptoms": [
+        "Reorganizations happen without ever revisiting the underlying operating model.",
+        "The same reorg problem resurfaces eighteen months later under a different name.",
+        "No one can explain why the organization is structured the way it is, beyond \"that's how it's always been.\"",
+        "Two operating models effectively coexist because different leaders quietly run their part differently."
+      ],
+      "commonFailureModes": [
+        "Copying another company's operating model without adapting it to this business's actual capabilities.",
+        "Treating the operating model as a one-time design exercise instead of a living system.",
+        "Confusing an org chart redraw with an operating model redesign."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Structure reflects hiring history and org chart convenience, with no explicit operating model behind it." },
+        { "level": 2, "name": "Repeatable", "description": "An informal, shared understanding of \"how we work\" exists but isn't documented or consistently applied." },
+        { "level": 3, "name": "Defined", "description": "The operating model is explicitly documented: capabilities, structure, and how they connect to deliver outcomes." },
+        { "level": 4, "name": "Managed", "description": "The operating model is actively governed; drift between the documented design and actual behavior is tracked and corrected." },
+        { "level": 5, "name": "Adaptive", "description": "The operating model evolves deliberately as strategy, scale, and capability needs shift, rather than waiting for a crisis to force a redesign." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Strategy Translation", "type": "resource", "id": "strategy-translation" },
+          { "label": "Capability Architecture", "type": "resource", "id": "capability-mapping" }
+        ],
+        "enables": [
+          { "label": "Organization Design", "type": "domain", "layer": "design", "id": "organization-design" },
+          { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
+          { "label": "Role Clarity", "type": "resource", "id": "role-clarity" }
+        ],
+        "influences": [{ "label": "Decision Rights", "type": "resource", "id": "decision-rights" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": []
+      },
+      "whatBreaksWhenWeak": [
+        "Cross-functional work depends on personal relationships instead of designed interfaces.",
+        "Ownership of outcomes is unclear because structure was never mapped to accountability.",
+        "Growth multiplies the ambiguity instead of scaling a working design.",
+        "Every reorganization repeats the same structural debate because nothing was actually resolved."
+      ],
+      "commonMisdiagnoses": ["Need a reorg", "Leadership personality clash", "Team just needs better collaboration"],
+      "whenToUse": "When strategy changes, when the organization scales significantly, or when the same structural problem keeps recurring.",
+      "whenNotToUse": "Not a fix for a single team's execution problem — check Process Ownership or Capacity Management first if the issue is localized.",
+      "howToBuild": [
+        "Name the organization's critical capabilities independent of current team names.",
+        "Map how those capabilities combine to produce the organization's core outcomes.",
+        "Assign clear ownership for each capability and the interfaces between them.",
+        "Only then draw the structure — as a consequence of the model, not a substitute for it."
+      ],
+      "howToGovern": [
+        "Review the operating model on a fixed cadence, independent of reorg announcements.",
+        "Require any proposed structural change to reference which part of the operating model it's correcting."
+      ],
+      "howToMeasure": [
+        "Frequency of cross-functional ownership disputes.",
+        "Time between a strategy change and a corresponding operating-model review.",
+        "Percentage of leaders who can accurately describe the current operating model unprompted."
       ],
       "operatorQuestions": [
         "How does this organization actually deliver its core outcome, end to end?",
-        "What would have to change in our operating model for this reorg to matter?",
+        "What would have to change in our operating model for this reorg to actually matter?",
         "Where does our structure no longer match how work actually flows?"
       ],
-      "relatedConcepts": ["capability-mapping", "decision-rights", "process-architecture"]
+      "operatorMode": {
+        "investigate": ["Ask leaders from three different functions to independently draw how a core outcome gets delivered.", "Compare the current org chart to the actual sequence of handoffs for that outcome."],
+        "evidence": ["Current org chart.", "List of core capabilities and their owners.", "History of recent reorganizations and their stated rationale."],
+        "observe": ["Where cross-functional work depends on specific relationships rather than defined interfaces.", "Where two teams both act as if they own the same capability."],
+        "measure": ["Number of unresolved ownership disputes.", "Time since the operating model was last explicitly reviewed."],
+        "doNotYet": ["Don't redraw the org chart before the underlying capability model is understood.", "Don't assume the newest reorg fixed the model just because it changed reporting lines."]
+      },
+      "signals": {
+        "healthy": ["Leaders describe the organization in terms of capabilities and outcomes, not just boxes and lines."],
+        "warning": ["The org chart has changed twice this year but the same coordination complaints persist."],
+        "failure": ["Nobody can explain why the organization is structured the way it currently is."]
+      },
+      "relatedResources": [
+        { "label": "Capability Architecture", "type": "resource", "id": "capability-mapping" },
+        { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
+        { "label": "Role Clarity", "type": "resource", "id": "role-clarity" }
+      ],
+      "relatedAntiPatterns": [
+        { "label": "Local Optimum", "type": "antipattern", "id": "local-optimum" },
+        { "label": "Leader Bottleneck", "type": "antipattern", "id": "leader-bottleneck" }
+      ],
+      "relatedDiagnostics": [
+        { "label": "Nobody Knows Who Owns What", "type": "diagnostic", "id": "ownership-unclear" },
+        { "label": "Growth Is Creating Chaos", "type": "diagnostic", "id": "growth-creating-chaos" }
+      ],
+      "nextBestAction": { "label": "Study Capability Architecture", "type": "resource", "id": "capability-mapping" }
     },
     {
       "id": "capability-mapping",
-      "title": "Capability Mapping",
+      "title": "Capability Architecture",
       "layer": "design",
-      "definition": "Capability mapping identifies the distinct things an organization must be able to do to execute its strategy — independent of who currently does them or how they are organized.",
-      "whyItMatters": "Organizations often organize around history (who was hired first, which team formed around a crisis) rather than around the capabilities the business actually needs. A capability map exposes gaps, duplication, and misalignment that an org chart hides.",
-      "goodLooksLike": "Leadership can name the organization's critical capabilities, rate their current strength, and see clearly which team or function owns each one.",
-      "badLooksLike": "Capabilities are implicit and scattered — three teams partially own the same capability, and one important capability has no clear owner at all.",
-      "failureModes": [
+      "systemCategory": "Foundational Systems",
+      "isFlagship": true,
+      "question": "What must this organization be able to do well, independent of who currently does it?",
+      "whatItIs": "The identification of the distinct things an organization must be able to do to execute its strategy, independent of who currently performs them or how they're organized today.",
+      "whyThisExists": "Organizations naturally organize around history — who was hired first, which team formed around a past crisis. Capability architecture forces the question of what the business actually needs to be good at, regardless of how it got here.",
+      "whyItMatters": "Without a capability map, gaps and duplication are invisible until they cause a failure; with one, they're visible on a single page.",
+      "goodLooksLike": "Leadership can name the organization's critical capabilities, rate their current strength honestly, and see clearly which team or function owns each one.",
+      "badLooksLike": "Capabilities are implicit and scattered — three teams partially own the same capability, and one genuinely important capability has no clear owner at all.",
+      "failureSymptoms": [
+        "A critical capability (e.g. pricing, fraud detection) has no single accountable owner.",
+        "Two teams both maintain their own version of the same capability, with different quality and different answers.",
+        "A capability gap isn't discovered until a specific failure exposes it.",
+        "Investment decisions are made by department budget size rather than capability importance."
+      ],
+      "commonFailureModes": [
         "Confusing a capability with a department name.",
-        "Mapping capabilities once and never revisiting them as strategy shifts.",
-        "Building new capabilities without retiring the ones they replace."
+        "Mapping capabilities once during a strategy exercise and never revisiting them.",
+        "Building new capabilities without retiring the ones they were meant to replace."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Capabilities exist implicitly, scattered across teams with no single map of what they are." },
+        { "level": 2, "name": "Repeatable", "description": "Key capabilities are informally known but not documented or rated for strength." },
+        { "level": 3, "name": "Defined", "description": "Capabilities are explicitly named, mapped to owners, and rated for current maturity." },
+        { "level": 4, "name": "Managed", "description": "Capability gaps and overlaps are actively tracked and factored into investment decisions." },
+        { "level": 5, "name": "Adaptive", "description": "The capability map is revised as strategy and market conditions change, ahead of being forced by a failure." }
+      ],
+      "dependencies": {
+        "dependsOn": [{ "label": "Strategy Translation", "type": "resource", "id": "strategy-translation" }],
+        "enables": [
+          { "label": "Operating Model", "type": "resource", "id": "operating-models" },
+          { "label": "Role Clarity", "type": "resource", "id": "role-clarity" }
+        ],
+        "influences": [{ "label": "Resource Planning", "type": "domain", "layer": "management", "id": "resource-planning" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": []
+      },
+      "whatBreaksWhenWeak": [
+        "Investment follows department politics instead of capability importance.",
+        "The same capability gap is rediscovered by multiple teams independently, at full cost each time.",
+        "Redundant capabilities are built and maintained in parallel without anyone noticing the duplication.",
+        "Nobody can answer \"are we good at this?\" for something that matters strategically."
+      ],
+      "commonMisdiagnoses": ["Department needs more headcount", "Simple duplication of effort", "Team silos"],
+      "whenToUse": "During strategy work, before a reorganization, or when investment decisions need a basis beyond department advocacy.",
+      "whenNotToUse": "Not useful as a quarterly ritual — capability maps change slowly; revisit when strategy or market conditions shift.",
+      "howToBuild": [
+        "List the capabilities the strategy requires, independent of current team structure.",
+        "Rate each capability's current maturity honestly, not aspirationally.",
+        "Assign one clear owner per capability, resolving any overlap explicitly.",
+        "Use the map to inform investment and reorganization decisions going forward."
+      ],
+      "howToGovern": [
+        "Revisit the map whenever strategy changes or a capability gap causes a real failure.",
+        "Require new initiatives to reference which capability they are building or relying on."
+      ],
+      "howToMeasure": [
+        "Number of capabilities with no clear single owner.",
+        "Number of capabilities duplicated across more than one team.",
+        "Time between a capability gap surfacing and it being formally addressed."
       ],
       "operatorQuestions": [
         "What must we be able to do well that we cannot outsource or ignore?",
         "Which capability is most critical to our strategy and least mature today?",
         "Where do two teams both believe they own the same capability?"
       ],
-      "relatedConcepts": ["operating-models", "decision-rights"]
+      "operatorMode": {
+        "investigate": ["List the five capabilities most critical to current strategy and ask who owns each.", "Look for any capability with more than one owner, or none."],
+        "evidence": ["Current strategy priorities.", "Team charters or mission statements across functions.", "Recent incidents traceable to a capability gap."],
+        "observe": ["Where investment decisions are argued by department size rather than capability need.", "Where the same type of work is independently built twice."],
+        "measure": ["Coverage: percentage of required capabilities with a named owner.", "Overlap: capabilities with more than one de facto owner."],
+        "doNotYet": ["Don't reorganize around the capability map before validating it with the people doing the work.", "Don't treat every gap as equally urgent — rank by strategic importance first."]
+      },
+      "signals": {
+        "healthy": ["Leadership can name the organization's weakest critical capability without hesitation."],
+        "warning": ["A capability is being rebuilt by a second team who didn't know the first one existed."],
+        "failure": ["A strategically important capability has no owner at all until something breaks."]
+      },
+      "relatedResources": [
+        { "label": "Operating Model", "type": "resource", "id": "operating-models" },
+        { "label": "Role Clarity", "type": "resource", "id": "role-clarity" }
+      ],
+      "relatedAntiPatterns": [{ "label": "Local Optimum", "type": "antipattern", "id": "local-optimum" }],
+      "relatedDiagnostics": [{ "label": "Growth Is Creating Chaos", "type": "diagnostic", "id": "growth-creating-chaos" }],
+      "nextBestAction": { "label": "Study Role Clarity", "type": "resource", "id": "role-clarity" }
     },
     {
-      "id": "process-ownership",
-      "title": "Process Ownership",
-      "layer": "execution",
-      "definition": "Process ownership is the assignment of clear, singular accountability for a process's design, performance, and improvement — distinct from simply performing the steps in it.",
-      "whyItMatters": "A process without a named owner degrades silently. Nobody notices it drifting because no one is accountable for whether it still works, only for doing their piece of it.",
-      "goodLooksLike": "Every critical process has one accountable owner who can explain how it performs, where it breaks, and what's being done about it.",
-      "badLooksLike": "The process 'belongs to everyone,' which in practice means it belongs to whoever is fixing it this week.",
-      "failureModes": [
-        "Naming an owner on paper who has no actual authority to change the process.",
-        "Confusing 'the person who does the work most' with 'the person accountable for the process.'",
-        "Losing ownership continuity when the owner leaves, with no succession plan."
+      "id": "role-clarity",
+      "title": "Role Clarity",
+      "layer": "design",
+      "systemCategory": "Foundational Systems",
+      "isFlagship": true,
+      "question": "Does everyone on this team know what they personally are accountable for, distinct from what they merely help with?",
+      "whatItIs": "The state in which each role's accountabilities, scope, and boundaries are explicit enough that overlap and gaps are visible rather than discovered through conflict.",
+      "whyThisExists": "Titles describe seniority, not accountability. Without deliberately defining what each role actually owns, people default to inferring it from context — and everyone infers slightly differently.",
+      "whyItMatters": "Ambiguous roles don't fail loudly. They fail as quiet duplication, quiet gaps, and slow accumulation of resentment about who's \"really\" doing the work.",
+      "goodLooksLike": "Each role's accountabilities are written down, understood the same way by the person in the role and the people around them, and revisited when the work changes.",
+      "badLooksLike": "Roles are titles. What a person actually owns is negotiated informally, project by project, and varies depending on who's asking.",
+      "failureSymptoms": [
+        "Two people both think a task is the other's responsibility until it's missed.",
+        "A new hire has to ask around for weeks to understand what they're actually accountable for.",
+        "Performance conversations get stuck on \"that wasn't really my job.\"",
+        "Work quietly shifts onto whoever is most willing, regardless of role."
+      ],
+      "commonFailureModes": [
+        "Writing a job description once at hiring and never updating it as the role evolves.",
+        "Defining roles by task list instead of by accountability for an outcome.",
+        "Assuming a title (\"Manager,\" \"Lead\") communicates scope on its own."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Roles are titles; what a person actually owns is inferred and varies by who's asking." },
+        { "level": 2, "name": "Repeatable", "description": "Teams informally understand who does what, but it isn't documented and breaks down with turnover." },
+        { "level": 3, "name": "Defined", "description": "Each role's accountabilities and boundaries are explicitly documented and shared." },
+        { "level": 4, "name": "Managed", "description": "Role clarity is actively checked — overlaps and gaps are surfaced and resolved before they cause conflict." },
+        { "level": 5, "name": "Adaptive", "description": "Roles are deliberately redesigned as the organization's needs change, rather than left stale until they fail." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Operating Model", "type": "resource", "id": "operating-models" },
+          { "label": "Capability Architecture", "type": "resource", "id": "capability-mapping" }
+        ],
+        "enables": [
+          { "label": "Accountability", "type": "domain", "layer": "design", "id": "accountability" },
+          { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
+          { "label": "Process Ownership", "type": "resource", "id": "process-ownership" }
+        ],
+        "influences": [{ "label": "Performance Management", "type": "domain", "layer": "management", "id": "performance-management" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": []
+      },
+      "whatBreaksWhenWeak": [
+        "Work falls through gaps that everyone assumed someone else was covering.",
+        "The same task gets duplicated by two people who each thought it was theirs.",
+        "Performance management becomes disputes about scope instead of about performance.",
+        "New hires take far longer to become productive because scope isn't legible."
+      ],
+      "commonMisdiagnoses": ["Poor communication", "Low accountability", "Needs more training", "Personality conflict"],
+      "whenToUse": "When a team grows, when roles are added or split, or when the same ownership disputes keep recurring.",
+      "whenNotToUse": "Not a fix for a single underperforming individual — that's a performance management conversation, not a role design one.",
+      "howToBuild": [
+        "Define each role by the outcomes it's accountable for, not a list of tasks.",
+        "Write down the boundary between adjacent roles explicitly, especially where overlap is likely.",
+        "Confirm the role-holder and their collaborators interpret the boundary the same way.",
+        "Revisit role definitions when the work or team structure changes materially."
+      ],
+      "howToGovern": [
+        "Review role definitions whenever a team is restructured or a role is split.",
+        "Treat recurring \"whose job is this\" disputes as a signal to formally clarify, not just resolve once."
+      ],
+      "howToMeasure": [
+        "Number of recurring disputes about task ownership.",
+        "Time for a new hire to reach full productive scope.",
+        "Percentage of roles with a current, accurate accountability definition."
       ],
       "operatorQuestions": [
-        "If this process breaks tomorrow, whose job is it to know and to fix it?",
-        "Does the owner have the authority to actually change how this process works?",
-        "What happens to this process when its owner is unavailable?"
+        "What is this role accountable for that no other role is also accountable for?",
+        "Who would say they share this responsibility, and do they agree on who leads it?",
+        "What happens to this accountability when the role is vacant?"
       ],
-      "relatedConcepts": ["process-architecture", "decision-rights", "governance"]
+      "operatorMode": {
+        "investigate": ["Ask two people in adjacent roles to describe the boundary between their jobs, separately.", "Look for a recent task that both assumed the other owned."],
+        "evidence": ["Current role or job descriptions.", "Recent performance conversations that referenced scope disputes.", "Onboarding materials given to new hires."],
+        "observe": ["Where work visibly shifts to whoever is most willing, rather than whoever owns it.", "Where the same ownership question gets asked repeatedly."],
+        "measure": ["Frequency of scope-related disputes.", "Time-to-productivity for new hires."],
+        "doNotYet": ["Don't write a full RACI before understanding how ownership actually functions today.", "Don't assume the job description reflects the role as it's actually being performed."]
+      },
+      "signals": {
+        "healthy": ["A new hire can describe their own accountabilities accurately within the first few weeks."],
+        "warning": ["Two people quietly do the same task without realizing it, out of caution."],
+        "failure": ["A task repeatedly gets missed because each person involved assumed someone else owned it."]
+      },
+      "relatedResources": [
+        { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
+        { "label": "Process Ownership", "type": "resource", "id": "process-ownership" },
+        { "label": "Operating Model", "type": "resource", "id": "operating-models" }
+      ],
+      "relatedAntiPatterns": [{ "label": "RACI Illusion", "type": "antipattern", "id": "raci-illusion" }],
+      "relatedDiagnostics": [{ "label": "Nobody Knows Who Owns What", "type": "diagnostic", "id": "ownership-unclear" }],
+      "nextBestAction": { "label": "Study Decision Rights", "type": "resource", "id": "decision-rights" }
+    },
+    {
+      "id": "decision-rights",
+      "title": "Decision Rights",
+      "layer": "design",
+      "systemCategory": "Foundational Systems",
+      "isFlagship": true,
+      "question": "Who has the authority to make which decisions, under what conditions, and when does that authority change?",
+      "whatItIs": "The explicit definition of who has authority to make a given decision, who must be consulted, and who is simply informed — independent of hierarchy or job title.",
+      "whyThisExists": "Hierarchy tells you who outranks whom. It doesn't tell you who should actually decide a specific question — that has to be designed, or it defaults to whoever is most senior in the room, every time.",
+      "whyItMatters": "When decision rights are unclear, every decision either escalates or stalls. Clear decision rights are what let an organization move quickly without every choice requiring a meeting.",
+      "goodLooksLike": "People can name who owns a given decision before the decision is needed, and most decisions are made at the level closest to the information required to make them well.",
+      "badLooksLike": "Every meaningful decision escalates upward by default because nobody is confident they're allowed to make it themselves.",
+      "failureSymptoms": [
+        "Decisions repeatedly escalate upward even when they shouldn't need to.",
+        "Employees seek approval even when approval should not be necessary.",
+        "Multiple leaders believe they own the same decision.",
+        "Nobody believes they own a difficult decision.",
+        "Decisions are reopened after being made.",
+        "Meeting attendance expands because everyone believes they need input.",
+        "Senior leaders become operational bottlenecks."
+      ],
+      "commonFailureModes": [
+        "Writing a RACI once and never testing whether people actually behave according to it.",
+        "Granting decision authority without the information or context needed to use it well.",
+        "Leaving decision rights ambiguous on purpose to avoid an uncomfortable conversation about authority."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Decisions depend on individuals and hierarchy; whoever is most senior or most present decides." },
+        { "level": 2, "name": "Repeatable", "description": "Informal decision patterns exist — people generally know who to ask — but nothing is written down." },
+        { "level": 3, "name": "Defined", "description": "Decision authority and escalation thresholds are explicitly defined for the decisions that matter most." },
+        { "level": 4, "name": "Managed", "description": "Decision speed, quality, and escalation patterns are measured and actively governed." },
+        { "level": 5, "name": "Adaptive", "description": "Decision architecture evolves deliberately as scale, risk, and organizational complexity change." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Operating Model", "type": "resource", "id": "operating-models" },
+          { "label": "Role Clarity", "type": "resource", "id": "role-clarity" },
+          { "label": "Accountability", "type": "domain", "layer": "design", "id": "accountability" },
+          { "label": "Risk Appetite", "type": "domain", "layer": "direction", "id": "risk-appetite" }
+        ],
+        "enables": [
+          { "label": "Governance", "type": "resource", "id": "governance" },
+          { "label": "Escalation", "type": "domain", "layer": "execution", "id": "escalation" },
+          { "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" }
+        ],
+        "influences": [{ "label": "Scaling", "type": "domain", "layer": "evolution", "id": "scaling" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": []
+      },
+      "whatBreaksWhenWeak": [
+        "If everything requires escalation, the organization doesn't actually have decision rights.",
+        "Leadership becomes a bottleneck, and the organization can't move faster than its most senior people's calendars.",
+        "The same decision gets remade repeatedly because ownership was never settled.",
+        "Meetings grow because everyone believes they need to be there to protect their interest in the outcome."
+      ],
+      "commonMisdiagnoses": ["Leadership is too controlling", "Team lacks confidence", "Communication problem", "Slow decision-making culture"],
+      "whenToUse": "When decisions repeatedly stall, escalate unnecessarily, or get reopened after being made.",
+      "whenNotToUse": "Not needed for genuinely novel, high-stakes decisions that legitimately warrant broad input — decision rights speed up recurring decision types, not every decision.",
+      "howToBuild": [
+        "Build a decision inventory: list the recurring decisions that currently cause friction.",
+        "Build a decision authority matrix naming who decides, who is consulted, and who is informed for each.",
+        "Set explicit escalation thresholds — the conditions under which a decision should move to a different owner.",
+        "Set decision SLAs so \"how quickly should this be decided\" isn't left to chance."
+      ],
+      "howToGovern": [
+        "Review decision rights whenever escalation volume rises or a decision is repeatedly reopened.",
+        "Audit periodically whether decisions are actually being made where the matrix says they should be."
+      ],
+      "howToMeasure": [
+        "Decision cycle time for recurring decision types.",
+        "Escalation rate for decisions that shouldn't require it.",
+        "Frequency of decisions being reopened after being made."
+      ],
+      "operatorQuestions": [
+        "Who actually makes this decision today?",
+        "Who believes they make it?",
+        "Why does this decision require escalation?",
+        "What risk is the approval controlling?",
+        "What information is required to make the decision well?",
+        "What threshold should change who owns the decision?",
+        "How quickly should this decision be made?",
+        "What happens when the normal decision-maker is unavailable?"
+      ],
+      "operatorMode": {
+        "investigate": ["Pick one recurring decision and trace who actually made the last three instances of it.", "Ask two stakeholders, separately, who they believe owns that decision."],
+        "evidence": ["Recent instances of the decision and who made them.", "Escalation logs or meeting notes where the decision was raised.", "Any existing RACI or decision documentation."],
+        "observe": ["Where people seek approval that shouldn't be required by the stated process.", "Where a decision gets reopened after being made."],
+        "measure": ["Time from decision surfacing to decision made.", "Number of approvals required for this decision type."],
+        "doNotYet": ["Don't build a full decision-rights matrix for every decision at once — start with the ones causing the most friction.", "Don't assume the org chart already reflects who should decide."]
+      },
+      "signals": {
+        "healthy": ["A decision gets made at the level closest to the information, without needing to escalate."],
+        "warning": ["The same category of decision keeps needing to be re-made."],
+        "failure": ["Multiple senior leaders each believe they personally own the same decision."]
+      },
+      "relatedResources": [
+        { "label": "Governance", "type": "resource", "id": "governance" },
+        { "label": "Role Clarity", "type": "resource", "id": "role-clarity" },
+        { "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" }
+      ],
+      "relatedAntiPatterns": [
+        { "label": "Meeting Operating System", "type": "antipattern", "id": "meeting-operating-system" },
+        { "label": "Escalation Culture", "type": "antipattern", "id": "escalation-culture" },
+        { "label": "Leader Bottleneck", "type": "antipattern", "id": "leader-bottleneck" },
+        { "label": "RACI Illusion", "type": "antipattern", "id": "raci-illusion" }
+      ],
+      "relatedDiagnostics": [
+        { "label": "Slow Decisions", "type": "diagnostic", "id": "slow-decisions" },
+        { "label": "Constant Escalations", "type": "diagnostic", "id": "constant-escalations" }
+      ],
+      "nextBestAction": { "label": "Build a Decision Authority Matrix — start with Governance", "type": "resource", "id": "governance" }
     },
     {
       "id": "process-architecture",
       "title": "Process Architecture",
       "layer": "execution",
-      "definition": "Process architecture is the deliberate design of how work flows through an organization — the sequence of steps, handoffs, decisions, and controls required to reliably produce an outcome.",
-      "whyItMatters": "Processes that grow organically accumulate exceptions, workarounds, and redundant approvals. Deliberate process architecture keeps execution understandable, teachable, and improvable instead of tribal knowledge.",
-      "goodLooksLike": "Processes are documented as a coherent system of steps and handoffs, with clear inputs, outputs, and decision points that a new hire could follow.",
-      "badLooksLike": "The process only exists in the heads of the people who run it, and it is reconstructed slightly differently by whoever explains it.",
-      "failureModes": [
+      "systemCategory": "Running the Business",
+      "isFlagship": true,
+      "question": "Is the sequence of steps, handoffs, and decisions required to produce this outcome actually designed, or did it just accumulate?",
+      "whatItIs": "The deliberate design of how work flows through an organization — the sequence of steps, handoffs, decisions, and controls required to reliably produce an outcome.",
+      "whyThisExists": "Left alone, processes accrete: a step gets added to handle an exception, an approval gets added after an incident, and nobody ever removes anything. Architecture is the discipline of designing the whole flow on purpose.",
+      "whyItMatters": "Processes that grow organically accumulate exceptions, workarounds, and redundant approvals until execution is understandable only to whoever has been doing it the longest.",
+      "goodLooksLike": "Processes are documented as a coherent system of steps and handoffs, with clear inputs, outputs, and decision points that a new hire could follow correctly.",
+      "badLooksLike": "The process only exists in the heads of the people who run it, and it gets reconstructed slightly differently by whoever explains it.",
+      "failureSymptoms": [
+        "Different people describe the \"same\" process differently.",
+        "Steps exist that nobody can explain the current reason for.",
+        "A step everyone relies on was never actually assigned to anyone.",
+        "The documented process and the actual process have quietly diverged."
+      ],
+      "commonFailureModes": [
         "Documenting a process once, then letting reality diverge from the document indefinitely.",
         "Designing a process for the happy path only, with no plan for exceptions.",
         "Adding steps to a process without ever removing steps that no longer add value."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Process exists only as tribal knowledge; each person runs their own version of it." },
+        { "level": 2, "name": "Repeatable", "description": "A shared informal pattern exists, but it isn't documented and varies in the details." },
+        { "level": 3, "name": "Defined", "description": "The process is documented end to end, with explicit steps, handoffs, and decision points." },
+        { "level": 4, "name": "Managed", "description": "Process performance is monitored, and deviations between documentation and practice are caught and corrected." },
+        { "level": 5, "name": "Adaptive", "description": "The process is redesigned deliberately as volume, risk, and technology change, rather than patched reactively." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Operating Model", "type": "resource", "id": "operating-models" },
+          { "label": "Workflow Design", "type": "domain", "layer": "execution", "id": "workflow-design" }
+        ],
+        "enables": [
+          { "label": "Process Ownership", "type": "resource", "id": "process-ownership" },
+          { "label": "Operational Controls", "type": "resource", "id": "operational-controls" },
+          { "label": "Automation", "type": "domain", "layer": "execution", "id": "automation" }
+        ],
+        "influences": [{ "label": "Technology Enablement", "type": "domain", "layer": "execution", "id": "technology-enablement" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": []
+      },
+      "whatBreaksWhenWeak": [
+        "Execution quality depends entirely on who happens to be doing the work.",
+        "Onboarding a new person takes far longer because there's nothing accurate to teach from.",
+        "Exceptions accumulate into an undocumented shadow process running in parallel.",
+        "Automation projects fail because they automate a process nobody had actually mapped."
+      ],
+      "commonMisdiagnoses": ["Employee training gap", "Individual performance issue", "Tooling problem"],
+      "whenToUse": "When a process is critical, executed by more than one person, or about to be scaled, changed, or automated.",
+      "whenNotToUse": "Not worth the overhead for a truly one-off task that will never be repeated.",
+      "howToBuild": [
+        "Map the process as it's actually performed today, not as it's assumed to work.",
+        "Identify every handoff, decision point, and exception path explicitly.",
+        "Remove steps that no longer serve a purpose before adding controls to the ones that remain.",
+        "Assign an accountable owner for keeping the design current."
+      ],
+      "howToGovern": [
+        "Route any change to the process through its named owner.",
+        "Periodically compare the documented process to how it's actually being performed."
+      ],
+      "howToMeasure": [
+        "Cycle time and defect rate for the process.",
+        "Number of undocumented exception paths in active use.",
+        "Time for a new hire to execute the process correctly unsupervised."
       ],
       "operatorQuestions": [
         "Could someone new follow this process correctly using only what's documented?",
         "Where does this process rely on a workaround nobody has formalized?",
         "What step in this process exists only because of a problem that no longer occurs?"
       ],
-      "relatedConcepts": ["process-ownership", "governance"]
+      "operatorMode": {
+        "investigate": ["Walk the process end to end with the person who actually performs it, not the person who wrote the SOP.", "Identify every point where the real steps diverge from the documented ones."],
+        "evidence": ["Current SOP or process documentation, if any.", "Recent exception cases and how they were actually handled.", "Handoff points and their owners."],
+        "observe": ["Where work pauses waiting on an undocumented step.", "Where two people describe the same process differently."],
+        "measure": ["Cycle time variance across different people running the same process.", "Number of exceptions handled per period."],
+        "doNotYet": ["Don't automate a process before it's been mapped and stabilized.", "Don't write a new SOP without checking whether the last one is being followed."]
+      },
+      "signals": {
+        "healthy": ["A new team member can execute the process correctly using only the documentation."],
+        "warning": ["Documentation increasingly requires manual correction to match reality."],
+        "failure": ["Nobody can produce an accurate description of how the process actually runs today."]
+      },
+      "relatedResources": [
+        { "label": "Process Ownership", "type": "resource", "id": "process-ownership" },
+        { "label": "Handoffs", "type": "resource", "id": "handoffs" },
+        { "label": "Operational Controls", "type": "resource", "id": "operational-controls" }
+      ],
+      "relatedAntiPatterns": [
+        { "label": "SOP Graveyard", "type": "antipattern", "id": "sop-graveyard" },
+        { "label": "Shadow Process", "type": "antipattern", "id": "shadow-process" },
+        { "label": "Automation Trap", "type": "antipattern", "id": "automation-trap" }
+      ],
+      "relatedDiagnostics": [{ "label": "Processes Are Inconsistent", "type": "diagnostic", "id": "processes-inconsistent" }],
+      "nextBestAction": { "label": "Study Process Ownership", "type": "resource", "id": "process-ownership" }
     },
     {
-      "id": "decision-rights",
-      "title": "Decision Rights",
-      "layer": "design",
-      "definition": "Decision rights define who has the authority to make a given decision, who must be consulted, and who is simply informed — independent of hierarchy or job title.",
-      "whyItMatters": "When decision rights are unclear, every decision either escalates or stalls. Clear decision rights are what let an organization move quickly without every choice requiring a meeting.",
-      "goodLooksLike": "People can name who owns a given decision before the decision is needed, and most decisions are made at the level closest to the information.",
-      "badLooksLike": "Every meaningful decision escalates upward by default because nobody is confident they're allowed to make it.",
-      "failureModes": [
-        "Writing a RACI once and never testing whether people actually behave according to it.",
-        "Granting decision authority without the information or context needed to use it well.",
-        "Leaving decision rights ambiguous on purpose to avoid conflict."
+      "id": "process-ownership",
+      "title": "Process Ownership",
+      "layer": "execution",
+      "systemCategory": "Running the Business",
+      "isFlagship": true,
+      "question": "If this process breaks tomorrow, whose job is it to know and to fix it?",
+      "whatItIs": "The assignment of clear, singular accountability for a process's design, performance, and improvement — distinct from simply performing the steps in it.",
+      "whyThisExists": "Performing a process and being accountable for it are different jobs. Without naming the second one explicitly, a process is executed by many people and owned by none of them.",
+      "whyItMatters": "A process without a named owner degrades silently. Nobody notices it drifting because no one is accountable for whether it still works — only for doing their piece of it.",
+      "goodLooksLike": "Every critical process has one accountable owner who can explain how it performs, where it breaks, and what's being done about it.",
+      "badLooksLike": "The process \"belongs to everyone,\" which in practice means it belongs to whoever is fixing it this week.",
+      "failureSymptoms": [
+        "A critical employee who owns a recurring process becomes unavailable, and work stops or quality drops.",
+        "Documentation goes stale because no one is accountable for keeping it current.",
+        "Nobody can say who has authority to change how the process works.",
+        "Escalations about the process land on whoever answers first, not a designated owner."
+      ],
+      "commonFailureModes": [
+        "Naming an owner on paper who has no actual authority to change the process.",
+        "Confusing \"the person who does the work most\" with \"the person accountable for the process.\"",
+        "Losing ownership continuity when the owner leaves, with no succession plan."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Ownership follows whoever knows how to do the work; there's no designated owner." },
+        { "level": 2, "name": "Repeatable", "description": "Teams informally recognize a go-to person, but it isn't a designated, accountable role." },
+        { "level": 3, "name": "Defined", "description": "A named owner is accountable for the process's design, documentation, performance, and change." },
+        { "level": 4, "name": "Managed", "description": "The owner actively reviews performance, exceptions, controls, and improvement opportunities on a cadence." },
+        { "level": 5, "name": "Adaptive", "description": "Ownership includes proactively redesigning the process as demand, technology, risk, and strategy change." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Operating Model", "type": "resource", "id": "operating-models" },
+          { "label": "Role Clarity", "type": "resource", "id": "role-clarity" }
+        ],
+        "enables": [
+          { "label": "Process Governance", "type": "domain", "layer": "evolution", "id": "process-governance" },
+          { "label": "Performance Management", "type": "domain", "layer": "management", "id": "performance-management" },
+          { "label": "Continuous Improvement", "type": "resource", "id": "continuous-improvement" }
+        ],
+        "influences": [
+          { "label": "Technology Enablement", "type": "domain", "layer": "execution", "id": "technology-enablement" },
+          { "label": "Quality Measurement", "type": "domain", "layer": "intelligence", "id": "quality-measurement" }
+        ],
+        "governs": [{ "label": "Process Changes", "type": "domain", "layer": "execution", "id": "workflow-design" }],
+        "measures": [],
+        "executes": [],
+        "informs": []
+      },
+      "whatBreaksWhenWeak": [
+        "Documentation becomes outdated because nobody is accountable for keeping it current.",
+        "Process variation increases as different people quietly change their own version.",
+        "Exceptions accumulate because no one is watching for patterns in them.",
+        "Teams disagree about who should fix a recurring problem.",
+        "Changes happen without coordination across the people who depend on the process.",
+        "Metrics tied to the process have no accountable owner to respond to them.",
+        "Improvement becomes episodic instead of continuous.",
+        "Automation becomes risky because no one can authoritatively confirm the process is stable."
+      ],
+      "commonMisdiagnoses": ["Poor documentation habits", "Training problem", "Team needs better tools"],
+      "whenToUse": "For any process that is critical, recurring, and performed by more than one person over time.",
+      "whenNotToUse": "Overkill for a process so simple or infrequent that formal ownership would cost more than the risk it prevents.",
+      "howToBuild": [
+        "Name a single accountable owner for each critical process — not a committee.",
+        "Give that owner real authority to approve or reject changes to the process.",
+        "Define what the owner is expected to review on a regular cadence: performance, exceptions, controls, improvement backlog.",
+        "Establish a backup so ownership survives the owner's absence or departure."
+      ],
+      "howToGovern": [
+        "Route all process changes through the named owner, not through whoever proposes them.",
+        "Review ownership assignments whenever a team is restructured."
+      ],
+      "howToMeasure": [
+        "Percentage of critical processes with a named, active owner.",
+        "Time to resolve process-related exceptions.",
+        "Frequency of documentation updates relative to actual process changes."
       ],
       "operatorQuestions": [
-        "If everything requires escalation, do we actually have decision rights?",
-        "Who is accountable for this decision if it turns out to be wrong?",
-        "Where does authority and information about a decision live in two different places?"
+        "Who is currently treated as the owner of this process?",
+        "Who has authority to change the process?",
+        "Who receives escalation when it fails?",
+        "What happens to this process when its owner is unavailable?"
       ],
-      "relatedConcepts": ["operating-models", "governance", "capability-mapping"]
+      "operatorMode": {
+        "investigate": ["Ask who is currently treated as the owner of this process, and separately, who has authority to change it — see if the answers match.", "Ask who receives escalation when the process fails."],
+        "evidence": ["Recent process changes and who approved them.", "Exception logs and escalation history.", "Documentation history and how recently it was updated.", "Performance metrics tied to the process."],
+        "observe": ["Where employees go when something unusual happens with this process.", "Whether the same person is always the one who ends up fixing it."],
+        "measure": ["Time since documentation was last updated versus time since the process last changed.", "Number of unresolved exceptions."],
+        "doNotYet": ["Do not immediately create a RACI. First understand how ownership actually functions today.", "Don't assign ownership to someone without also giving them authority to act on it."]
+      },
+      "signals": {
+        "healthy": ["The owner reviews performance and changes to the process on a regular, visible cadence."],
+        "warning": ["Documentation increasingly requires manual correction to match how the work is actually done."],
+        "failure": ["Nobody knows who has the authority to change the process."]
+      },
+      "relatedResources": [
+        { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
+        { "label": "Role Clarity", "type": "resource", "id": "role-clarity" },
+        { "label": "Continuous Improvement", "type": "resource", "id": "continuous-improvement" }
+      ],
+      "relatedAntiPatterns": [
+        { "label": "Hero Organization", "type": "antipattern", "id": "hero-organization" },
+        { "label": "Shadow Process", "type": "antipattern", "id": "shadow-process" }
+      ],
+      "relatedDiagnostics": [{ "label": "Processes Are Inconsistent", "type": "diagnostic", "id": "processes-inconsistent" }],
+      "nextBestAction": { "label": "Study Operational Controls", "type": "resource", "id": "operational-controls" }
+    },
+    {
+      "id": "handoffs",
+      "title": "Handoffs",
+      "layer": "execution",
+      "systemCategory": "Running the Business",
+      "isFlagship": true,
+      "question": "When work crosses from one person, team, or system to another, does anything reliably survive the crossing?",
+      "whatItIs": "The defined points where work, context, or accountability transfers from one owner to another, along with what's expected to travel with it.",
+      "whyThisExists": "No single process happens entirely within one team. The moment work crosses a boundary, something has to define what transfers — otherwise context, quality, and accountability are all left to chance.",
+      "whyItMatters": "Most operational failure doesn't happen inside a team's own work — it happens at the seams, where nobody on either side is fully accountable for what gets lost in the transfer.",
+      "goodLooksLike": "Each handoff has a defined input, output, and receiving owner, and the sender confirms the receiver actually got what they needed.",
+      "badLooksLike": "Work gets thrown over the wall. The sender considers their part done; the receiver often finds out something is missing only after starting.",
+      "failureSymptoms": [
+        "The receiving team regularly has to chase the sending team for missing context.",
+        "The same information gets re-collected because it wasn't captured the first time.",
+        "A dropped handoff isn't discovered until the customer notices.",
+        "Both sides believe the other one dropped the ball, and there's no record to check."
+      ],
+      "commonFailureModes": [
+        "Defining the handoff only from the sender's side, without confirming what the receiver actually needs.",
+        "Treating a system integration as a handoff without validating it against how people actually work.",
+        "No confirmation step — the sender assumes delivery equals success."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Handoffs happen informally; what transfers depends on who's involved and what they remember to mention." },
+        { "level": 2, "name": "Repeatable", "description": "People generally know what to pass along, but it isn't documented and varies by individual." },
+        { "level": 3, "name": "Defined", "description": "Handoff points have explicit inputs, outputs, and receiving owners." },
+        { "level": 4, "name": "Managed", "description": "Handoff quality and failure rate are measured, and dropped handoffs are tracked to root cause." },
+        { "level": 5, "name": "Adaptive", "description": "Handoffs are redesigned as volume and systems change, reducing the number of crossings rather than just managing them." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
+          { "label": "Cross-Functional Interfaces", "type": "domain", "layer": "design", "id": "cross-functional-interfaces" }
+        ],
+        "enables": [{ "label": "SLAs", "type": "domain", "layer": "execution", "id": "slas" }],
+        "influences": [{ "label": "Quality Measurement", "type": "domain", "layer": "intelligence", "id": "quality-measurement" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": []
+      },
+      "whatBreaksWhenWeak": [
+        "Context is repeatedly lost, forcing rework and re-collection of the same information.",
+        "Accountability becomes unclear the moment something crosses a team boundary.",
+        "Customers experience delay at exactly the points where internal teams hand off to each other.",
+        "Cross-functional friction gets misdiagnosed as a relationship problem between teams."
+      ],
+      "commonMisdiagnoses": ["Team communication problem", "Interpersonal conflict between departments", "One team is underperforming"],
+      "whenToUse": "Anywhere work regularly crosses a team, system, or ownership boundary, especially where delay or quality loss has already been noticed.",
+      "whenNotToUse": "Not needed for work that starts and finishes entirely within one accountable owner.",
+      "howToBuild": [
+        "Map every point where this process crosses from one owner to another.",
+        "Define the exact input the receiver needs, not just what the sender assumes is enough.",
+        "Add a confirmation step so successful transfer is verified, not assumed.",
+        "Track dropped or incomplete handoffs to find the pattern behind them."
+      ],
+      "howToGovern": [
+        "Assign accountability for each handoff jointly to sender and receiver, not to neither.",
+        "Review handoff failure patterns on a regular cadence, not only after a customer complaint."
+      ],
+      "howToMeasure": [
+        "Rate of incomplete or dropped handoffs.",
+        "Rework caused by missing context at a handoff.",
+        "Cycle time lost specifically at handoff points versus within-team work."
+      ],
+      "operatorQuestions": [
+        "What exactly is supposed to transfer at this point, and does it actually?",
+        "Does the receiving team confirm what they got, or just start working with whatever arrived?",
+        "Where does this process lose the most time — inside a team, or between teams?"
+      ],
+      "operatorMode": {
+        "investigate": ["Trace one recent instance of the process across every team boundary it crosses.", "Ask the receiving team what they wish arrived that usually doesn't."],
+        "evidence": ["Recent instances of rework caused by missing context.", "Any existing handoff documentation or system integration specs.", "Complaint or delay patterns clustered at specific transition points."],
+        "observe": ["Whether handoffs are confirmed or just assumed.", "Where cross-team friction repeats at the same seam."],
+        "measure": ["Percentage of handoffs requiring follow-up for missing information.", "Cycle time specifically at the handoff versus surrounding work."],
+        "doNotYet": ["Don't blame the receiving team before checking what the handoff was actually supposed to include.", "Don't build a new system integration before the manual handoff is understood."]
+      },
+      "signals": {
+        "healthy": ["The receiving team rarely has to chase the sender for missing information."],
+        "warning": ["The same piece of missing context gets requested repeatedly across different instances."],
+        "failure": ["Handoff failures are discovered by the customer before either internal team notices."]
+      },
+      "relatedResources": [
+        { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
+        { "label": "Operational Controls", "type": "resource", "id": "operational-controls" }
+      ],
+      "relatedAntiPatterns": [{ "label": "Shadow Process", "type": "antipattern", "id": "shadow-process" }],
+      "relatedDiagnostics": [{ "label": "Processes Are Inconsistent", "type": "diagnostic", "id": "processes-inconsistent" }],
+      "nextBestAction": { "label": "Study Operational Controls", "type": "resource", "id": "operational-controls" }
+    },
+    {
+      "id": "operational-controls",
+      "title": "Operational Controls",
+      "layer": "execution",
+      "systemCategory": "Running the Business",
+      "isFlagship": true,
+      "question": "Where does this process catch a mistake before it reaches a customer, and where does it simply hope one doesn't happen?",
+      "whatItIs": "The deliberate checkpoints built into a process to catch errors, enforce standards, or manage risk before it becomes customer- or business-facing impact.",
+      "whyThisExists": "Every process will eventually produce an error. Controls are the deliberate decision about where the organization is willing to catch that error versus where it's willing to let it through.",
+      "whyItMatters": "Controls placed where failure is cheap protect nothing that matters; controls missing where failure is expensive create risk nobody has actually decided to accept.",
+      "goodLooksLike": "Controls are placed deliberately at points where failure is costly, are proportional to that risk, and are reviewed to confirm they still catch what they're meant to.",
+      "badLooksLike": "Controls exist wherever someone was once burned, regardless of current risk, while genuinely risky steps have no check at all.",
+      "failureSymptoms": [
+        "An approval step exists that nobody can explain the purpose of.",
+        "A costly error passes through several supposed checkpoints undetected.",
+        "Controls are so numerous that people route around them to get anything done.",
+        "The riskiest step in the process is also the one with the least oversight."
+      ],
+      "commonFailureModes": [
+        "Adding a control after every incident without ever removing ones that no longer serve a purpose.",
+        "Applying the same level of control uniformly regardless of actual risk.",
+        "Treating an approval as a control even when the approver has no real ability to catch a problem."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Controls, if they exist, are informal and inconsistently applied." },
+        { "level": 2, "name": "Repeatable", "description": "Some checks are performed by habit, but they aren't documented or applied consistently." },
+        { "level": 3, "name": "Defined", "description": "Controls are explicitly defined and placed at known points in the process." },
+        { "level": 4, "name": "Managed", "description": "Control effectiveness is measured, and controls are adjusted based on actual failure data." },
+        { "level": 5, "name": "Adaptive", "description": "Controls are proportioned to current risk and evolve as the process, volume, and risk profile change." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
+          { "label": "Risk Appetite", "type": "domain", "layer": "direction", "id": "risk-appetite" }
+        ],
+        "enables": [{ "label": "Quality Measurement", "type": "domain", "layer": "intelligence", "id": "quality-measurement" }],
+        "influences": [{ "label": "Exception Management", "type": "domain", "layer": "execution", "id": "exception-management" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": [{ "label": "Risk Management", "type": "domain", "layer": "management", "id": "risk-management" }]
+      },
+      "whatBreaksWhenWeak": [
+        "Costly errors reach the customer because nothing was positioned to catch them.",
+        "People route around controls that add friction without adding protection, defeating their purpose.",
+        "Nobody can explain what risk a given approval is actually controlling for.",
+        "Trust in the process erodes because failures keep surfacing downstream instead of being caught early."
+      ],
+      "commonMisdiagnoses": ["Employee carelessness", "Need more approvals", "Quality assurance team is understaffed"],
+      "whenToUse": "Anywhere a failure would be costly, hard to reverse, or affects a customer or a regulatory obligation.",
+      "whenNotToUse": "Not warranted where failure is cheap, easily reversible, and low-frequency — a control there just adds friction.",
+      "howToBuild": [
+        "Identify the points in the process where failure would be most costly or hardest to reverse.",
+        "Design a check at that point proportional to the actual risk, not a blanket approval.",
+        "Remove or simplify controls that no longer correspond to real risk.",
+        "Confirm each control can actually detect the failure it's meant to catch."
+      ],
+      "howToGovern": [
+        "Review controls against actual failure and near-miss data on a regular cadence.",
+        "Require any new control to state explicitly what risk it's controlling for."
+      ],
+      "howToMeasure": [
+        "Defects caught by a control versus defects that reached the customer.",
+        "Rate at which people route around a given control.",
+        "Cost or time added by a control relative to the risk it addresses."
+      ],
+      "operatorQuestions": [
+        "What risk is this approval actually controlling?",
+        "Would this control have caught the last failure that happened here?",
+        "What would happen if this control were removed for a month?"
+      ],
+      "operatorMode": {
+        "investigate": ["Trace the last significant error that reached a customer and identify which controls it passed through undetected.", "Ask whether anyone can explain the purpose of your most frequently bypassed control."],
+        "evidence": ["Recent defect or incident data.", "List of current approval or check points in the process.", "Any record of controls being bypassed or overridden."],
+        "observe": ["Where people route around a control to get work done faster.", "Where a control exists but nobody checks its output."],
+        "measure": ["Catch rate: defects caught by controls versus defects that reached the customer.", "Bypass rate for existing controls."],
+        "doNotYet": ["Don't add a new control immediately after an incident before understanding why the existing ones didn't catch it.", "Don't remove a control without confirming what risk it was actually covering."]
+      },
+      "signals": {
+        "healthy": ["Controls catch real defects regularly enough to prove they're positioned correctly."],
+        "warning": ["People increasingly find workarounds to skip a specific control."],
+        "failure": ["A costly, preventable error reaches the customer despite passing through several supposed checkpoints."]
+      },
+      "relatedResources": [
+        { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
+        { "label": "Handoffs", "type": "resource", "id": "handoffs" },
+        { "label": "Governance", "type": "resource", "id": "governance" }
+      ],
+      "relatedAntiPatterns": [{ "label": "Automation Trap", "type": "antipattern", "id": "automation-trap" }],
+      "relatedDiagnostics": [{ "label": "Reporting Is Unreliable", "type": "diagnostic", "id": "reporting-unreliable" }],
+      "nextBestAction": { "label": "Study Governance", "type": "resource", "id": "governance" }
     },
     {
       "id": "operating-rhythms",
       "title": "Operating Rhythms",
       "layer": "management",
-      "definition": "Operating rhythms are the recurring cadences — meetings, reviews, planning cycles — through which an organization makes and tracks decisions over time.",
-      "whyItMatters": "A meeting is not an operating rhythm. An operating rhythm exists to surface information, make a decision, and track it to completion. Without that discipline, recurring meetings become status theater.",
+      "systemCategory": "Running the Business",
+      "isFlagship": true,
+      "question": "What would actually fail if this recurring meeting disappeared?",
+      "whatItIs": "The recurring cadences — meetings, reviews, planning cycles — through which an organization surfaces information, makes decisions, and tracks them to completion over time.",
+      "whyThisExists": "Decisions and coordination don't happen automatically; something has to create the recurring moment where they do. A rhythm is that moment, designed on purpose instead of scheduled out of habit.",
+      "whyItMatters": "A meeting is not an operating rhythm. An operating rhythm exists to surface information, make a decision, and track it to completion — without that discipline, recurring meetings become status theater.",
       "goodLooksLike": "Each rhythm has a clear purpose, a decision it exists to make, and a visible trail of what was decided and what happened as a result.",
       "badLooksLike": "The same meeting happens every week, attendance is mandatory, and nobody could say what decision it produced last month.",
-      "failureModes": [
-        "Adding a new recurring meeting to fix a problem instead of fixing the process or decision right.",
+      "failureSymptoms": [
+        "Attendees cannot name a decision that came out of the meeting in the last month.",
+        "The same status gets reported in three different meetings.",
+        "Meetings get added to solve problems; they're rarely ever removed.",
+        "A meeting's cancellation would change nothing anyone could point to."
+      ],
+      "commonFailureModes": [
+        "Adding a new recurring meeting to fix a problem instead of fixing the process or decision right behind it.",
         "Running a rhythm with no owner, no agenda discipline, and no follow-through tracking.",
         "Letting information-sharing meetings substitute for actual decision-making forums."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "There is no deliberate rhythm; coordination happens ad hoc, whenever someone calls a meeting." },
+        { "level": 2, "name": "Repeatable", "description": "Recurring meetings exist, but their purpose and decision authority aren't clearly defined." },
+        { "level": 3, "name": "Defined", "description": "Each rhythm has a defined purpose, cadence, and the decisions it's responsible for producing." },
+        { "level": 4, "name": "Managed", "description": "Decisions from each rhythm are tracked to completion, and the rhythm's effectiveness is periodically reviewed." },
+        { "level": 5, "name": "Adaptive", "description": "The set of rhythms is deliberately redesigned as the organization's coordination needs change." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
+          { "label": "Strategy Translation", "type": "resource", "id": "strategy-translation" }
+        ],
+        "enables": [
+          { "label": "Governance", "type": "resource", "id": "governance" },
+          { "label": "Issue Management", "type": "domain", "layer": "management", "id": "issue-management" }
+        ],
+        "influences": [{ "label": "Communication Architecture", "type": "domain", "layer": "management", "id": "communication-architecture" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": []
+      },
+      "whatBreaksWhenWeak": [
+        "Time is consumed without decisions being made or tracked.",
+        "People mistake attendance for governance, and governance quietly stops happening.",
+        "Issues get raised repeatedly without ever reaching resolution.",
+        "The organization adds more meetings to compensate for the ones that aren't working."
+      ],
+      "commonMisdiagnoses": ["We need more meetings", "Team isn't communicating enough", "Lack of alignment"],
+      "whenToUse": "Whenever a decision or coordination need is recurring and would otherwise depend on ad hoc communication.",
+      "whenNotToUse": "Not the answer for a one-time decision or a problem that a process redesign would solve more directly.",
+      "howToBuild": [
+        "For each existing recurring meeting, write down the specific decision it exists to make.",
+        "If no decision can be named, propose removing or replacing that meeting.",
+        "Assign an owner accountable for the rhythm's agenda and follow-through.",
+        "Track decisions made in the rhythm to their actual completion, not just to the end of the meeting."
+      ],
+      "howToGovern": [
+        "Periodically audit every standing meeting against the decision it's supposed to produce.",
+        "Require a new recurring meeting to name its decision authority before it's added to anyone's calendar."
+      ],
+      "howToMeasure": [
+        "Decisions made and tracked to completion per rhythm.",
+        "Percentage of meeting time spent on status versus decisions.",
+        "Number of standing meetings added versus removed over time."
       ],
       "operatorQuestions": [
         "What would fail if this meeting disappeared?",
         "What decision does this rhythm exist to make?",
         "Where did the last three decisions from this meeting actually go?"
       ],
-      "relatedConcepts": ["governance", "decision-rights", "capacity-management"]
-    },
-    {
-      "id": "governance",
-      "title": "Governance",
-      "layer": "management",
-      "definition": "Governance is the set of mechanisms that keep standards, decisions, and controls functioning over time — the difference between defining something once and it staying true.",
-      "whyItMatters": "Standardization without governance decays. Documentation captures a moment in time; governance is what keeps that moment relevant as the business changes around it.",
-      "goodLooksLike": "There are clear review cadences, ownership, and escalation paths for every standard and control that matters, and gaps get caught before they become incidents.",
-      "badLooksLike": "Standards exist because someone wrote them down once, years ago, and nobody has been assigned to keep them current.",
-      "failureModes": [
-        "Treating a policy document as equivalent to an active governance mechanism.",
-        "Creating overlapping governance bodies with no clarity on which one has final say.",
-        "Governance that only activates after something has already gone wrong."
+      "operatorMode": {
+        "investigate": ["Pick your most time-consuming recurring meeting and ask every attendee, separately, what decision it produces.", "Check whether the last three action items from that meeting were actually completed."],
+        "evidence": ["Meeting notes or minutes from the last several instances.", "Calendar audit of standing recurring meetings.", "Any action-item tracker tied to the rhythm."],
+        "observe": ["Whether the same status gets repeated across multiple different meetings.", "Whether decisions get made in the room or deferred to another meeting."],
+        "measure": ["Ratio of status-sharing time to decision-making time.", "Follow-through rate on action items."],
+        "doNotYet": ["Don't cancel a meeting before confirming what decision, if any, currently depends on it.", "Don't add a new meeting to fix a decision-rights problem — fix the decision right instead."]
+      },
+      "signals": {
+        "healthy": ["Attendees can immediately name the last real decision this rhythm produced."],
+        "warning": ["The meeting increasingly runs long without a corresponding increase in decisions made."],
+        "failure": ["Nobody can explain what this recurring meeting is actually for."]
+      },
+      "relatedResources": [
+        { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
+        { "label": "Governance", "type": "resource", "id": "governance" },
+        { "label": "Capacity Management", "type": "resource", "id": "capacity-management" }
       ],
-      "operatorQuestions": [
-        "Who is responsible for noticing when this standard stops being followed?",
-        "What review cadence keeps this control from quietly decaying?",
-        "Where do we have governance on paper but no one actually exercising it?"
-      ],
-      "relatedConcepts": ["operating-rhythms", "decision-rights", "process-ownership"]
-    },
-    {
-      "id": "kpi-architecture",
-      "title": "KPI Architecture",
-      "layer": "intelligence",
-      "definition": "KPI architecture is the deliberate design of which metrics an organization tracks, how they relate to each other, and — critically — which decisions each metric is meant to inform.",
-      "whyItMatters": "Metrics without decisions are reporting, not management. A well-designed KPI architecture connects leading and lagging indicators to specific actions, so measurement drives behavior instead of just describing it.",
-      "goodLooksLike": "Every core metric has a named owner, a defined decision it informs, and a visible trigger for what happens when it moves in the wrong direction.",
-      "badLooksLike": "Dashboards proliferate, metrics multiply, and nobody can say which number actually changes what anyone does.",
-      "failureModes": [
-        "Adding new metrics to a dashboard without retiring metrics that no longer inform decisions.",
-        "Measuring only lagging outcomes, so problems are visible only after they've already happened.",
-        "Letting different teams define the 'same' metric differently."
-      ],
-      "operatorQuestions": [
-        "What decision does this metric enable?",
-        "What metric would detect this kind of deterioration early, before it reaches the customer?",
-        "If this number moved 10% tomorrow, would anyone actually do anything differently?"
-      ],
-      "relatedConcepts": ["operational-health", "root-cause-analysis"]
+      "relatedAntiPatterns": [{ "label": "Meeting Operating System", "type": "antipattern", "id": "meeting-operating-system" }],
+      "relatedDiagnostics": [{ "label": "Too Many Meetings", "type": "diagnostic", "id": "too-many-meetings" }],
+      "nextBestAction": { "label": "Study Governance", "type": "resource", "id": "governance" }
     },
     {
       "id": "capacity-management",
       "title": "Capacity Management",
       "layer": "management",
-      "definition": "Capacity management is the ongoing practice of understanding demand, available capacity, and the buffer between them — so that commitments made are commitments the organization can actually keep.",
+      "systemCategory": "Running the Business",
+      "isFlagship": true,
+      "question": "What happens to this team's output when volume doubles?",
+      "whatItIs": "The ongoing practice of understanding demand, available capacity, and the buffer between them, so commitments made are commitments the organization can actually keep.",
+      "whyThisExists": "Demand and capacity both change constantly. Without deliberately tracking the gap between them, commitments get made against a capacity number nobody actually checked.",
       "whyItMatters": "High utilization can look efficient while making the operating system fragile. Without visible capacity management, teams say yes to everything until something breaks, and nobody sees it coming.",
       "goodLooksLike": "Demand and capacity are both visible, prioritization decisions are made against real constraints, and teams can say no with evidence rather than guesswork.",
       "badLooksLike": "Capacity is invisible until a deadline is missed, and the response is always to ask people to work harder rather than to rebalance the work.",
-      "failureModes": [
-        "Treating 100% utilization as a target instead of a fragility warning sign.",
-        "Adding new commitments without ever removing or resequencing existing ones.",
-        "Measuring headcount instead of effective capacity, ignoring variability and non-project work."
+      "failureSymptoms": [
+        "Utilization is consistently high with little slack for the unexpected.",
+        "New commitments are added without removing or resequencing existing ones.",
+        "Delivery slips are attributed to individuals rather than to workload.",
+        "Nobody can say, with evidence, whether the team has room to take on new work."
+      ],
+      "commonFailureModes": [
+        "Treating one hundred percent utilization as a target instead of a fragility warning sign.",
+        "Measuring headcount instead of effective capacity, ignoring variability and non-project work.",
+        "Adding new commitments without ever resequencing or removing existing ones."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Capacity is invisible; overload is discovered only when something is already late." },
+        { "level": 2, "name": "Repeatable", "description": "Capacity is tracked informally, based on how people say they're feeling." },
+        { "level": 3, "name": "Defined", "description": "There is a visible way to see workload versus capacity across the team." },
+        { "level": 4, "name": "Managed", "description": "Capacity is actively used to make prioritization tradeoffs, not just to report status." },
+        { "level": 5, "name": "Adaptive", "description": "Capacity planning includes forecasting and scenario modeling for future demand." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Work Intake", "type": "resource", "id": "work-intake" },
+          { "label": "Resource Planning", "type": "domain", "layer": "management", "id": "resource-planning" }
+        ],
+        "enables": [
+          { "label": "Prioritization", "type": "resource", "id": "prioritization" },
+          { "label": "Scaling", "type": "domain", "layer": "evolution", "id": "scaling" }
+        ],
+        "influences": [{ "label": "Employee Signals", "type": "domain", "layer": "intelligence", "id": "employee-signals" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": [{ "label": "Change Management", "type": "domain", "layer": "management", "id": "change-management" }]
+      },
+      "whatBreaksWhenWeak": [
+        "Teams say yes to everything until quality or timelines quietly collapse.",
+        "Burnout is treated as a motivation problem instead of a workload problem.",
+        "Commitments made to customers or leadership have no real basis in available capacity.",
+        "The system runs hot with no buffer for the inevitable unexpected demand."
+      ],
+      "commonMisdiagnoses": ["Low productivity", "Poor motivation", "A performance management problem"],
+      "whenToUse": "Any time commitments are being made, especially in planning cycles, sales promises, or new initiative kickoffs.",
+      "whenNotToUse": "Not a substitute for prioritization — capacity management shows you the constraint; prioritization decides what fits inside it.",
+      "howToBuild": [
+        "Establish a shared, visible measure of demand versus available capacity.",
+        "Distinguish effective capacity (accounting for variability and non-project work) from raw headcount.",
+        "Require new commitments to be checked against current capacity before being accepted.",
+        "Build in a deliberate buffer rather than planning to one hundred percent utilization."
+      ],
+      "howToGovern": [
+        "Review capacity against demand on the same cadence as prioritization decisions.",
+        "Require any new commitment of significant size to name what it displaces."
+      ],
+      "howToMeasure": [
+        "Utilization rate relative to a healthy target, not 100 percent.",
+        "Frequency of missed deadlines attributed to workload.",
+        "Number of commitments made without a capacity check."
       ],
       "operatorQuestions": [
         "What happens to this team's output when volume doubles?",
         "Where are humans compensating for capacity we haven't planned for?",
         "What would we have to stop doing to take on this new commitment?"
       ],
-      "relatedConcepts": ["operating-rhythms", "governance"]
+      "operatorMode": {
+        "investigate": ["Ask the team to estimate their current utilization, then compare it to actual hours logged against planned work.", "Identify the last commitment made without checking capacity first."],
+        "evidence": ["Current workload or ticket volume versus team size.", "Recent missed deadlines and their stated cause.", "Any existing capacity tracking, even informal."],
+        "observe": ["Where people are quietly working outside normal hours to keep up.", "Where new work is accepted without anything being deprioritized."],
+        "measure": ["Utilization rate over time.", "Ratio of planned to unplanned work absorbed."],
+        "doNotYet": ["Don't just add headcount before confirming the constraint is capacity and not sequencing or process.", "Don't ask the team to \"work smarter\" before capacity is actually made visible."]
+      },
+      "signals": {
+        "healthy": ["The team can say no to new work with evidence, and that evidence is respected."],
+        "warning": ["Utilization is consistently near maximum with no visible buffer."],
+        "failure": ["Overload is discovered only when a deadline is already missed."]
+      },
+      "relatedResources": [
+        { "label": "Work Intake", "type": "resource", "id": "work-intake" },
+        { "label": "Prioritization", "type": "resource", "id": "prioritization" },
+        { "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" }
+      ],
+      "relatedAntiPatterns": [{ "label": "Everything Is Priority", "type": "antipattern", "id": "everything-is-priority" }],
+      "relatedDiagnostics": [{ "label": "Teams Are Overloaded", "type": "diagnostic", "id": "teams-overloaded" }],
+      "nextBestAction": { "label": "Study Work Intake", "type": "resource", "id": "work-intake" }
+    },
+    {
+      "id": "work-intake",
+      "title": "Work Intake",
+      "layer": "management",
+      "systemCategory": "Running the Business",
+      "isFlagship": true,
+      "question": "How does new work actually enter this team, and what stops it from just showing up unannounced?",
+      "whatItIs": "The defined path and criteria through which new requests, projects, or tasks enter a team's workload, as opposed to arriving through whichever channel is most convenient for the requester.",
+      "whyThisExists": "If there's no defined door for new work to come through, it comes through every door at once — Slack, hallway conversations, a exec's direct ask — each bypassing whatever prioritization exists.",
+      "whyItMatters": "A team can have excellent prioritization and capacity management and still be overwhelmed if work can enter through a dozen uncontrolled side channels.",
+      "goodLooksLike": "New work enters through a defined channel, is captured consistently, and is evaluated against current priorities and capacity before being accepted.",
+      "badLooksLike": "Requests arrive however the requester prefers — a message, a hallway ask, a meeting invite — and each one quietly jumps the queue that formal requests have to wait in.",
+      "failureSymptoms": [
+        "The loudest or most senior requester routinely skips the queue.",
+        "The team can't produce an accurate list of everything currently being asked of them.",
+        "Work started informally later needs to be redone through the \"real\" process.",
+        "Nobody can say how a specific piece of work got prioritized above others."
+      ],
+      "commonFailureModes": [
+        "Building an intake process that only the least senior requesters actually use.",
+        "Capturing intake requests without ever using the data to inform prioritization.",
+        "Confusing an intake form with an intake process — capturing a request is not the same as evaluating it."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Work enters through whatever channel the requester prefers, with no consistent capture or evaluation." },
+        { "level": 2, "name": "Repeatable", "description": "An informal norm exists for how work usually comes in, but it's inconsistently followed." },
+        { "level": 3, "name": "Defined", "description": "A defined intake channel and criteria exist, and most requests are routed through it." },
+        { "level": 4, "name": "Managed", "description": "Intake data is actively used to inform prioritization and capacity decisions." },
+        { "level": 5, "name": "Adaptive", "description": "The intake process is refined based on patterns in what's being requested and how it's evaluated." }
+      ],
+      "dependencies": {
+        "dependsOn": [{ "label": "Prioritization", "type": "resource", "id": "prioritization" }],
+        "enables": [{ "label": "Capacity Management", "type": "resource", "id": "capacity-management" }],
+        "influences": [{ "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": []
+      },
+      "whatBreaksWhenWeak": [
+        "Prioritization gets undermined by whichever request bypassed the queue.",
+        "Capacity planning is inaccurate because it's missing the informal work that never got logged.",
+        "The team's actual workload becomes invisible to anyone outside it.",
+        "Trust in the team's process erodes because who gets served first seems arbitrary."
+      ],
+      "commonMisdiagnoses": ["Poor prioritization", "Team is disorganized", "Need more project management tooling"],
+      "whenToUse": "Any team that regularly receives requests from more than one source, especially cross-functionally.",
+      "whenNotToUse": "Overkill for a small team where all requests already flow through one visible source.",
+      "howToBuild": [
+        "Define a single channel new requests are expected to enter through.",
+        "Define the minimum information required to evaluate a request (impact, urgency, requester, deadline).",
+        "Route every incoming request through evaluation against current priorities and capacity, without exception.",
+        "Make the intake queue visible so bypassing it is noticeable, not invisible."
+      ],
+      "howToGovern": [
+        "Hold a defined owner accountable for enforcing the intake channel, including with senior requesters.",
+        "Review intake data periodically to spot patterns worth changing capacity or process around."
+      ],
+      "howToMeasure": [
+        "Percentage of active work that entered through the defined intake channel.",
+        "Number of requests that bypassed intake and their source.",
+        "Time from intake to prioritization decision."
+      ],
+      "operatorQuestions": [
+        "How did this piece of work actually enter the team's queue?",
+        "What would have happened if this request had gone through the normal intake process?",
+        "Who is allowed to bypass intake, and why?"
+      ],
+      "operatorMode": {
+        "investigate": ["Trace the last five pieces of work the team started and identify how each one actually entered.", "Ask the team to name every channel through which they currently receive requests."],
+        "evidence": ["Current intake channel(s), formal or informal.", "Recent examples of work that bypassed the normal process.", "Any backlog or request tracker in use."],
+        "observe": ["Whether senior or urgent-sounding requests skip the queue.", "Whether the team can produce a complete list of everything currently being asked of them."],
+        "measure": ["Percentage of work that entered through the defined channel versus around it.", "Average time from request to prioritization decision."],
+        "doNotYet": ["Don't build an elaborate intake form before confirming people will actually use it.", "Don't punish bypassing before understanding why the formal channel wasn't used."]
+      },
+      "signals": {
+        "healthy": ["The team can produce a complete, current list of everything being asked of them."],
+        "warning": ["A senior stakeholder's request routinely skips the normal queue."],
+        "failure": ["Nobody, including the team itself, can say what's actually in their queue right now."]
+      },
+      "relatedResources": [
+        { "label": "Prioritization", "type": "resource", "id": "prioritization" },
+        { "label": "Capacity Management", "type": "resource", "id": "capacity-management" }
+      ],
+      "relatedAntiPatterns": [{ "label": "Everything Is Priority", "type": "antipattern", "id": "everything-is-priority" }],
+      "relatedDiagnostics": [{ "label": "Teams Are Overloaded", "type": "diagnostic", "id": "teams-overloaded" }],
+      "nextBestAction": { "label": "Study Capacity Management", "type": "resource", "id": "capacity-management" }
+    },
+    {
+      "id": "kpi-architecture",
+      "title": "KPI Architecture",
+      "layer": "intelligence",
+      "systemCategory": "Measuring the Business",
+      "isFlagship": true,
+      "question": "What decision does this metric actually enable, and who makes it?",
+      "whatItIs": "The deliberate design of which metrics an organization tracks, how they relate to each other, and — critically — which decisions each metric is meant to inform.",
+      "whyThisExists": "Metrics don't organize themselves into a coherent system. Without deliberate architecture, every team adds whatever number seems relevant to them, and nothing connects.",
+      "whyItMatters": "Metrics without decisions are reporting, not management. A well-designed KPI architecture connects leading and lagging indicators to specific actions, so measurement drives behavior instead of just describing it.",
+      "goodLooksLike": "Every core metric has a named owner, a defined decision it informs, and a visible trigger for what happens when it moves in the wrong direction.",
+      "badLooksLike": "Dashboards proliferate, metrics multiply, and nobody can say which number actually changes what anyone does.",
+      "failureSymptoms": [
+        "A dashboard is reviewed weekly with no resulting action.",
+        "Nobody can name the organization's five most important metrics without checking a document.",
+        "Metrics get added regularly; almost none are ever retired.",
+        "Different reports show conflicting numbers for what should be the same metric."
+      ],
+      "commonFailureModes": [
+        "Adding new metrics to a dashboard without retiring metrics that no longer inform decisions.",
+        "Measuring only lagging outcomes, so problems are visible only after they've already happened.",
+        "Letting different teams define the \"same\" metric differently."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Metrics, where tracked, are reviewed occasionally but rarely connect to a decision." },
+        { "level": 2, "name": "Repeatable", "description": "Some metrics are reviewed regularly, but definitions and ownership vary by team." },
+        { "level": 3, "name": "Defined", "description": "Core metrics are tied to specific decisions and reviewed on a defined schedule." },
+        { "level": 4, "name": "Managed", "description": "Leading indicators catch problems early, and metric health itself is actively monitored." },
+        { "level": 5, "name": "Adaptive", "description": "The measurement system itself is regularly refined based on what's proven useful to decisions." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Business Outcomes", "type": "domain", "layer": "direction", "id": "business-outcomes" },
+          { "label": "Data Quality", "type": "resource", "id": "data-quality" }
+        ],
+        "enables": [
+          { "label": "Operational Health", "type": "resource", "id": "operational-health" },
+          { "label": "Decision Intelligence", "type": "domain", "layer": "intelligence", "id": "decision-intelligence" },
+          { "label": "Forecasting", "type": "domain", "layer": "intelligence", "id": "forecasting" }
+        ],
+        "influences": [{ "label": "Performance Management", "type": "domain", "layer": "management", "id": "performance-management" }],
+        "governs": [],
+        "measures": [{ "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" }],
+        "executes": [],
+        "informs": []
+      },
+      "whatBreaksWhenWeak": [
+        "Reporting time grows without any corresponding growth in decision quality or speed.",
+        "Real deterioration goes unnoticed because the metric that would show it doesn't exist or isn't trusted.",
+        "Teams debate whose number is correct instead of debating what to do about it.",
+        "Leadership loses confidence in data generally, including the metrics that are actually reliable."
+      ],
+      "commonMisdiagnoses": ["Need a better dashboard tool", "Reporting is too manual", "Data team is understaffed"],
+      "whenToUse": "When metrics have accumulated without pruning, or when a decision keeps being made without the data that should inform it.",
+      "whenNotToUse": "Not needed for a one-off analysis that isn't meant to become a standing recurring metric.",
+      "howToBuild": [
+        "For each existing metric, name the specific decision it's meant to inform.",
+        "Retire any metric that can't be connected to a decision.",
+        "Assign an owner accountable for each remaining metric's accuracy.",
+        "Add leading indicators where the organization currently only has lagging ones."
+      ],
+      "howToGovern": [
+        "Require any new metric proposal to name its decision before it's added to a dashboard.",
+        "Periodically audit the full metric set for duplication and staleness."
+      ],
+      "howToMeasure": [
+        "Percentage of tracked metrics with a clearly named owner and decision.",
+        "Number of metrics added versus retired over time.",
+        "Frequency of disputes about a metric's definition or accuracy."
+      ],
+      "operatorQuestions": [
+        "What decision does this metric enable?",
+        "What metric would detect this kind of deterioration early, before it reaches the customer?",
+        "If this number moved 10 percent tomorrow, would anyone actually do anything differently?"
+      ],
+      "operatorMode": {
+        "investigate": ["Pick your most-viewed dashboard and ask three regular viewers what decision it changes for them.", "Look for the last time a metric move actually triggered an action."],
+        "evidence": ["Current dashboard inventory.", "Metric definitions and their owners, if documented.", "History of decisions actually made in response to a metric."],
+        "observe": ["Whether a dashboard review ends with an action item or just acknowledgment.", "Where two teams report different numbers for what should be the same thing."],
+        "measure": ["Number of dashboards with no identifiable decision owner.", "Time between a metric moving and a corresponding action."],
+        "doNotYet": ["Don't build a new dashboard before confirming the existing ones are being used.", "Don't add more metrics before pruning the ones nobody acts on."]
+      },
+      "signals": {
+        "healthy": ["A metric moving in the wrong direction reliably triggers a known response."],
+        "warning": ["Reporting effort keeps growing without any visible change in decision quality."],
+        "failure": ["Nobody can name the organization's most important metrics without looking them up."]
+      },
+      "relatedResources": [
+        { "label": "Operational Health", "type": "resource", "id": "operational-health" },
+        { "label": "Data Quality", "type": "resource", "id": "data-quality" }
+      ],
+      "relatedAntiPatterns": [
+        { "label": "Dashboard Theater", "type": "antipattern", "id": "dashboard-theater" },
+        { "label": "KPI Explosion", "type": "antipattern", "id": "kpi-explosion" }
+      ],
+      "relatedDiagnostics": [{ "label": "Reporting Is Unreliable", "type": "diagnostic", "id": "reporting-unreliable" }],
+      "nextBestAction": { "label": "Study Operational Health", "type": "resource", "id": "operational-health" }
+    },
+    {
+      "id": "operational-health",
+      "title": "Operational Health",
+      "layer": "intelligence",
+      "systemCategory": "Measuring the Business",
+      "isFlagship": true,
+      "question": "If this system were quietly degrading right now, would we know before a customer told us?",
+      "whatItIs": "A composite view of how well the operating system is functioning right now — combining quality, capacity, risk, and performance signals rather than relying on any single metric.",
+      "whyThisExists": "Individual metrics can each look fine while the system they belong to is degrading. Operational health exists to look across signals together, the way a single vital sign can miss what a full checkup catches.",
+      "whyItMatters": "A single green metric can mask a red system. Operational health views force leaders to look across signals together, catching the kind of deterioration that no individual dashboard would surface on its own.",
+      "goodLooksLike": "Leaders have a regularly reviewed, composite view of operational health that combines leading and lagging signals across functions.",
+      "badLooksLike": "Health is inferred anecdotally — \"things feel fine\" — until a customer-facing incident proves otherwise.",
+      "failureSymptoms": [
+        "Every individual metric looks acceptable, yet the system as a whole is clearly struggling.",
+        "Health is assessed by gut feel in a leadership meeting rather than by any composite signal.",
+        "A serious problem is discovered only through a customer complaint or public incident.",
+        "Different functions each believe their own piece of the system is fine."
+      ],
+      "commonFailureModes": [
+        "Building a health score from lagging indicators only, so it always confirms problems too late.",
+        "Letting operational health reporting become disconnected from the metrics that actually drive it.",
+        "Reviewing operational health only during a crisis instead of on a standing cadence."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Health is inferred anecdotally; there's no composite view at all." },
+        { "level": 2, "name": "Repeatable", "description": "Some functions informally track their own health, but there's no shared, cross-functional view." },
+        { "level": 3, "name": "Defined", "description": "A composite operational health view exists, combining signals across quality, capacity, and risk." },
+        { "level": 4, "name": "Managed", "description": "Operational health is reviewed on a standing cadence and used to trigger action before failure." },
+        { "level": 5, "name": "Adaptive", "description": "The health model itself is refined as new failure modes and signals are discovered." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" },
+          { "label": "Data Quality", "type": "resource", "id": "data-quality" }
+        ],
+        "enables": [{ "label": "Root Cause Analysis", "type": "resource", "id": "root-cause-analysis" }],
+        "influences": [{ "label": "Risk Management", "type": "domain", "layer": "management", "id": "risk-management" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": [{ "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" }]
+      },
+      "whatBreaksWhenWeak": [
+        "Deterioration compounds quietly across functions until it becomes a visible, expensive failure.",
+        "Leadership is reassured by individually green metrics that don't reflect the whole picture.",
+        "Response to real problems is always reactive because nothing surfaced them early.",
+        "Cross-functional root causes go undiagnosed because each function only monitors its own slice."
+      ],
+      "commonMisdiagnoses": ["Isolated incident", "One team's problem", "Bad luck"],
+      "whenToUse": "For any system, product, or process where failure would be costly, customer-facing, or hard to detect from a single metric.",
+      "whenNotToUse": "Overkill for a low-stakes process where a single metric already tells the whole story.",
+      "howToBuild": [
+        "Identify the handful of signals — quality, capacity, risk, customer, financial — that together indicate system health.",
+        "Combine them into a single composite view rather than reviewing each in isolation.",
+        "Set explicit thresholds for what triggers a closer look or an intervention.",
+        "Review the composite view on a standing cadence, not only after something breaks."
+      ],
+      "howToGovern": [
+        "Assign a cross-functional owner for the health view so it isn't captured by a single function's perspective.",
+        "Revisit which signals belong in the model as new failure modes are discovered."
+      ],
+      "howToMeasure": [
+        "Time between actual degradation starting and it being detected by the health view.",
+        "Number of significant incidents that the health view failed to anticipate.",
+        "Frequency the health view is actually reviewed versus scheduled."
+      ],
+      "operatorQuestions": [
+        "If this system were quietly degrading, how would we know before a customer told us?",
+        "Where are we compensating for a health issue with heroics instead of fixing it?",
+        "What would an early warning of deterioration actually look like here?"
+      ],
+      "operatorMode": {
+        "investigate": ["Ask leadership to describe how they'd currently know if this system were degrading — before a failure.", "Review the last significant incident and identify what signal, if any, could have caught it earlier."],
+        "evidence": ["Current dashboards or reports touching quality, capacity, and risk for this system.", "History of past incidents and how they were first detected."],
+        "observe": ["Whether health is discussed proactively or only after something breaks.", "Whether different functions' views of health actually agree."],
+        "measure": ["Detection lag between actual degradation and it being noticed.", "Coverage: what percentage of past incidents the current view would have caught."],
+        "doNotYet": ["Don't build an elaborate health score before confirming which signals actually predicted past failures.", "Don't treat a green individual metric as proof the whole system is healthy."]
+      },
+      "signals": {
+        "healthy": ["A cross-functional health view is reviewed on a standing cadence and prompts real discussion."],
+        "warning": ["Individual metrics look fine while informal complaints about the system are increasing."],
+        "failure": ["A serious problem is discovered only through a customer complaint or public incident."]
+      },
+      "relatedResources": [
+        { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" },
+        { "label": "Data Quality", "type": "resource", "id": "data-quality" },
+        { "label": "Root Cause Analysis", "type": "resource", "id": "root-cause-analysis" }
+      ],
+      "relatedAntiPatterns": [{ "label": "Dashboard Theater", "type": "antipattern", "id": "dashboard-theater" }],
+      "relatedDiagnostics": [{ "label": "Performance Is Declining", "type": "diagnostic", "id": "performance-declining" }],
+      "nextBestAction": { "label": "Study Root Cause Analysis", "type": "resource", "id": "root-cause-analysis" }
+    },
+    {
+      "id": "data-quality",
+      "title": "Data Quality",
+      "layer": "intelligence",
+      "systemCategory": "Measuring the Business",
+      "isFlagship": true,
+      "question": "If two people pulled this number independently right now, would they get the same answer?",
+      "whatItIs": "The accuracy, consistency, and trustworthiness of the data feeding operational metrics and decisions, treated as something actively maintained rather than assumed.",
+      "whyThisExists": "Data degrades by default — systems change, definitions drift, manual entry introduces error. Quality has to be actively maintained, or the numbers built on top of it quietly stop meaning what they used to.",
+      "whyItMatters": "No amount of dashboard design or KPI architecture matters if the underlying data can't be trusted — bad inputs make sophisticated reporting actively misleading rather than merely useless.",
+      "goodLooksLike": "Core metrics have a single source of truth, a documented definition, and an owner accountable for their accuracy.",
+      "badLooksLike": "Numbers are quietly patched by hand before reporting, and everyone has learned to privately distrust the official dashboard.",
+      "failureSymptoms": [
+        "Different teams report different numbers for what should be the same metric.",
+        "Data quality issues are common knowledge internally but never actually get fixed.",
+        "Reports require manual correction before anyone will trust them.",
+        "A number is quietly \"adjusted\" before being shared upward."
+      ],
+      "commonFailureModes": [
+        "Building new dashboards on top of data nobody has verified is accurate.",
+        "Fixing a data error once without addressing the process that keeps producing it.",
+        "Allowing the same metric to have different definitions in different systems."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Data quality issues are discovered incidentally and patched ad hoc when noticed." },
+        { "level": 2, "name": "Repeatable", "description": "Known data issues are common knowledge but nobody is accountable for fixing them." },
+        { "level": 3, "name": "Defined", "description": "Core metrics have a documented definition and a single source of truth." },
+        { "level": 4, "name": "Managed", "description": "Data quality is actively monitored, with known issues tracked and resolved on a cadence." },
+        { "level": 5, "name": "Adaptive", "description": "Data quality is itself a measured, continuously improved capability, not a one-time cleanup." }
+      ],
+      "dependencies": {
+        "dependsOn": [{ "label": "Technology Enablement", "type": "domain", "layer": "execution", "id": "technology-enablement" }],
+        "enables": [
+          { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" },
+          { "label": "Operational Health", "type": "resource", "id": "operational-health" },
+          { "label": "Forecasting", "type": "domain", "layer": "intelligence", "id": "forecasting" }
+        ],
+        "influences": [],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": []
+      },
+      "whatBreaksWhenWeak": [
+        "Every downstream metric, dashboard, and decision inherits the same underlying distrust.",
+        "Meetings get spent debating whose number is right instead of deciding what to do.",
+        "Leadership loses confidence in data broadly, including in metrics that are actually reliable.",
+        "Automated decisions or alerts built on bad data actively cause harm rather than helping."
+      ],
+      "commonMisdiagnoses": ["Reporting problem", "The dashboard tool is bad", "Analyst error"],
+      "whenToUse": "Before building any new metric, dashboard, or automated decision on top of existing data.",
+      "whenNotToUse": "Not worth heavy investment for a metric that's about to be retired or was only ever meant to be a one-time analysis.",
+      "howToBuild": [
+        "Identify the single source of truth for each core metric and eliminate competing versions.",
+        "Document how each metric is defined and calculated.",
+        "Assign an owner accountable for that metric's ongoing accuracy.",
+        "Track known data quality issues to resolution instead of routing around them."
+      ],
+      "howToGovern": [
+        "Require any new metric or dashboard to reference an established source of truth before launch.",
+        "Review known data quality issues on a standing cadence until they're actually resolved."
+      ],
+      "howToMeasure": [
+        "Number of known, unresolved data quality issues.",
+        "Frequency of manual correction required before reporting.",
+        "Number of competing definitions for the same nominal metric."
+      ],
+      "operatorQuestions": [
+        "Where does this number actually come from, and who owns its accuracy?",
+        "What would it take for people to trust this data enough to act on it without double-checking?",
+        "Where do two systems disagree about the same fact?"
+      ],
+      "operatorMode": {
+        "investigate": ["Pick a core metric and trace it back to its original data source, noting every manual step along the way.", "Ask two different teams to each pull the same metric independently and compare results."],
+        "evidence": ["Recent instances of conflicting numbers for the same metric.", "Any documentation of how the metric is calculated.", "History of manual corrections applied before reporting."],
+        "observe": ["Where people quietly adjust a number before sharing it.", "Where a known data issue has persisted without anyone assigned to fix it."],
+        "measure": ["Rate of discrepancy between independently pulled values for the same metric.", "Time known issues remain open before resolution."],
+        "doNotYet": ["Don't build a new dashboard on data whose quality hasn't been verified.", "Don't patch a bad number once without fixing the process that produced it."]
+      },
+      "signals": {
+        "healthy": ["Two people pulling the same metric independently get the same answer."],
+        "warning": ["A number requires manual correction before anyone will present it."],
+        "failure": ["People have quietly stopped trusting the official dashboard altogether."]
+      },
+      "relatedResources": [
+        { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" },
+        { "label": "Operational Health", "type": "resource", "id": "operational-health" }
+      ],
+      "relatedAntiPatterns": [{ "label": "Dashboard Theater", "type": "antipattern", "id": "dashboard-theater" }],
+      "relatedDiagnostics": [{ "label": "Reporting Is Unreliable", "type": "diagnostic", "id": "reporting-unreliable" }],
+      "nextBestAction": { "label": "Study KPI Architecture", "type": "resource", "id": "kpi-architecture" }
     },
     {
       "id": "root-cause-analysis",
       "title": "Root Cause Analysis",
       "layer": "evolution",
-      "definition": "Root cause analysis is the disciplined practice of tracing a symptom back to the system condition that produced it, rather than stopping at the first plausible explanation.",
-      "whyItMatters": "The place where failure appears is often not the place where failure begins. Without root cause discipline, organizations repeatedly treat symptoms — training, tooling, headcount — while the underlying system condition keeps producing new symptoms.",
+      "systemCategory": "Improving the Business",
+      "isFlagship": true,
+      "question": "Is this actually where the failure began, or just where it became visible?",
+      "whatItIs": "The disciplined practice of tracing a symptom back to the system condition that produced it, rather than stopping at the first plausible explanation.",
+      "whyThisExists": "The place a failure appears is rarely the place it began. Root cause analysis exists because the natural stopping point — the first plausible explanation — is usually a symptom, not a cause.",
+      "whyItMatters": "Without root cause discipline, organizations repeatedly treat symptoms — training, tooling, headcount — while the underlying system condition keeps producing new symptoms.",
       "goodLooksLike": "Investigations continue past the first obvious answer, gather evidence before concluding, and produce fixes aimed at the system, not just the incident.",
-      "badLooksLike": "Every investigation ends at 'someone made a mistake,' and the corrective action is a reminder email or a new mandatory training.",
-      "failureModes": [
+      "badLooksLike": "Every investigation ends at \"someone made a mistake,\" and the corrective action is a reminder email or a new mandatory training.",
+      "failureSymptoms": [
+        "The same category of incident recurs despite previous \"fixes.\"",
+        "Investigations conclude with an individual's error rather than a system condition.",
+        "A fix is proposed before the cause is actually confirmed with evidence.",
+        "Corrective actions are always aimed at behavior, never at the process or design."
+      ],
+      "commonFailureModes": [
         "Stopping analysis at the first cause that is politically convenient.",
         "Confusing the first person to notice the failure with the origin of the failure.",
         "Prescribing a solution before validating the diagnosis with evidence."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Investigations stop at the first plausible explanation, usually individual error." },
+        { "level": 2, "name": "Repeatable", "description": "Some investigations dig deeper, but it depends on who happens to be involved." },
+        { "level": 3, "name": "Defined", "description": "A defined process is used to investigate significant incidents and trace them to a system cause." },
+        { "level": 4, "name": "Managed", "description": "Root cause findings are tracked, and fixes are verified to actually address the system condition." },
+        { "level": 5, "name": "Adaptive", "description": "Root cause analysis is routine for minor issues too, not reserved for major incidents." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Operational Health", "type": "resource", "id": "operational-health" },
+          { "label": "Data Quality", "type": "resource", "id": "data-quality" }
+        ],
+        "enables": [
+          { "label": "Continuous Improvement", "type": "resource", "id": "continuous-improvement" },
+          { "label": "Knowledge Management", "type": "domain", "layer": "evolution", "id": "knowledge-management" }
+        ],
+        "influences": [],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": []
+      },
+      "whatBreaksWhenWeak": [
+        "The same failure recurs, at full cost, because only its symptom was ever treated.",
+        "Trust erodes when \"fixes\" repeatedly fail to prevent recurrence.",
+        "Blame concentrates on individuals for what are actually system failures.",
+        "Improvement effort is spent addressing the wrong layer of the problem entirely."
+      ],
+      "commonMisdiagnoses": ["Employee failure", "Bad luck", "One-off incident"],
+      "whenToUse": "Any time a problem recurs, or a single incident is costly enough to warrant understanding it fully before responding.",
+      "whenNotToUse": "Overkill for a genuinely isolated, low-cost, non-recurring issue — proportion the investigation to the stakes.",
+      "howToBuild": [
+        "When an incident occurs, ask \"why\" past the first answer until you reach a system condition, not a person.",
+        "Gather evidence before concluding a cause — don't let the most available explanation win by default.",
+        "Confirm the proposed root cause actually explains prior instances of the same symptom, not just this one.",
+        "Aim the fix at the system condition, and verify it actually prevents recurrence."
+      ],
+      "howToGovern": [
+        "Require significant incidents to produce a documented root cause, not just a resolution.",
+        "Track whether previously \"fixed\" root causes actually stopped producing the symptom."
+      ],
+      "howToMeasure": [
+        "Recurrence rate for previously investigated issues.",
+        "Percentage of investigations that conclude at a system cause versus an individual one.",
+        "Time from incident to a verified, evidence-based root cause."
       ],
       "operatorQuestions": [
         "What evidence supports that diagnosis?",
         "What evidence would prove us wrong?",
         "If we fix only this symptom, what system condition remains untouched?"
       ],
-      "relatedConcepts": ["continuous-improvement", "kpi-architecture"]
+      "operatorMode": {
+        "investigate": ["Take the last recurring problem and ask \"why\" five times, testing each answer against evidence.", "Check whether the last proposed fix for this issue actually prevented it from recurring."],
+        "evidence": ["Incident history for this type of failure.", "Previous corrective actions and whether they held.", "Process and system documentation relevant to where the failure occurred."],
+        "observe": ["Whether investigations stop at \"who\" instead of continuing to \"why.\"", "Whether the same fix keeps getting proposed for recurring versions of the same problem."],
+        "measure": ["Recurrence rate after a fix is implemented.", "Time from symptom to verified system-level cause."],
+        "doNotYet": ["Don't propose a fix before the cause is confirmed with evidence.", "Don't accept \"human error\" as a root cause without asking what let the error reach the customer."]
+      },
+      "signals": {
+        "healthy": ["Investigations routinely continue past the first plausible explanation."],
+        "warning": ["The same category of incident starts recurring more frequently despite previous fixes."],
+        "failure": ["Every incident investigation ends with blaming an individual."]
+      },
+      "relatedResources": [
+        { "label": "Continuous Improvement", "type": "resource", "id": "continuous-improvement" },
+        { "label": "Operational Health", "type": "resource", "id": "operational-health" }
+      ],
+      "relatedAntiPatterns": [{ "label": "Training Fix", "type": "antipattern", "id": "training-fix" }],
+      "relatedDiagnostics": [{ "label": "Performance Is Declining", "type": "diagnostic", "id": "performance-declining" }],
+      "nextBestAction": { "label": "Study Continuous Improvement", "type": "resource", "id": "continuous-improvement" }
     },
     {
       "id": "continuous-improvement",
       "title": "Continuous Improvement",
       "layer": "evolution",
-      "definition": "Continuous improvement is the deliberate, ongoing practice of measuring a baseline, testing changes against it, and standardizing what works — as opposed to sporadic, opinion-driven fixes.",
+      "systemCategory": "Improving the Business",
+      "isFlagship": true,
+      "question": "What was the baseline before we called this an improvement?",
+      "whatItIs": "The deliberate, ongoing practice of measuring a baseline, testing changes against it, and standardizing what works — as opposed to sporadic, opinion-driven fixes.",
+      "whyThisExists": "Without a baseline and a deliberate test, \"we improved it\" is a claim, not a fact. Continuous improvement exists to make that claim verifiable, repeatedly, as a standing practice.",
       "whyItMatters": "Improvement without a baseline is opinion. Without a consistent improvement discipline, organizations lurch between neglect and overcorrection, and gains from past improvements erode unnoticed.",
       "goodLooksLike": "Improvement work starts from a measured baseline, tests changes deliberately, and locks in gains through updated standards and governance.",
       "badLooksLike": "Improvement happens in bursts after something breaks badly enough to get leadership's attention, then fades until the next crisis.",
-      "failureModes": [
+      "failureSymptoms": [
+        "An improvement is declared successful with no baseline to compare against.",
+        "Improvement initiatives never get standardized into the actual process afterward.",
+        "The gains from a past improvement have quietly eroded and nobody noticed.",
+        "Improvement work only happens as a reaction to a crisis."
+      ],
+      "commonFailureModes": [
         "Declaring victory on an improvement with no baseline to compare against.",
         "Running improvement initiatives that never get standardized into the actual process.",
         "Treating improvement as a project with an end date instead of an ongoing capability."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Improvement happens by whether it feels better, with no real baseline." },
+        { "level": 2, "name": "Repeatable", "description": "Improvement happens informally, based on anecdotes, in occasional bursts." },
+        { "level": 3, "name": "Defined", "description": "Improvement work runs against a defined baseline measurement." },
+        { "level": 4, "name": "Managed", "description": "Changes are measured against baseline, with a clear decision to standardize or roll back." },
+        { "level": 5, "name": "Adaptive", "description": "Improvement runs continuously, with experiments run deliberately and results fed back into the system." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Root Cause Analysis", "type": "resource", "id": "root-cause-analysis" },
+          { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" }
+        ],
+        "enables": [
+          { "label": "Process Optimization", "type": "domain", "layer": "evolution", "id": "process-optimization" },
+          { "label": "Organizational Learning", "type": "domain", "layer": "evolution", "id": "organizational-learning" }
+        ],
+        "influences": [{ "label": "Automation Readiness", "type": "domain", "layer": "evolution", "id": "automation-readiness" }],
+        "governs": [],
+        "measures": [],
+        "executes": [],
+        "informs": [{ "label": "Strategy Translation", "type": "resource", "id": "strategy-translation" }]
+      },
+      "whatBreaksWhenWeak": [
+        "Real improvements can't be distinguished from noise or seasonal variation.",
+        "Past gains quietly erode because nothing was standardized to hold them in place.",
+        "Improvement effort concentrates on whichever problem is most visible right now, not the most costly one.",
+        "The organization repeats the same class of fix without ever confirming it worked."
+      ],
+      "commonMisdiagnoses": ["Team isn't innovative enough", "Lack of urgency", "Need a transformation initiative"],
+      "whenToUse": "For any process or system worth investing improvement effort in over time, not just once.",
+      "whenNotToUse": "Not needed for a process that's about to be retired or replaced entirely.",
+      "howToBuild": [
+        "Establish a measured baseline before proposing or claiming any improvement.",
+        "Test changes at a limited scale before full rollout where possible.",
+        "Decide explicitly, based on the data, whether to standardize or roll back a change.",
+        "Lock in gains by updating the standard, not just by hoping the change sticks."
+      ],
+      "howToGovern": [
+        "Require any claimed improvement to reference the baseline it's being measured against.",
+        "Periodically check that past improvements haven't quietly eroded."
+      ],
+      "howToMeasure": [
+        "Number of improvements with a documented baseline and outcome.",
+        "Rate at which past improvements hold versus erode over time.",
+        "Time between identifying an opportunity and testing a change."
       ],
       "operatorQuestions": [
         "What was the baseline before we called this an improvement?",
         "How will we know if this change actually worked, three months from now?",
         "What prevents this improvement from quietly eroding after the project ends?"
       ],
-      "relatedConcepts": ["root-cause-analysis", "operational-health"]
+      "operatorMode": {
+        "investigate": ["Pick a recent \"improvement\" and ask what the baseline measurement was before it started.", "Check whether a past improvement's gains are still holding today."],
+        "evidence": ["Before-and-after data for recent improvement claims.", "Standards or documentation updated (or not) after a past change.", "Backlog of proposed improvements and their stated rationale."],
+        "observe": ["Whether improvement work is measured or just felt.", "Whether gains from past initiatives are still visible in current performance."],
+        "measure": ["Percentage of improvements with a documented baseline.", "Erosion rate of past improvements over time."],
+        "doNotYet": ["Don't declare success without a baseline to compare against.", "Don't launch a new improvement initiative before checking if a past one already addressed this."]
+      },
+      "signals": {
+        "healthy": ["A recent improvement can be shown against its baseline with real data."],
+        "warning": ["A past improvement's gains have started slipping and nobody has noticed yet."],
+        "failure": ["Improvement is discussed entirely in terms of how things feel, with no baseline in sight."]
+      },
+      "relatedResources": [
+        { "label": "Root Cause Analysis", "type": "resource", "id": "root-cause-analysis" },
+        { "label": "Operational Health", "type": "resource", "id": "operational-health" }
+      ],
+      "relatedAntiPatterns": [{ "label": "Automation Trap", "type": "antipattern", "id": "automation-trap" }],
+      "relatedDiagnostics": [{ "label": "Performance Is Declining", "type": "diagnostic", "id": "performance-declining" }],
+      "nextBestAction": { "label": "Explore the Evolution Layer", "type": "layer", "id": "evolution" }
     },
     {
-      "id": "operational-health",
-      "title": "Operational Health",
-      "layer": "intelligence",
-      "definition": "Operational health is a composite view of how well the operating system is functioning right now — combining quality, capacity, risk, and performance signals rather than relying on any single metric.",
-      "whyItMatters": "A single green metric can mask a red system. Operational health views force leaders to look across signals together, catching the kind of deterioration that no individual dashboard would surface on its own.",
-      "goodLooksLike": "Leaders have a regularly reviewed, composite view of operational health that combines leading and lagging signals across functions.",
-      "badLooksLike": "Health is inferred anecdotally — 'things feel fine' — until a customer-facing incident proves otherwise.",
-      "failureModes": [
-        "Building a health score from lagging indicators only, so it always confirms problems too late.",
-        "Letting operational health reporting become disconnected from the metrics that actually drive it.",
-        "Reviewing operational health only during a crisis instead of on a standing cadence."
+      "id": "governance",
+      "title": "Governance",
+      "layer": "management",
+      "systemCategory": "Running the Business",
+      "isFlagship": true,
+      "question": "What keeps a standard, once defined, from quietly stopping being true?",
+      "whatItIs": "The set of mechanisms that keep standards, decisions, and controls functioning over time — the difference between defining something once and it staying true.",
+      "whyThisExists": "Documentation captures a moment in time. Nothing about writing a standard down keeps it enforced as the business changes around it — that ongoing enforcement is governance's job, and it doesn't happen by itself.",
+      "whyItMatters": "Standardization without governance decays. Documentation captures a moment in time; governance is what keeps that moment relevant as the business changes around it.",
+      "goodLooksLike": "There are clear review cadences, ownership, and escalation paths for every standard and control that matters, and gaps get caught before they become incidents.",
+      "badLooksLike": "Standards exist because someone wrote them down once, years ago, and nobody has been assigned to keep them current.",
+      "failureSymptoms": [
+        "Standards exist on paper but are inconsistently followed in practice.",
+        "No one is responsible for noticing when a control quietly stops working.",
+        "Reviews happen, if at all, only after something has already gone wrong.",
+        "A policy is cited that nobody has actually verified is still accurate."
+      ],
+      "commonFailureModes": [
+        "Writing a new policy without assigning someone to keep it alive.",
+        "Adding a governance meeting without giving it real authority to act.",
+        "Treating a policy document as equivalent to an active governance mechanism."
+      ],
+      "maturityProgression": [
+        { "level": 1, "name": "Reactive", "description": "Governance is informal or absent; standards drift without anyone noticing." },
+        { "level": 2, "name": "Repeatable", "description": "Some review happens, but inconsistently, and without clear ownership." },
+        { "level": 3, "name": "Defined", "description": "Review cadences, ownership, and escalation paths are explicitly defined for key standards." },
+        { "level": 4, "name": "Managed", "description": "Governance gaps and overlaps are actively tracked, and drift is caught before it causes an incident." },
+        { "level": 5, "name": "Adaptive", "description": "Governance mechanisms are tiered by risk and evolve as the standards and controls they protect change." }
+      ],
+      "dependencies": {
+        "dependsOn": [
+          { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
+          { "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" }
+        ],
+        "enables": [{ "label": "Process Governance", "type": "domain", "layer": "evolution", "id": "process-governance" }],
+        "influences": [{ "label": "Risk Management", "type": "domain", "layer": "management", "id": "risk-management" }],
+        "governs": [
+          { "label": "Operational Controls", "type": "resource", "id": "operational-controls" },
+          { "label": "Standards", "type": "domain", "layer": "execution", "id": "standards" }
+        ],
+        "measures": [],
+        "executes": [],
+        "informs": []
+      },
+      "whatBreaksWhenWeak": [
+        "Standards decay silently until an incident reveals they were never actually being followed.",
+        "Nobody notices a control has stopped working until it fails to catch something costly.",
+        "Overlapping governance bodies disagree about who has final say.",
+        "Decision rights and process ownership quietly stop matching what's documented."
+      ],
+      "commonMisdiagnoses": ["Compliance problem", "Need more policy documentation", "Lack of discipline"],
+      "whenToUse": "For any standard, control, or decision process important enough that its decay would be costly.",
+      "whenNotToUse": "Overkill for a low-stakes, easily reversible standard where informal review is proportional to the risk.",
+      "howToBuild": [
+        "For each important standard or control, name an owner accountable for keeping it current.",
+        "Set an explicit review cadence, independent of whether anything has gone wrong recently.",
+        "Define an escalation path for when a gap or drift is found.",
+        "Tier governance rigor by the cost of failure, not applied uniformly everywhere."
+      ],
+      "howToGovern": [
+        "Periodically audit whether documented governance mechanisms are actually being exercised.",
+        "Resolve overlapping governance bodies by naming one with final authority."
+      ],
+      "howToMeasure": [
+        "Time since each key standard was last actively reviewed.",
+        "Number of standards with no assigned owner.",
+        "Gaps found through active review versus discovered through an incident."
       ],
       "operatorQuestions": [
-        "What would an early warning of deterioration actually look like here?",
-        "Where are we compensating for a health issue with heroics instead of fixing it?",
-        "If this system were quietly degrading, how would we know before a customer told us?"
+        "Who is responsible for noticing when this standard stops being followed?",
+        "What review cadence keeps this control from quietly decaying?",
+        "Where do we have governance on paper but no one actually exercising it?"
       ],
-      "relatedConcepts": ["kpi-architecture", "continuous-improvement"]
+      "operatorMode": {
+        "investigate": ["Pick a standard that matters and ask who last actively reviewed it, and when.", "Check whether a recent incident revealed a control that had quietly stopped working."],
+        "evidence": ["List of key standards or controls and their documented owners.", "Review history, if any, for each.", "Recent incidents traceable to a governance gap."],
+        "observe": ["Whether standards are cited from memory versus verified as current.", "Whether governance forums have real authority or just visibility."],
+        "measure": ["Percentage of standards with a current, active owner.", "Time since last review for each key control."],
+        "doNotYet": ["Don't write a new policy before assigning who will keep it alive.", "Don't add a governance meeting without giving it actual authority to act."]
+      },
+      "signals": {
+        "healthy": ["A standard's owner can describe when it was last reviewed and what, if anything, changed."],
+        "warning": ["A standard is cited from memory, with nobody confirming it's still accurate."],
+        "failure": ["An incident reveals a control that had silently stopped working, with nobody aware."]
+      },
+      "relatedResources": [
+        { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
+        { "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" },
+        { "label": "Operational Controls", "type": "resource", "id": "operational-controls" }
+      ],
+      "relatedAntiPatterns": [
+        { "label": "SOP Graveyard", "type": "antipattern", "id": "sop-graveyard" },
+        { "label": "RACI Illusion", "type": "antipattern", "id": "raci-illusion" }
+      ],
+      "relatedDiagnostics": [{ "label": "Nobody Knows Who Owns What", "type": "diagnostic", "id": "ownership-unclear" }],
+      "nextBestAction": { "label": "Study Decision Rights", "type": "resource", "id": "decision-rights" }
     }
   ]
 }

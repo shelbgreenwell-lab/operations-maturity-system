@@ -24,17 +24,59 @@
         <span class="eyebrow">Learn</span>
         <h1>The operational knowledge system.</h1>
         <p class="lede">
-          Not blog posts &mdash; a reference library of the concepts mature operators
-          need to design, diagnose, and govern how work gets done.
+          Not blog posts &mdash; a searchable reference library of the systems mature
+          operators design, diagnose, and govern.
         </p>
       </div>
     </header>
 
     <section class="section">
       <div class="container">
-        <div id="resource-filters" class="resource-filters"></div>
-        <div id="resource-grid" class="card-grid"></div>
-        <div id="resource-detail" class="resource-detail"></div>
+        <input type="search" id="learn-search" class="search-input" placeholder="Search the knowledge system&hellip; (e.g. &ldquo;escalation&rdquo;, &ldquo;capacity&rdquo;, &ldquo;decision rights&rdquo;)" aria-label="Search">
+
+        <div style="margin-top:var(--space-5)">
+          <div id="filter-type" class="resource-filters"></div>
+          <div id="filter-layer" class="resource-filters"></div>
+          <div id="filter-category" class="resource-filters"></div>
+          <div id="filter-maturity" class="resource-filters"></div>
+        </div>
+
+        <p id="learn-results-count" class="text-dim text-mono" style="font-size:var(--step--1);margin:var(--space-5) 0"></p>
+
+        <div id="learn-sections">
+          <div class="section-head"><span class="eyebrow">Start Here</span><h3>Six systems worth understanding first</h3></div>
+          <div id="start-here-mount"></div>
+          <div id="category-sections-mount"></div>
+        </div>
+
+        <div id="learn-flat-grid" class="card-grid" hidden></div>
+
+        <div id="resource-detail-panel" class="resource-detail" style="margin-top:var(--space-7)">
+          <nav id="learn-breadcrumb" class="breadcrumb" aria-label="Breadcrumb"></nav>
+          <div id="resource-detail-mount"></div>
+          <button type="button" class="btn btn--ghost" id="close-resource-detail" style="margin-top:var(--space-6)">Close</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container--narrow">
+        <div class="section-head">
+          <span class="eyebrow">If You&rsquo;re Experiencing&hellip;</span>
+          <h2>Start from the symptom instead</h2>
+          <p class="lede">Select what you&rsquo;re observing to jump straight into the diagnostic.</p>
+        </div>
+        <div id="symptom-finder-mount" class="symptom-grid"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container--narrow">
+        <div class="section-head">
+          <span class="eyebrow">Operating Principles</span>
+          <h2>The rules that run underneath every system here</h2>
+        </div>
+        <div id="principles-mount" style="display:flex;flex-direction:column;gap:var(--space-3)"></div>
       </div>
     </section>
 
@@ -48,6 +90,7 @@
   <script src="../js/diagnostics.js"></script>
   <script src="../js/scenarios.js"></script>
   <script src="../js/dashboard.js"></script>
+  <script src="../js/resource-detail.js"></script>
   <script src="../js/explore.js"></script>
   <script src="../js/learn.js"></script>
   <script src="../js/anti-patterns.js"></script>
