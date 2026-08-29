@@ -16,16 +16,81 @@
   <link rel="stylesheet" href="css/responsive.css">
 </head>
 
-<body>
+<body data-page="home" data-base="./">
 
-  <div id="app">
-    <!--
-      Main application entry point.
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="site-nav"></div>
 
-      Claude should build the Operations Maturity System homepage
-      within this structure while preserving the modular repository.
-    -->
-  </div>
+  <main id="main">
+
+    <section class="hero">
+      <div class="container">
+        <span class="eyebrow hero__eyebrow">Operations Maturity System</span>
+        <h1>Design the organization behind the results.</h1>
+        <p class="lede">
+          Understand how mature organizations operate, diagnose what is holding
+          yours back, and build the systems required to scale.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="pages/explore.html">Explore the System</a>
+          <a class="btn btn--secondary" href="pages/assess.html">Assess My Operations</a>
+        </div>
+        <p class="hero__philosophy">
+          Every business has an operating system. Most just haven&rsquo;t designed it intentionally.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head section-head--wide">
+          <span class="eyebrow">How Organizations Actually Work</span>
+          <h2>Operations is a connected system, not a collection of independent functions.</h2>
+        </div>
+
+        <div id="operating-chain" class="chain" aria-label="The operating chain, from strategy to continuous improvement and back"></div>
+
+        <p class="lede" style="margin: var(--space-7) auto 0; text-align: center; max-width: 60ch;">
+          Operational maturity isn&rsquo;t created by independently improving processes.
+          It comes from designing the entire system.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head section-head--wide">
+          <span class="eyebrow">The Six Operating Layers</span>
+          <h2>Every mature operation is built from the same six layers.</h2>
+          <p class="lede">
+            Select any layer to see what it governs, what weak and strong maturity
+            look like, and how it connects to the rest of the system.
+          </p>
+        </div>
+
+        <div id="layer-preview" class="card-grid card-grid--3"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container--narrow" style="text-align: center;">
+        <span class="eyebrow">Maturity Philosophy</span>
+        <h2 style="margin: var(--space-4) 0;">Artifacts are evidence. Behavior is maturity.</h2>
+        <p class="lede" style="margin: 0 auto;">
+          Having an SOP does not mean a process is mature. Having dashboards does
+          not make an organization data-driven. Maturity is demonstrated through
+          consistent operating behavior &mdash; not the existence of a document.
+        </p>
+        <div class="hero__actions" style="justify-content: center; margin-top: var(--space-6);">
+          <a class="btn btn--primary" href="pages/assess.html">Take the Maturity Assessment</a>
+          <a class="btn btn--secondary" href="pages/diagnose.html">Diagnose a Symptom</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
 
   <script src="js/data.js"></script>
   <script src="js/navigation.js"></script>
@@ -33,6 +98,9 @@
   <script src="js/diagnostics.js"></script>
   <script src="js/scenarios.js"></script>
   <script src="js/dashboard.js"></script>
+  <script src="js/explore.js"></script>
+  <script src="js/learn.js"></script>
+  <script src="js/anti-patterns.js"></script>
   <script src="js/app.js"></script>
 
 </body>

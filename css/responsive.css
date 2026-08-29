@@ -11,3 +11,135 @@
 
    Keep device-specific layout adjustments here.
 */
+
+/* ==========================================================
+   TABLET (<= 960px)
+   ========================================================== */
+
+@media (max-width: 960px) {
+  .card-grid--3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .layer-detail__grid,
+  .resource-detail__grid,
+  .antipattern-detail__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+
+  .level-track {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .brand__name {
+    display: none;
+  }
+}
+
+/* ==========================================================
+   NAVIGATION COLLAPSE (<= 880px)
+   ========================================================== */
+
+@media (max-width: 880px) {
+  .primary-nav,
+  .secondary-nav {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .site-header__inner {
+    gap: var(--space-4);
+  }
+}
+
+/* ==========================================================
+   MOBILE (<= 640px)
+   ========================================================== */
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 var(--space-4);
+  }
+
+  h1 {
+    max-width: none;
+  }
+
+  .hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero__actions .btn {
+    justify-content: center;
+  }
+
+  .level-track {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .layer-row {
+    grid-template-columns: 40px 1fr auto;
+  }
+
+  .layer-row__question {
+    display: none;
+  }
+
+  .layer-detail__grid {
+    margin-top: var(--space-4);
+  }
+
+  .score-display__number {
+    font-size: var(--step-4);
+  }
+
+  .layer-bar-row {
+    grid-template-columns: 96px 1fr 40px;
+    gap: var(--space-2);
+  }
+
+  .metric-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .site-footer__inner {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .resource-detail,
+  .layer-detail,
+  .diagnostic-step,
+  .scenario-node,
+  .reveal-panel {
+    padding: var(--space-5);
+  }
+}
+
+/* ==========================================================
+   SMALL MOBILE (<= 420px)
+   ========================================================== */
+
+@media (max-width: 420px) {
+  .level-track {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .layer-row {
+    grid-template-columns: 32px 1fr auto;
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .brand__mark {
+    font-size: var(--step-0);
+  }
+}

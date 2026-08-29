@@ -1,25 +1,69 @@
-<!--
-  Operations Maturity System
-  Scenario Lab
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  Purpose:
-  Provides interactive operational scenarios designed to
-  strengthen systems thinking, diagnosis, and decision-making.
+  <title>Scenario Lab — Operations Maturity System</title>
+  <meta name="description" content="Work through an interactive operational scenario and see where the investigation actually leads.">
 
-  This page will eventually include:
-  - scenario introductions
-  - decision points
-  - user choices
-  - consequences
-  - operational clues
-  - root-cause reveals
-  - final system diagnosis
-  - related concepts and resources
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
 
-  Scenario content belongs in /data/scenarios.json.
-  Scenario logic belongs in /js/scenarios.js.
+<body data-page="scenario-lab" data-base="../">
 
-  Core principle:
-  The place where failure appears is often not
-  the place where failure begins.
--->
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="site-nav"></div>
+
+  <main id="main">
+
+    <header class="page-header">
+      <div class="container">
+        <span class="eyebrow">Scenario Lab</span>
+        <h1>Build judgment through simulated decisions.</h1>
+        <p class="lede">
+          The place where failure appears is often not the place where failure begins.
+          Investigate the scenario below and see where the evidence actually leads.
+        </p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container container--narrow">
+
+        <div id="scenario-intro">
+          <div class="card" id="scenario-intro-mount" style="margin-bottom: var(--space-6);"></div>
+          <button type="button" class="btn btn--primary" id="scenario-begin">Begin the Investigation</button>
+        </div>
+
+        <div id="scenario-flow" hidden>
+          <div id="scenario-trail" class="scenario-trail"></div>
+          <div id="scenario-node-mount"></div>
+        </div>
+
+        <div id="scenario-reveal" hidden>
+          <div id="scenario-reveal-mount"></div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/assessment.js"></script>
+  <script src="../js/diagnostics.js"></script>
+  <script src="../js/scenarios.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/explore.js"></script>
+  <script src="../js/learn.js"></script>
+  <script src="../js/anti-patterns.js"></script>
+  <script src="../js/app.js"></script>
+
+</body>
+</html>

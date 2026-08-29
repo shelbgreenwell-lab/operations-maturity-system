@@ -1,41 +1,97 @@
-<!--
-  Operations Maturity System
-  Operations Dependency Map
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  Purpose:
-  Visually shows how operational systems depend on, influence,
-  enable, govern, and measure one another.
+  <title>Dependency Map — Operations Maturity System</title>
+  <meta name="description" content="Visually see how operational systems depend on, influence, enable, govern, and measure one another.">
 
-  This page will eventually map relationships between:
-  - strategy
-  - operating model
-  - capabilities
-  - roles
-  - decision rights
-  - processes
-  - standards
-  - training
-  - technology
-  - data
-  - metrics
-  - operating rhythms
-  - governance
-  - capacity
-  - risk
-  - controls
-  - continuous improvement
-  - automation
-  - knowledge management
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
 
-  Users should eventually be able to select any component and see:
-  - what it depends on
-  - what it enables
-  - what influences it
-  - what it influences
-  - what breaks when it is weak
-  - related operating resources
+<body data-page="dependency-map" data-base="../">
 
-  Core principle:
-  Operational maturity comes from the strength of the
-  system and its connections, not isolated processes.
--->
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="site-nav"></div>
+
+  <main id="main">
+
+    <header class="page-header">
+      <div class="container">
+        <span class="eyebrow">Build &rsaquo; Dependency Map</span>
+        <h1>Operations Dependency Map</h1>
+        <p class="lede">
+          Operational maturity comes from the strength of the system and its
+          connections, not isolated processes. This tool will visualize how every
+          component depends on, and enables, the others.
+        </p>
+        <div class="foundational-notice">
+          <span class="badge">Coming Into The System</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container container--narrow">
+        <div class="framework-preview">
+          <h3 style="margin-bottom: var(--space-4);">What the map will connect</h3>
+          <div class="tag-list">
+            <span class="pill">Strategy</span>
+            <span class="pill">Operating model</span>
+            <span class="pill">Capabilities</span>
+            <span class="pill">Roles</span>
+            <span class="pill">Decision rights</span>
+            <span class="pill">Processes</span>
+            <span class="pill">Standards</span>
+            <span class="pill">Training</span>
+            <span class="pill">Technology</span>
+            <span class="pill">Data</span>
+            <span class="pill">Metrics</span>
+            <span class="pill">Operating rhythms</span>
+            <span class="pill">Governance</span>
+            <span class="pill">Capacity</span>
+            <span class="pill">Risk</span>
+            <span class="pill">Controls</span>
+            <span class="pill">Continuous improvement</span>
+            <span class="pill">Automation</span>
+            <span class="pill">Knowledge management</span>
+          </div>
+        </div>
+
+        <p class="callout" style="margin-top: var(--space-6);">
+          Eventually you'll be able to select any component and see what it
+          depends on, what it enables, what influences it, and what breaks when
+          it's weak. The Explore experience already demonstrates this idea at
+          the level of the six operating layers.
+        </p>
+
+        <div style="margin-top: var(--space-6);">
+          <span class="eyebrow">See The Idea In Action</span>
+          <div class="related-links" style="margin-top: var(--space-4);">
+            <a href="explore.html">Explore the Six Layers</a>
+            <a href="command-center.html">View Command Center</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/assessment.js"></script>
+  <script src="../js/diagnostics.js"></script>
+  <script src="../js/scenarios.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/explore.js"></script>
+  <script src="../js/learn.js"></script>
+  <script src="../js/anti-patterns.js"></script>
+  <script src="../js/app.js"></script>
+
+</body>
+</html>

@@ -1,4 +1,50 @@
 {
   "description": "Defines the five maturity levels used across the Operations Maturity System.",
-  "levels": []
+  "philosophy": {
+    "title": "Artifacts are evidence. Behavior is maturity.",
+    "explanation": "Having an SOP does not mean a process is mature. Having dashboards does not make an organization data-driven. Having a RACI does not mean decision authority is clear. Having recurring meetings does not mean governance exists. Maturity is demonstrated through consistent operating behavior, not through the existence of a document.",
+    "examples": [
+      "Having an SOP does not mean a process is mature.",
+      "Having dashboards does not make an organization data-driven.",
+      "Having a RACI does not mean decision authority is clear.",
+      "Having recurring meetings does not mean governance exists."
+    ]
+  },
+  "levels": [
+    {
+      "level": 1,
+      "name": "Reactive",
+      "range": [1, 1.8],
+      "description": "People and heroics run the organization. Work happens because specific individuals make it happen, not because the system is designed to produce the outcome.",
+      "statement": "Ask Sarah. She knows how that works."
+    },
+    {
+      "level": 2,
+      "name": "Repeatable",
+      "range": [1.8, 2.6],
+      "description": "Patterns exist, but execution varies by person, team, and moment. What happens once tends to happen again, informally, but nothing guarantees consistency.",
+      "statement": "We normally do it this way."
+    },
+    {
+      "level": 3,
+      "name": "Defined",
+      "range": [2.6, 3.4],
+      "description": "Standards, ownership, and processes are established and documented. People can point to how something is supposed to work, and mostly, it works that way.",
+      "statement": "Here's how this works."
+    },
+    {
+      "level": 4,
+      "name": "Managed",
+      "range": [3.4, 4.2],
+      "description": "Performance is measured and the operating system is actively governed. Deviations are visible quickly, and there are mechanisms in place to respond to them.",
+      "statement": "We know whether it's working."
+    },
+    {
+      "level": 5,
+      "name": "Adaptive",
+      "range": [4.2, 5.01],
+      "description": "The operating system continuously learns and improves. The organization doesn't just execute and monitor — it anticipates change and redesigns itself in response.",
+      "statement": "We know what's changing, why, and what to do next."
+    }
+  ]
 }
