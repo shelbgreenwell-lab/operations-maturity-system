@@ -158,6 +158,12 @@
           '<a class="btn btn--primary" href="' + global.OMSLinks.resolve(constraint.resourceToStudy) + '">' + constraint.resourceToStudy.label + ' &rarr;</a>' +
         '</div>'
         : '') +
+      (constraint.builderRecommendation ?
+        '<div class="next-action" style="margin-top:var(--space-4)">' +
+          '<span>' + constraint.builderRecommendation.note + '</span>' +
+          '<a class="btn btn--secondary" href="' + global.OMSData.href('pages/' + constraint.builderRecommendation.href + '.html') + '">Build This System: ' + constraint.builderRecommendation.label + ' &rarr;</a>' +
+        '</div>'
+        : '') +
       '<button type="button" class="btn btn--ghost" id="diagnose-restart" style="margin-top:var(--space-7)">Investigate a different symptom</button>';
 
     var restart = byId('diagnose-restart');

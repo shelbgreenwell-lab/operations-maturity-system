@@ -373,6 +373,16 @@
     evolution: '--layer-evolution'
   };
 
+  var BUILDER_RECOMMENDATIONS = {
+    design: [
+      { label: 'Operating Model Designer', href: 'operating-model' },
+      { label: 'Decision Rights Architect', href: 'decision-rights' }
+    ],
+    execution: [
+      { label: 'Process Architect', href: 'process-architect' }
+    ]
+  };
+
   function renderLayerDetail(layer, def, score, levels) {
     var level = levelFor(score, levels);
     var levelIndex = levels.indexOf(level);
@@ -393,6 +403,16 @@
       ? '<a class="btn btn--secondary" href="' + (global.OMSLinks ? global.OMSLinks.resolve(def.relatedResources[0]) : '#') + '" style="margin-top:var(--space-5)">Study ' + def.relatedResources[0].label + ' &rarr;</a>'
       : '';
 
+    var builders = BUILDER_RECOMMENDATIONS[layer];
+    var builderHtml = (builders && level.level <= 2)
+      ? '<div class="next-action" style="margin-top:var(--space-5)">' +
+          '<span>' + LAYER_NAMES[layer] + ' maturity is low. If that\'s validated, one of these builders may help you redesign the system:</span>' +
+          '<div class="related-links">' + builders.map(function (b) {
+            return '<a href="' + global.OMSData.href('pages/' + b.href + '.html') + '">' + b.label + '</a>';
+          }).join('') + '</div>' +
+        '</div>'
+      : '';
+
     return '' +
       '<details class="layer-result-detail">' +
         '<summary class="layer-bar-row">' +
@@ -411,6 +431,7 @@
           (byLevel ? '<h4 style="font-family:var(--font-mono);font-size:var(--step--1);letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-dim);margin:var(--space-5) 0 var(--space-2)">Primary Risk</h4><p class="text-muted">' + byLevel.primaryRisk + '</p>' : '') +
           toReachHtml +
           recommendedLink +
+          builderHtml +
         '</div>' +
       '</details>';
   }

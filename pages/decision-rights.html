@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Decision Rights Architect — Operations Maturity System</title>
+  <meta name="description" content="Design where decisions live and when authority changes. Organizations become slow when decisions don't have clear homes.">
+
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+
+<body data-page="build" data-base="../">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="site-nav"></div>
+
+  <main id="main">
+
+    <header class="page-header">
+      <div class="container">
+        <span class="eyebrow">Build &rsaquo; Decision Rights Architect</span>
+        <h1>Decision Rights Architect</h1>
+        <p class="lede">
+          Organizations become slow when decisions don&rsquo;t have clear homes.
+          Design where each one lives, and when authority should change.
+        </p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container container--narrow">
+
+        <div id="builder-launcher">
+          <div class="section-head">
+            <span class="eyebrow">Learn Before Building</span>
+          </div>
+          <div class="related-links" id="launcher-learn-links"></div>
+
+          <div style="margin-top: var(--space-7); display:flex; gap: var(--space-3); flex-wrap: wrap;">
+            <button type="button" class="btn btn--primary" id="new-project-btn">+ New Decision Map</button>
+            <button type="button" class="btn btn--secondary" id="load-sample-btn">Load Sample Project</button>
+          </div>
+
+          <div id="resume-list-mount"></div>
+        </div>
+
+        <div id="builder-wizard" hidden>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-5);flex-wrap:wrap;gap:var(--space-2)">
+            <button type="button" class="btn btn--ghost" id="builder-exit">&larr; Exit to My Projects</button>
+            <span id="builder-project-name" class="text-mono text-dim" style="font-size:var(--step--1)"></span>
+          </div>
+          <div id="builder-progress" class="builder-progress"></div>
+          <p id="builder-step-label" class="text-mono text-dim" style="font-size:var(--step--1);margin-bottom:var(--space-4)"></p>
+          <div id="builder-step-body"></div>
+          <div class="builder-step-nav">
+            <button type="button" class="btn btn--secondary" id="builder-prev">&larr; Previous</button>
+            <button type="button" class="btn btn--primary" id="builder-next">Next &rarr;</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/builder-core.js"></script>
+  <script src="../js/builder-decision-rights.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('launcher-learn-links').innerHTML = OMSLinks.renderList([
+        { label: 'Decision Rights', type: 'resource', id: 'decision-rights' },
+        { label: 'Role Clarity', type: 'resource', id: 'role-clarity' },
+        { label: 'Governance', type: 'resource', id: 'governance' },
+        { label: 'Escalation', type: 'domain', layer: 'execution', id: 'escalation' }
+      ]);
+
+      OMSBuilder.launchPage({
+        builderType: 'decision-rights',
+        label: 'Decision Rights',
+        engineInit: function (project) { OMSBuilderDecisionRights.init(project); },
+        sampleData: OMSBuilderDecisionRights.sampleData,
+        els: {
+          launcher: document.getElementById('builder-launcher'),
+          wizard: document.getElementById('builder-wizard'),
+          newBtn: document.getElementById('new-project-btn'),
+          sampleBtn: document.getElementById('load-sample-btn'),
+          exitBtn: document.getElementById('builder-exit'),
+          resumeList: document.getElementById('resume-list-mount'),
+          projectName: document.getElementById('builder-project-name')
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

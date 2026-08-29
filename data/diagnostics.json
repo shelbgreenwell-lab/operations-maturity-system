@@ -51,7 +51,12 @@
           "type": "antipattern",
           "id": "leader-bottleneck"
         }
-      ]
+      ],
+      "builderRecommendation": {
+        "label": "Operating Model Designer",
+        "href": "operating-model",
+        "note": "If validated, this builder may help you redesign how capabilities, ownership, and workflows fit together."
+      }
     },
     "ownership": {
       "name": "Ownership",
@@ -155,7 +160,12 @@
           "type": "antipattern",
           "id": "sop-graveyard"
         }
-      ]
+      ],
+      "builderRecommendation": {
+        "label": "Process Architect",
+        "href": "process-architect",
+        "note": "If validated, this builder may help you redesign the process rather than patch its symptoms."
+      }
     },
     "management-system": {
       "name": "Management System",
@@ -519,7 +529,12 @@
           "type": "antipattern",
           "id": "raci-illusion"
         }
-      ]
+      ],
+      "builderRecommendation": {
+        "label": "Decision Rights Architect",
+        "href": "decision-rights",
+        "note": "If validated, this builder may help you redesign where this decision lives and when authority should change."
+      }
     },
     "change-management": {
       "name": "Change Management",
