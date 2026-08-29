@@ -1,0 +1,25 @@
+{
+  "description": "The operating principles that run throughout the Operations Maturity System. Reference them anywhere a decision, review, or design conversation needs a sharper frame.",
+  "principles": [
+    { "id": "design-before-blame", "text": "Design the system before blaming the person." },
+    { "id": "ownership-at-action", "text": "Ownership must exist at the level where action occurs." },
+    { "id": "metrics-support-decisions", "text": "Every metric should support a decision." },
+    { "id": "meetings-have-a-job", "text": "Every recurring meeting should have a job." },
+    { "id": "scale-exposes-ambiguity", "text": "Scale exposes ambiguity." },
+    { "id": "standardize-work-not-judgment", "text": "Standardize repeatable work, not judgment." },
+    { "id": "controls-where-expensive", "text": "Controls belong where failure becomes expensive." },
+    { "id": "decisions-at-lowest-level", "text": "Decisions should live at the lowest responsible level." },
+    { "id": "workarounds-are-signals", "text": "Workarounds are operational signals." },
+    { "id": "exceptions-reveal-truth", "text": "Exceptions reveal process truth." },
+    { "id": "complexity-earns-cost", "text": "Complexity must earn its cost." },
+    { "id": "visibility-without-action", "text": "Visibility without action is reporting theater." },
+    { "id": "governance-or-drift", "text": "A process without governance will drift." },
+    { "id": "capacity-is-a-constraint", "text": "Capacity is a system constraint, not a motivation problem." },
+    { "id": "simplify-before-automate", "text": "Automation comes after simplification." },
+    { "id": "baseline-before-opinion", "text": "Improvement without a baseline is opinion." },
+    { "id": "local-optimization-risk", "text": "Local optimization can damage global performance." },
+    { "id": "make-failure-visible-early", "text": "Mature systems make failure visible early." },
+    { "id": "excellence-is-designed", "text": "Operational excellence is designed, not demanded." },
+    { "id": "predictable-value-not-process", "text": "The goal is not more process. The goal is more predictable value." }
+  ]
+}

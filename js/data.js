@@ -94,10 +94,48 @@
     }
   };
 
+  var knowledgePromise = null;
+
+  /**
+   * Loads operating-layers.json and resources.json together and
+   * flattens them into the shapes Explore and Learn both need:
+   * the raw layers, a flat list of every domain (flagship and
+   * lightweight) with its parent layer attached, and a lookup of
+   * flagship resources by id. Cached after the first call.
+   */
+  function loadKnowledge() {
+    if (knowledgePromise) return knowledgePromise;
+    knowledgePromise = Promise.all([
+      load('operating-layers.json'),
+      load('resources.json')
+    ]).then(function (results) {
+      var layersData = results[0];
+      var resourcesData = results[1];
+
+      var resourcesById = {};
+      resourcesData.resources.forEach(function (r) { resourcesById[r.id] = r; });
+
+      var domains = [];
+      layersData.layers.forEach(function (layer) {
+        layer.domains.forEach(function (domain) {
+          domains.push(Object.assign({ layerId: layer.id, layerName: layer.name }, domain));
+        });
+      });
+
+      return {
+        layers: layersData.layers,
+        domains: domains,
+        resourcesById: resourcesById
+      };
+    });
+    return knowledgePromise;
+  }
+
   global.OMSData = {
     base: BASE,
     href: href,
     load: load,
+    loadKnowledge: loadKnowledge,
     storage: storage
   };
 })(window);

@@ -21,19 +21,34 @@
 
     <header class="page-header">
       <div class="container">
-        <span class="eyebrow">Explore</span>
+        <span class="eyebrow">Explore the Operating System</span>
         <h1>Operations is a connected system.</h1>
         <p class="lede">
-          Six layers, each answering a different question about how the organization
-          works. Select a layer to see its purpose, its signals of weak and strong
-          maturity, and how it connects to everything around it.
+          Six layers, sixty-two operational domains. Select a layer to see what it
+          governs, drill into a domain to understand it fully, and follow its
+          dependencies to see how the whole system fits together.
         </p>
       </div>
     </header>
 
     <section class="section">
       <div class="container">
-        <div id="layer-stack-mount" class="layer-stack" aria-label="The six operating layers"></div>
+        <div id="explore-view-toggle" class="view-toggle" role="tablist" aria-label="Explore view"></div>
+
+        <div id="explore-list-view">
+          <div id="layer-stack-mount" class="layer-stack" aria-label="The six operating layers"></div>
+        </div>
+
+        <div id="explore-system-view" hidden>
+          <div id="system-map-mount" style="max-width:460px;margin:0 auto;"></div>
+          <div id="system-domain-grid-mount"></div>
+        </div>
+
+        <div id="resource-panel" hidden style="margin-top:var(--space-8);border-top:var(--border-width) solid var(--color-border);padding-top:var(--space-7);">
+          <nav id="explore-breadcrumb" class="breadcrumb" aria-label="Breadcrumb"></nav>
+          <div id="resource-detail-mount"></div>
+          <div id="domain-nav-mount" class="domain-nav"></div>
+        </div>
       </div>
     </section>
 
@@ -60,6 +75,7 @@
   <script src="../js/diagnostics.js"></script>
   <script src="../js/scenarios.js"></script>
   <script src="../js/dashboard.js"></script>
+  <script src="../js/resource-detail.js"></script>
   <script src="../js/explore.js"></script>
   <script src="../js/learn.js"></script>
   <script src="../js/anti-patterns.js"></script>

@@ -4,145 +4,630 @@
     "operating-model": {
       "name": "Operating Model",
       "why": "The way capabilities, teams, and processes are arranged no longer matches how work actually needs to flow. Symptoms show up locally, but the cause is structural.",
-      "evidence": ["Work regularly crosses team boundaries with no designed interface.", "Two teams both believe they own the same outcome, or neither does.", "Reorganizations happen without changing how work actually moves."],
-      "questionsToAsk": ["How is this work actually supposed to flow from start to finish?", "Which capability is this work actually testing, and who owns it?", "What would we design differently if we started from scratch today?"],
-      "whatNotToDoYet": ["Reorganize the team chart without redesigning the underlying model.", "Hire more people into a structure that doesn't clearly own the work."],
+      "evidence": [
+        "Work regularly crosses team boundaries with no designed interface.",
+        "Two teams both believe they own the same outcome, or neither does.",
+        "Reorganizations happen without changing how work actually moves."
+      ],
+      "questionsToAsk": [
+        "How is this work actually supposed to flow from start to finish?",
+        "Which capability is this work actually testing, and who owns it?",
+        "What would we design differently if we started from scratch today?"
+      ],
+      "whatNotToDoYet": [
+        "Reorganize the team chart without redesigning the underlying model.",
+        "Hire more people into a structure that doesn't clearly own the work."
+      ],
       "investigateNext": [
-        { "label": "Operating Models", "type": "resource", "id": "operating-models" },
-        { "label": "Capability Mapping", "type": "resource", "id": "capability-mapping" },
-        { "label": "Explore the Design Layer", "type": "layer", "id": "design" }
-      ]
+        {
+          "label": "Operating Models",
+          "type": "resource",
+          "id": "operating-models"
+        },
+        {
+          "label": "Capability Mapping",
+          "type": "resource",
+          "id": "capability-mapping"
+        },
+        {
+          "label": "Explore the Design Layer",
+          "type": "layer",
+          "id": "design"
+        }
+      ],
+      "resourceToStudy": {
+        "label": "Operating Models",
+        "type": "resource",
+        "id": "operating-models"
+      },
+      "relatedAntiPatterns": [
+        {
+          "label": "Local Optimum",
+          "type": "antipattern",
+          "id": "local-optimum"
+        },
+        {
+          "label": "Leader Bottleneck",
+          "type": "antipattern",
+          "id": "leader-bottleneck"
+        }
+      ],
+      "builderRecommendation": {
+        "label": "Operating Model Designer",
+        "href": "operating-model",
+        "note": "If validated, this builder may help you redesign how capabilities, ownership, and workflows fit together."
+      }
     },
     "ownership": {
       "name": "Ownership",
       "why": "No single person or role is accountable for this outcome end to end, so it's managed by whoever happens to notice a problem, rather than by design.",
-      "evidence": ["No one can name a single accountable owner without hesitation.", "The same issue gets fixed by different people each time it recurs.", "Ownership was assigned informally and never confirmed or documented."],
-      "questionsToAsk": ["If this breaks tomorrow, whose job is it to know and to fix it?", "Does the owner have authority to actually change how this works?", "What happens to this when the current owner is unavailable?"],
-      "whatNotToDoYet": ["Assign an owner on paper without giving them real authority.", "Let ownership default to whoever is most available this week."],
+      "evidence": [
+        "No one can name a single accountable owner without hesitation.",
+        "The same issue gets fixed by different people each time it recurs.",
+        "Ownership was assigned informally and never confirmed or documented."
+      ],
+      "questionsToAsk": [
+        "If this breaks tomorrow, whose job is it to know and to fix it?",
+        "Does the owner have authority to actually change how this works?",
+        "What happens to this when the current owner is unavailable?"
+      ],
+      "whatNotToDoYet": [
+        "Assign an owner on paper without giving them real authority.",
+        "Let ownership default to whoever is most available this week."
+      ],
       "investigateNext": [
-        { "label": "Process Ownership", "type": "resource", "id": "process-ownership" },
-        { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
-        { "label": "Explore the Execution Layer", "type": "layer", "id": "execution" }
+        {
+          "label": "Process Ownership",
+          "type": "resource",
+          "id": "process-ownership"
+        },
+        {
+          "label": "Decision Rights",
+          "type": "resource",
+          "id": "decision-rights"
+        },
+        {
+          "label": "Explore the Execution Layer",
+          "type": "layer",
+          "id": "execution"
+        }
+      ],
+      "resourceToStudy": {
+        "label": "Process Ownership",
+        "type": "resource",
+        "id": "process-ownership"
+      },
+      "relatedAntiPatterns": [
+        {
+          "label": "Hero Organization",
+          "type": "antipattern",
+          "id": "hero-organization"
+        },
+        {
+          "label": "Shadow Process",
+          "type": "antipattern",
+          "id": "shadow-process"
+        }
       ]
     },
     "process": {
       "name": "Process",
       "why": "The steps required to produce a consistent outcome were never designed as a coherent system, so execution varies by person, team, and moment.",
-      "evidence": ["Different people describe the \"same\" process differently.", "Workarounds and side channels have quietly replaced the documented steps.", "Quality or timeliness depends heavily on who performs the work."],
-      "questionsToAsk": ["Could a new hire follow this process correctly using only what's documented?", "Where does this process rely on a workaround nobody has formalized?", "What does the process actually look like today, versus what we think it looks like?"],
-      "whatNotToDoYet": ["Automate the process before standardizing it.", "Write a new SOP without checking whether the last one is even being followed."],
+      "evidence": [
+        "Different people describe the \"same\" process differently.",
+        "Workarounds and side channels have quietly replaced the documented steps.",
+        "Quality or timeliness depends heavily on who performs the work."
+      ],
+      "questionsToAsk": [
+        "Could a new hire follow this process correctly using only what's documented?",
+        "Where does this process rely on a workaround nobody has formalized?",
+        "What does the process actually look like today, versus what we think it looks like?"
+      ],
+      "whatNotToDoYet": [
+        "Automate the process before standardizing it.",
+        "Write a new SOP without checking whether the last one is even being followed."
+      ],
       "investigateNext": [
-        { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
-        { "label": "Process Ownership", "type": "resource", "id": "process-ownership" },
-        { "label": "Explore the Execution Layer", "type": "layer", "id": "execution" }
-      ]
+        {
+          "label": "Process Architecture",
+          "type": "resource",
+          "id": "process-architecture"
+        },
+        {
+          "label": "Process Ownership",
+          "type": "resource",
+          "id": "process-ownership"
+        },
+        {
+          "label": "Explore the Execution Layer",
+          "type": "layer",
+          "id": "execution"
+        }
+      ],
+      "resourceToStudy": {
+        "label": "Process Architecture",
+        "type": "resource",
+        "id": "process-architecture"
+      },
+      "relatedAntiPatterns": [
+        {
+          "label": "Shadow Process",
+          "type": "antipattern",
+          "id": "shadow-process"
+        },
+        {
+          "label": "SOP Graveyard",
+          "type": "antipattern",
+          "id": "sop-graveyard"
+        }
+      ],
+      "builderRecommendation": {
+        "label": "Process Architect",
+        "href": "process-architect",
+        "note": "If validated, this builder may help you redesign the process rather than patch its symptoms."
+      }
     },
     "management-system": {
       "name": "Management System",
       "why": "Processes may be reasonably designed, but there is no active mechanism managing them day to day — surfacing deviations, tracking decisions, and closing the loop.",
-      "evidence": ["Recurring meetings happen but produce no tracked decisions.", "Problems are found by customers before they're found internally.", "Performance issues are discussed repeatedly without a resolution mechanism."],
-      "questionsToAsk": ["What would fail if this meeting or review disappeared?", "What decision is this operating rhythm supposed to produce?", "Where did the last few decisions from this forum actually go?"],
-      "whatNotToDoYet": ["Add another recurring meeting on top of the ones already failing to produce decisions.", "Assume more reporting will fix a management gap by itself."],
+      "evidence": [
+        "Recurring meetings happen but produce no tracked decisions.",
+        "Problems are found by customers before they're found internally.",
+        "Performance issues are discussed repeatedly without a resolution mechanism."
+      ],
+      "questionsToAsk": [
+        "What would fail if this meeting or review disappeared?",
+        "What decision is this operating rhythm supposed to produce?",
+        "Where did the last few decisions from this forum actually go?"
+      ],
+      "whatNotToDoYet": [
+        "Add another recurring meeting on top of the ones already failing to produce decisions.",
+        "Assume more reporting will fix a management gap by itself."
+      ],
       "investigateNext": [
-        { "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" },
-        { "label": "Governance", "type": "resource", "id": "governance" },
-        { "label": "Explore the Management Layer", "type": "layer", "id": "management" }
+        {
+          "label": "Operating Rhythms",
+          "type": "resource",
+          "id": "operating-rhythms"
+        },
+        {
+          "label": "Governance",
+          "type": "resource",
+          "id": "governance"
+        },
+        {
+          "label": "Explore the Management Layer",
+          "type": "layer",
+          "id": "management"
+        }
+      ],
+      "resourceToStudy": {
+        "label": "Operating Rhythms",
+        "type": "resource",
+        "id": "operating-rhythms"
+      },
+      "relatedAntiPatterns": [
+        {
+          "label": "Meeting Operating System",
+          "type": "antipattern",
+          "id": "meeting-operating-system"
+        }
       ]
     },
     "capacity": {
       "name": "Capacity",
       "why": "Demand has outgrown the team's effective capacity, and without visibility into that gap, the response has been to work harder rather than rebalance the work.",
-      "evidence": ["Utilization is consistently high with little slack for the unexpected.", "New commitments are added without removing or resequencing existing ones.", "Delivery slips are attributed to individuals rather than to workload."],
-      "questionsToAsk": ["What happens to this team's output when volume doubles?", "Where are people compensating for capacity we haven't planned for?", "What would we have to stop doing to take on this new commitment?"],
-      "whatNotToDoYet": ["Ask the team to simply work harder or longer.", "Add headcount without first understanding where capacity is actually lost."],
+      "evidence": [
+        "Utilization is consistently high with little slack for the unexpected.",
+        "New commitments are added without removing or resequencing existing ones.",
+        "Delivery slips are attributed to individuals rather than to workload."
+      ],
+      "questionsToAsk": [
+        "What happens to this team's output when volume doubles?",
+        "Where are people compensating for capacity we haven't planned for?",
+        "What would we have to stop doing to take on this new commitment?"
+      ],
+      "whatNotToDoYet": [
+        "Ask the team to simply work harder or longer.",
+        "Add headcount without first understanding where capacity is actually lost."
+      ],
       "investigateNext": [
-        { "label": "Capacity Management", "type": "resource", "id": "capacity-management" },
-        { "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" },
-        { "label": "Explore the Management Layer", "type": "layer", "id": "management" }
+        {
+          "label": "Capacity Management",
+          "type": "resource",
+          "id": "capacity-management"
+        },
+        {
+          "label": "Operating Rhythms",
+          "type": "resource",
+          "id": "operating-rhythms"
+        },
+        {
+          "label": "Explore the Management Layer",
+          "type": "layer",
+          "id": "management"
+        }
+      ],
+      "resourceToStudy": {
+        "label": "Capacity Management",
+        "type": "resource",
+        "id": "capacity-management"
+      },
+      "relatedAntiPatterns": [
+        {
+          "label": "Everything Is Priority",
+          "type": "antipattern",
+          "id": "everything-is-priority"
+        }
       ]
     },
     "technology": {
       "name": "Technology",
       "why": "The systems and tools supporting this work don't match how the work actually needs to happen, forcing manual compensation or inconsistent execution.",
-      "evidence": ["People maintain spreadsheets or side tools to compensate for a system gap.", "The same data is entered manually in more than one system.", "A tool was introduced without changing the process it was meant to support."],
-      "questionsToAsk": ["What manual step exists purely to work around a tooling gap?", "Was the process fixed before or after the tool was introduced?", "What would this tool need to do differently to remove the workaround?"],
-      "whatNotToDoYet": ["Buy a new tool before the underlying process is understood.", "Assume a tooling upgrade will fix a process or ownership problem."],
+      "evidence": [
+        "People maintain spreadsheets or side tools to compensate for a system gap.",
+        "The same data is entered manually in more than one system.",
+        "A tool was introduced without changing the process it was meant to support."
+      ],
+      "questionsToAsk": [
+        "What manual step exists purely to work around a tooling gap?",
+        "Was the process fixed before or after the tool was introduced?",
+        "What would this tool need to do differently to remove the workaround?"
+      ],
+      "whatNotToDoYet": [
+        "Buy a new tool before the underlying process is understood.",
+        "Assume a tooling upgrade will fix a process or ownership problem."
+      ],
       "investigateNext": [
-        { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
-        { "label": "Explore the Execution Layer", "type": "layer", "id": "execution" },
-        { "label": "Read: Automation Trap", "type": "antipattern", "id": "automation-trap" }
+        {
+          "label": "Process Architecture",
+          "type": "resource",
+          "id": "process-architecture"
+        },
+        {
+          "label": "Explore the Execution Layer",
+          "type": "layer",
+          "id": "execution"
+        },
+        {
+          "label": "Read: Automation Trap",
+          "type": "antipattern",
+          "id": "automation-trap"
+        }
+      ],
+      "resourceToStudy": {
+        "label": "Process Architecture",
+        "type": "resource",
+        "id": "process-architecture"
+      },
+      "relatedAntiPatterns": [
+        {
+          "label": "Tooling Fix",
+          "type": "antipattern",
+          "id": "tooling-fix"
+        },
+        {
+          "label": "Automation Trap",
+          "type": "antipattern",
+          "id": "automation-trap"
+        }
       ]
     },
     "data": {
       "name": "Data",
       "why": "The information feeding decisions is incomplete, inconsistent, or untrusted, so people fall back on judgment or the loudest voice instead of evidence.",
-      "evidence": ["Different reports show different numbers for what should be the same metric.", "Data quality issues are common knowledge but never actually fixed.", "People quietly distrust the numbers they're asked to report on."],
-      "questionsToAsk": ["Where does this number actually come from, and who owns its accuracy?", "What would it take for people to trust this data enough to act on it?", "Where do two systems disagree about the same fact?"],
-      "whatNotToDoYet": ["Build a new dashboard on top of data nobody trusts.", "Ignore a known data quality issue because it's inconvenient to fix."],
+      "evidence": [
+        "Different reports show different numbers for what should be the same metric.",
+        "Data quality issues are common knowledge but never actually fixed.",
+        "People quietly distrust the numbers they're asked to report on."
+      ],
+      "questionsToAsk": [
+        "Where does this number actually come from, and who owns its accuracy?",
+        "What would it take for people to trust this data enough to act on it?",
+        "Where do two systems disagree about the same fact?"
+      ],
+      "whatNotToDoYet": [
+        "Build a new dashboard on top of data nobody trusts.",
+        "Ignore a known data quality issue because it's inconvenient to fix."
+      ],
       "investigateNext": [
-        { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" },
-        { "label": "Operational Health", "type": "resource", "id": "operational-health" },
-        { "label": "Explore the Intelligence Layer", "type": "layer", "id": "intelligence" }
+        {
+          "label": "Data Quality",
+          "type": "resource",
+          "id": "data-quality"
+        },
+        {
+          "label": "KPI Architecture",
+          "type": "resource",
+          "id": "kpi-architecture"
+        },
+        {
+          "label": "Operational Health",
+          "type": "resource",
+          "id": "operational-health"
+        },
+        {
+          "label": "Explore the Intelligence Layer",
+          "type": "layer",
+          "id": "intelligence"
+        }
+      ],
+      "resourceToStudy": {
+        "label": "Data Quality",
+        "type": "resource",
+        "id": "data-quality"
+      },
+      "relatedAntiPatterns": [
+        {
+          "label": "Dashboard Theater",
+          "type": "antipattern",
+          "id": "dashboard-theater"
+        },
+        {
+          "label": "KPI Explosion",
+          "type": "antipattern",
+          "id": "kpi-explosion"
+        }
       ]
     },
     "measurement": {
       "name": "Measurement",
       "why": "What gets measured isn't connected to a decision anyone actually makes, so metrics accumulate as reporting without changing behavior.",
-      "evidence": ["A dashboard is reviewed regularly with no resulting action.", "Nobody can name the handful of metrics that matter most.", "Metrics get added regularly; almost none are ever retired."],
-      "questionsToAsk": ["What decision does this metric enable?", "What metric would detect this kind of deterioration early?", "If this number moved sharply tomorrow, would anyone act differently?"],
-      "whatNotToDoYet": ["Add more metrics before connecting the existing ones to decisions.", "Mistake having a dashboard for being data-driven."],
+      "evidence": [
+        "A dashboard is reviewed regularly with no resulting action.",
+        "Nobody can name the handful of metrics that matter most.",
+        "Metrics get added regularly; almost none are ever retired."
+      ],
+      "questionsToAsk": [
+        "What decision does this metric enable?",
+        "What metric would detect this kind of deterioration early?",
+        "If this number moved sharply tomorrow, would anyone act differently?"
+      ],
+      "whatNotToDoYet": [
+        "Add more metrics before connecting the existing ones to decisions.",
+        "Mistake having a dashboard for being data-driven."
+      ],
       "investigateNext": [
-        { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" },
-        { "label": "Read: Dashboard Theater", "type": "antipattern", "id": "dashboard-theater" },
-        { "label": "Explore the Intelligence Layer", "type": "layer", "id": "intelligence" }
+        {
+          "label": "KPI Architecture",
+          "type": "resource",
+          "id": "kpi-architecture"
+        },
+        {
+          "label": "Read: Dashboard Theater",
+          "type": "antipattern",
+          "id": "dashboard-theater"
+        },
+        {
+          "label": "Explore the Intelligence Layer",
+          "type": "layer",
+          "id": "intelligence"
+        }
+      ],
+      "resourceToStudy": {
+        "label": "KPI Architecture",
+        "type": "resource",
+        "id": "kpi-architecture"
+      },
+      "relatedAntiPatterns": [
+        {
+          "label": "Dashboard Theater",
+          "type": "antipattern",
+          "id": "dashboard-theater"
+        },
+        {
+          "label": "KPI Explosion",
+          "type": "antipattern",
+          "id": "kpi-explosion"
+        }
       ]
     },
     "governance": {
       "name": "Governance",
       "why": "A standard, control, or decision process was defined at some point, but there is no active mechanism keeping it enforced as conditions change.",
-      "evidence": ["Standards exist on paper but are inconsistently followed in practice.", "No one is responsible for noticing when a control quietly stops working.", "Reviews happen, if at all, only after something has already gone wrong."],
-      "questionsToAsk": ["Who is responsible for noticing when this standard stops being followed?", "What review cadence keeps this control from decaying?", "Where do we have governance on paper but nobody actually exercising it?"],
-      "whatNotToDoYet": ["Write a new policy without assigning someone to keep it alive.", "Add a governance meeting without giving it real authority to act."],
+      "evidence": [
+        "Standards exist on paper but are inconsistently followed in practice.",
+        "No one is responsible for noticing when a control quietly stops working.",
+        "Reviews happen, if at all, only after something has already gone wrong."
+      ],
+      "questionsToAsk": [
+        "Who is responsible for noticing when this standard stops being followed?",
+        "What review cadence keeps this control from decaying?",
+        "Where do we have governance on paper but nobody actually exercising it?"
+      ],
+      "whatNotToDoYet": [
+        "Write a new policy without assigning someone to keep it alive.",
+        "Add a governance meeting without giving it real authority to act."
+      ],
       "investigateNext": [
-        { "label": "Governance", "type": "resource", "id": "governance" },
-        { "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" },
-        { "label": "Explore the Management Layer", "type": "layer", "id": "management" }
+        {
+          "label": "Governance",
+          "type": "resource",
+          "id": "governance"
+        },
+        {
+          "label": "Operating Rhythms",
+          "type": "resource",
+          "id": "operating-rhythms"
+        },
+        {
+          "label": "Explore the Management Layer",
+          "type": "layer",
+          "id": "management"
+        }
+      ],
+      "resourceToStudy": {
+        "label": "Governance",
+        "type": "resource",
+        "id": "governance"
+      },
+      "relatedAntiPatterns": [
+        {
+          "label": "SOP Graveyard",
+          "type": "antipattern",
+          "id": "sop-graveyard"
+        },
+        {
+          "label": "RACI Illusion",
+          "type": "antipattern",
+          "id": "raci-illusion"
+        }
       ]
     },
     "decision-rights": {
       "name": "Decision Rights",
       "why": "Authority over this kind of decision was never made explicit, so decisions default to escalation, delay, or whoever is most senior in the room.",
-      "evidence": ["The same category of decision escalates every time it comes up.", "People are uncertain whether they're allowed to decide without checking first.", "A RACI or similar exists, but behavior during real decisions doesn't match it."],
-      "questionsToAsk": ["Who is accountable for this decision if it turns out to be wrong?", "If everything requires escalation, do we actually have decision rights?", "Where does authority for this decision live, versus where the information lives?"],
-      "whatNotToDoYet": ["Route the decision upward again without fixing who should own it.", "Write a RACI and assume that alone changes behavior."],
+      "evidence": [
+        "The same category of decision escalates every time it comes up.",
+        "People are uncertain whether they're allowed to decide without checking first.",
+        "A RACI or similar exists, but behavior during real decisions doesn't match it."
+      ],
+      "questionsToAsk": [
+        "Who is accountable for this decision if it turns out to be wrong?",
+        "If everything requires escalation, do we actually have decision rights?",
+        "Where does authority for this decision live, versus where the information lives?"
+      ],
+      "whatNotToDoYet": [
+        "Route the decision upward again without fixing who should own it.",
+        "Write a RACI and assume that alone changes behavior."
+      ],
       "investigateNext": [
-        { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
-        { "label": "Read: RACI Illusion", "type": "antipattern", "id": "raci-illusion" },
-        { "label": "Explore the Design Layer", "type": "layer", "id": "design" }
-      ]
+        {
+          "label": "Decision Rights",
+          "type": "resource",
+          "id": "decision-rights"
+        },
+        {
+          "label": "Read: RACI Illusion",
+          "type": "antipattern",
+          "id": "raci-illusion"
+        },
+        {
+          "label": "Explore the Design Layer",
+          "type": "layer",
+          "id": "design"
+        }
+      ],
+      "resourceToStudy": {
+        "label": "Decision Rights",
+        "type": "resource",
+        "id": "decision-rights"
+      },
+      "relatedAntiPatterns": [
+        {
+          "label": "Escalation Culture",
+          "type": "antipattern",
+          "id": "escalation-culture"
+        },
+        {
+          "label": "Leader Bottleneck",
+          "type": "antipattern",
+          "id": "leader-bottleneck"
+        },
+        {
+          "label": "RACI Illusion",
+          "type": "antipattern",
+          "id": "raci-illusion"
+        }
+      ],
+      "builderRecommendation": {
+        "label": "Decision Rights Architect",
+        "href": "decision-rights",
+        "note": "If validated, this builder may help you redesign where this decision lives and when authority should change."
+      }
     },
     "change-management": {
       "name": "Change Management",
       "why": "Change is landing on teams faster than the organization's operating system can absorb it, without sequencing, communication, or capacity planning.",
-      "evidence": ["Multiple significant changes are rolling out to the same teams simultaneously.", "Changes are announced without a plan for how work will be resequenced.", "The same teams are consistently the last to know about changes affecting them."],
-      "questionsToAsk": ["What is this team already doing that this change assumes they've stopped?", "How will we know if this change was absorbed successfully?", "Who is accountable for sequencing this change against everything else in flight?"],
-      "whatNotToDoYet": ["Add another change initiative on top of ones still being absorbed.", "Treat communication alone as a substitute for capacity planning."],
+      "evidence": [
+        "Multiple significant changes are rolling out to the same teams simultaneously.",
+        "Changes are announced without a plan for how work will be resequenced.",
+        "The same teams are consistently the last to know about changes affecting them."
+      ],
+      "questionsToAsk": [
+        "What is this team already doing that this change assumes they've stopped?",
+        "How will we know if this change was absorbed successfully?",
+        "Who is accountable for sequencing this change against everything else in flight?"
+      ],
+      "whatNotToDoYet": [
+        "Add another change initiative on top of ones still being absorbed.",
+        "Treat communication alone as a substitute for capacity planning."
+      ],
       "investigateNext": [
-        { "label": "Capacity Management", "type": "resource", "id": "capacity-management" },
-        { "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" },
-        { "label": "Explore the Management Layer", "type": "layer", "id": "management" }
+        {
+          "label": "Capacity Management",
+          "type": "resource",
+          "id": "capacity-management"
+        },
+        {
+          "label": "Operating Rhythms",
+          "type": "resource",
+          "id": "operating-rhythms"
+        },
+        {
+          "label": "Explore the Management Layer",
+          "type": "layer",
+          "id": "management"
+        }
+      ],
+      "resourceToStudy": {
+        "label": "Capacity Management",
+        "type": "resource",
+        "id": "capacity-management"
+      },
+      "relatedAntiPatterns": [
+        {
+          "label": "Everything Is Priority",
+          "type": "antipattern",
+          "id": "everything-is-priority"
+        }
       ]
     },
     "capability": {
       "name": "Capability",
       "why": "The organization genuinely lacks a skill, knowledge base, or capacity to perform this work well, distinct from a process or management gap.",
-      "evidence": ["The same category of mistake happens across different people and teams.", "Investment in tools or process hasn't moved outcomes, because the underlying skill is missing.", "New capability needs were never anticipated in hiring or development plans."],
-      "questionsToAsk": ["Is this a skill gap, or a process gap being misread as one?", "What evidence do we have that training would actually change the outcome?", "What capability does our strategy require that we don't yet have?"],
-      "whatNotToDoYet": ["Default to training before confirming it's actually a skills gap.", "Hire for a capability without designing where it fits in the operating model."],
+      "evidence": [
+        "The same category of mistake happens across different people and teams.",
+        "Investment in tools or process hasn't moved outcomes, because the underlying skill is missing.",
+        "New capability needs were never anticipated in hiring or development plans."
+      ],
+      "questionsToAsk": [
+        "Is this a skill gap, or a process gap being misread as one?",
+        "What evidence do we have that training would actually change the outcome?",
+        "What capability does our strategy require that we don't yet have?"
+      ],
+      "whatNotToDoYet": [
+        "Default to training before confirming it's actually a skills gap.",
+        "Hire for a capability without designing where it fits in the operating model."
+      ],
       "investigateNext": [
-        { "label": "Capability Mapping", "type": "resource", "id": "capability-mapping" },
-        { "label": "Read: Training Fix", "type": "antipattern", "id": "training-fix" },
-        { "label": "Explore the Design Layer", "type": "layer", "id": "design" }
+        {
+          "label": "Capability Mapping",
+          "type": "resource",
+          "id": "capability-mapping"
+        },
+        {
+          "label": "Read: Training Fix",
+          "type": "antipattern",
+          "id": "training-fix"
+        },
+        {
+          "label": "Explore the Design Layer",
+          "type": "layer",
+          "id": "design"
+        }
+      ],
+      "resourceToStudy": {
+        "label": "Capability Mapping",
+        "type": "resource",
+        "id": "capability-mapping"
+      },
+      "relatedAntiPatterns": [
+        {
+          "label": "Training Fix",
+          "type": "antipattern",
+          "id": "training-fix"
+        }
       ]
     }
   },
@@ -156,27 +641,79 @@
           "id": "q1",
           "text": "When did the decline start, relative to any recent change?",
           "options": [
-            { "text": "It followed a specific change — new leadership, a reorg, or a new process.", "scores": { "management-system": 2, "operating-model": 1 } },
-            { "text": "It's been gradual, with no obvious trigger.", "scores": { "process": 2, "capability": 1 } },
-            { "text": "It varies a lot by team or individual.", "scores": { "process": 2, "ownership": 1 } }
+            {
+              "text": "It followed a specific change — new leadership, a reorg, or a new process.",
+              "scores": {
+                "management-system": 2,
+                "operating-model": 1
+              }
+            },
+            {
+              "text": "It's been gradual, with no obvious trigger.",
+              "scores": {
+                "process": 2,
+                "capability": 1
+              }
+            },
+            {
+              "text": "It varies a lot by team or individual.",
+              "scores": {
+                "process": 2,
+                "ownership": 1
+              }
+            }
           ]
         },
         {
           "id": "q2",
           "text": "How is the decline being discussed in leadership reviews?",
           "options": [
-            { "text": "It's discussed, but the same conversation repeats without resolution.", "scores": { "management-system": 2, "governance": 1 } },
-            { "text": "Different leaders point to different causes.", "scores": { "operating-model": 1, "governance": 2 } },
-            { "text": "It hasn't been formally discussed yet.", "scores": { "management-system": 2 } }
+            {
+              "text": "It's discussed, but the same conversation repeats without resolution.",
+              "scores": {
+                "management-system": 2,
+                "governance": 1
+              }
+            },
+            {
+              "text": "Different leaders point to different causes.",
+              "scores": {
+                "operating-model": 1,
+                "governance": 2
+              }
+            },
+            {
+              "text": "It hasn't been formally discussed yet.",
+              "scores": {
+                "management-system": 2
+              }
+            }
           ]
         },
         {
           "id": "q3",
           "text": "What's the leading theory among managers right now?",
           "options": [
-            { "text": "People need more training or coaching.", "scores": { "capability": 2, "process": 1 } },
-            { "text": "The team is stretched too thin.", "scores": { "capacity": 3 } },
-            { "text": "Instructions or priorities have been inconsistent.", "scores": { "governance": 2, "management-system": 2 } }
+            {
+              "text": "People need more training or coaching.",
+              "scores": {
+                "capability": 2,
+                "process": 1
+              }
+            },
+            {
+              "text": "The team is stretched too thin.",
+              "scores": {
+                "capacity": 3
+              }
+            },
+            {
+              "text": "Instructions or priorities have been inconsistent.",
+              "scores": {
+                "governance": 2,
+                "management-system": 2
+              }
+            }
           ]
         }
       ]
@@ -190,27 +727,76 @@
           "id": "q1",
           "text": "Can attendees name a decision that came out of these meetings in the last month?",
           "options": [
-            { "text": "Rarely — they're mostly status updates.", "scores": { "management-system": 2, "governance": 1 } },
-            { "text": "Sometimes, but decisions don't seem to stick.", "scores": { "governance": 2, "decision-rights": 1 } },
-            { "text": "Yes, but the same decision keeps needing to be re-made.", "scores": { "decision-rights": 2 } }
+            {
+              "text": "Rarely — they're mostly status updates.",
+              "scores": {
+                "management-system": 2,
+                "governance": 1
+              }
+            },
+            {
+              "text": "Sometimes, but decisions don't seem to stick.",
+              "scores": {
+                "governance": 2,
+                "decision-rights": 1
+              }
+            },
+            {
+              "text": "Yes, but the same decision keeps needing to be re-made.",
+              "scores": {
+                "decision-rights": 2
+              }
+            }
           ]
         },
         {
           "id": "q2",
           "text": "Why do people say these meetings exist?",
           "options": [
-            { "text": "\"So everyone stays aligned.\"", "scores": { "management-system": 2 } },
-            { "text": "\"Because decisions kept getting stuck without them.\"", "scores": { "decision-rights": 2 } },
-            { "text": "Nobody's quite sure anymore.", "scores": { "governance": 2, "management-system": 1 } }
+            {
+              "text": "\"So everyone stays aligned.\"",
+              "scores": {
+                "management-system": 2
+              }
+            },
+            {
+              "text": "\"Because decisions kept getting stuck without them.\"",
+              "scores": {
+                "decision-rights": 2
+              }
+            },
+            {
+              "text": "Nobody's quite sure anymore.",
+              "scores": {
+                "governance": 2,
+                "management-system": 1
+              }
+            }
           ]
         },
         {
           "id": "q3",
           "text": "What would happen if one of these recurring meetings was cancelled next week?",
           "options": [
-            { "text": "Nothing would visibly change.", "scores": { "governance": 2, "management-system": 1 } },
-            { "text": "Some decision would have no forum to get made in.", "scores": { "decision-rights": 2 } },
-            { "text": "People would just message each other instead.", "scores": { "management-system": 2 } }
+            {
+              "text": "Nothing would visibly change.",
+              "scores": {
+                "governance": 2,
+                "management-system": 1
+              }
+            },
+            {
+              "text": "Some decision would have no forum to get made in.",
+              "scores": {
+                "decision-rights": 2
+              }
+            },
+            {
+              "text": "People would just message each other instead.",
+              "scores": {
+                "management-system": 2
+              }
+            }
           ]
         }
       ]
@@ -224,26 +810,69 @@
           "id": "q1",
           "text": "What kind of issues tend to escalate most?",
           "options": [
-            { "text": "Decisions people aren't confident they're allowed to make.", "scores": { "decision-rights": 3 } },
-            { "text": "Problems with no obvious owner.", "scores": { "ownership": 3 } },
-            { "text": "Cross-team conflicts about who should do what.", "scores": { "operating-model": 2, "ownership": 1 } }
+            {
+              "text": "Decisions people aren't confident they're allowed to make.",
+              "scores": {
+                "decision-rights": 3
+              }
+            },
+            {
+              "text": "Problems with no obvious owner.",
+              "scores": {
+                "ownership": 3
+              }
+            },
+            {
+              "text": "Cross-team conflicts about who should do what.",
+              "scores": {
+                "operating-model": 2,
+                "ownership": 1
+              }
+            }
           ]
         },
         {
           "id": "q2",
           "text": "Do the same categories of issue escalate repeatedly?",
           "options": [
-            { "text": "Yes, the same type of thing comes up again and again.", "scores": { "governance": 2, "decision-rights": 1 } },
-            { "text": "No, it's a wide variety of one-off issues.", "scores": { "ownership": 2 } }
+            {
+              "text": "Yes, the same type of thing comes up again and again.",
+              "scores": {
+                "governance": 2,
+                "decision-rights": 1
+              }
+            },
+            {
+              "text": "No, it's a wide variety of one-off issues.",
+              "scores": {
+                "ownership": 2
+              }
+            }
           ]
         },
         {
           "id": "q3",
           "text": "What happens after a senior leader resolves an escalation?",
           "options": [
-            { "text": "The underlying ambiguity is never actually fixed.", "scores": { "decision-rights": 2, "governance": 1 } },
-            { "text": "It's fixed for now but the fix isn't written down anywhere.", "scores": { "governance": 2 } },
-            { "text": "A new owner is assigned, but only for that instance.", "scores": { "ownership": 2 } }
+            {
+              "text": "The underlying ambiguity is never actually fixed.",
+              "scores": {
+                "decision-rights": 2,
+                "governance": 1
+              }
+            },
+            {
+              "text": "It's fixed for now but the fix isn't written down anywhere.",
+              "scores": {
+                "governance": 2
+              }
+            },
+            {
+              "text": "A new owner is assigned, but only for that instance.",
+              "scores": {
+                "ownership": 2
+              }
+            }
           ]
         }
       ]
@@ -257,27 +886,75 @@
           "id": "q1",
           "text": "Where do these decisions typically get stuck?",
           "options": [
-            { "text": "Waiting for a specific senior person's availability.", "scores": { "decision-rights": 2, "operating-model": 1 } },
-            { "text": "Bouncing between people who each think someone else owns it.", "scores": { "decision-rights": 3 } },
-            { "text": "Waiting for a recurring meeting where it can be raised.", "scores": { "management-system": 2 } }
+            {
+              "text": "Waiting for a specific senior person's availability.",
+              "scores": {
+                "decision-rights": 2,
+                "operating-model": 1
+              }
+            },
+            {
+              "text": "Bouncing between people who each think someone else owns it.",
+              "scores": {
+                "decision-rights": 3
+              }
+            },
+            {
+              "text": "Waiting for a recurring meeting where it can be raised.",
+              "scores": {
+                "management-system": 2
+              }
+            }
           ]
         },
         {
           "id": "q2",
           "text": "Is there a documented process for who decides this kind of thing?",
           "options": [
-            { "text": "No, it's never been made explicit.", "scores": { "decision-rights": 3 } },
-            { "text": "Yes, but people don't actually follow it.", "scores": { "governance": 2, "decision-rights": 1 } },
-            { "text": "It depends on the situation.", "scores": { "operating-model": 2 } }
+            {
+              "text": "No, it's never been made explicit.",
+              "scores": {
+                "decision-rights": 3
+              }
+            },
+            {
+              "text": "Yes, but people don't actually follow it.",
+              "scores": {
+                "governance": 2,
+                "decision-rights": 1
+              }
+            },
+            {
+              "text": "It depends on the situation.",
+              "scores": {
+                "operating-model": 2
+              }
+            }
           ]
         },
         {
           "id": "q3",
           "text": "Do the people closest to the information have authority to decide?",
           "options": [
-            { "text": "No — authority sits well above where the information lives.", "scores": { "decision-rights": 3 } },
-            { "text": "Somewhat, but they're not confident using it.", "scores": { "governance": 2 } },
-            { "text": "Yes, but the decision still gets re-litigated later.", "scores": { "governance": 2, "decision-rights": 1 } }
+            {
+              "text": "No — authority sits well above where the information lives.",
+              "scores": {
+                "decision-rights": 3
+              }
+            },
+            {
+              "text": "Somewhat, but they're not confident using it.",
+              "scores": {
+                "governance": 2
+              }
+            },
+            {
+              "text": "Yes, but the decision still gets re-litigated later.",
+              "scores": {
+                "governance": 2,
+                "decision-rights": 1
+              }
+            }
           ]
         }
       ]
@@ -291,27 +968,76 @@
           "id": "q1",
           "text": "Is there a documented standard for this process?",
           "options": [
-            { "text": "No, or it's out of date.", "scores": { "process": 3 } },
-            { "text": "Yes, but people don't follow it consistently.", "scores": { "governance": 2, "process": 1 } },
-            { "text": "Each team has its own version.", "scores": { "process": 2, "operating-model": 1 } }
+            {
+              "text": "No, or it's out of date.",
+              "scores": {
+                "process": 3
+              }
+            },
+            {
+              "text": "Yes, but people don't follow it consistently.",
+              "scores": {
+                "governance": 2,
+                "process": 1
+              }
+            },
+            {
+              "text": "Each team has its own version.",
+              "scores": {
+                "process": 2,
+                "operating-model": 1
+              }
+            }
           ]
         },
         {
           "id": "q2",
           "text": "Who is accountable for keeping this process consistent across teams?",
           "options": [
-            { "text": "No one specific — it's assumed to be self-maintaining.", "scores": { "ownership": 3 } },
-            { "text": "Someone is nominally responsible, but has no real authority over other teams.", "scores": { "ownership": 2, "governance": 1 } },
-            { "text": "There's an owner, but they haven't reviewed it recently.", "scores": { "governance": 2 } }
+            {
+              "text": "No one specific — it's assumed to be self-maintaining.",
+              "scores": {
+                "ownership": 3
+              }
+            },
+            {
+              "text": "Someone is nominally responsible, but has no real authority over other teams.",
+              "scores": {
+                "ownership": 2,
+                "governance": 1
+              }
+            },
+            {
+              "text": "There's an owner, but they haven't reviewed it recently.",
+              "scores": {
+                "governance": 2
+              }
+            }
           ]
         },
         {
           "id": "q3",
           "text": "Where does the inconsistency usually get noticed?",
           "options": [
-            { "text": "Only when a customer or downstream team complains.", "scores": { "process": 2, "governance": 1 } },
-            { "text": "During onboarding, when new hires get conflicting instructions.", "scores": { "process": 3 } },
-            { "text": "During audits or compliance reviews.", "scores": { "governance": 2 } }
+            {
+              "text": "Only when a customer or downstream team complains.",
+              "scores": {
+                "process": 2,
+                "governance": 1
+              }
+            },
+            {
+              "text": "During onboarding, when new hires get conflicting instructions.",
+              "scores": {
+                "process": 3
+              }
+            },
+            {
+              "text": "During audits or compliance reviews.",
+              "scores": {
+                "governance": 2
+              }
+            }
           ]
         }
       ]
@@ -325,27 +1051,78 @@
           "id": "q1",
           "text": "Is there a shared view of the team's capacity versus current demand?",
           "options": [
-            { "text": "No — capacity isn't tracked in any visible way.", "scores": { "capacity": 3 } },
-            { "text": "It's tracked, but leadership doesn't act on it.", "scores": { "capacity": 2, "management-system": 1 } },
-            { "text": "It's tracked and used to make tradeoffs.", "scores": { "operating-model": 1 } }
+            {
+              "text": "No — capacity isn't tracked in any visible way.",
+              "scores": {
+                "capacity": 3
+              }
+            },
+            {
+              "text": "It's tracked, but leadership doesn't act on it.",
+              "scores": {
+                "capacity": 2,
+                "management-system": 1
+              }
+            },
+            {
+              "text": "It's tracked and used to make tradeoffs.",
+              "scores": {
+                "operating-model": 1
+              }
+            }
           ]
         },
         {
           "id": "q2",
           "text": "How do new commitments get added to this team's plate?",
           "options": [
-            { "text": "They're added without removing or resequencing anything else.", "scores": { "capacity": 3, "management-system": 1 } },
-            { "text": "Multiple leaders independently commit the same team's time.", "scores": { "operating-model": 2, "capacity": 1 } },
-            { "text": "There's a prioritization process, but it's frequently overridden.", "scores": { "governance": 2, "capacity": 1 } }
+            {
+              "text": "They're added without removing or resequencing anything else.",
+              "scores": {
+                "capacity": 3,
+                "management-system": 1
+              }
+            },
+            {
+              "text": "Multiple leaders independently commit the same team's time.",
+              "scores": {
+                "operating-model": 2,
+                "capacity": 1
+              }
+            },
+            {
+              "text": "There's a prioritization process, but it's frequently overridden.",
+              "scores": {
+                "governance": 2,
+                "capacity": 1
+              }
+            }
           ]
         },
         {
           "id": "q3",
           "text": "What's the team's typical response to being overloaded?",
           "options": [
-            { "text": "Work longer hours to compensate.", "scores": { "capacity": 3 } },
-            { "text": "Quietly drop lower-visibility work.", "scores": { "capacity": 2, "governance": 1 } },
-            { "text": "Escalate for help, without much resolution.", "scores": { "management-system": 2, "capacity": 1 } }
+            {
+              "text": "Work longer hours to compensate.",
+              "scores": {
+                "capacity": 3
+              }
+            },
+            {
+              "text": "Quietly drop lower-visibility work.",
+              "scores": {
+                "capacity": 2,
+                "governance": 1
+              }
+            },
+            {
+              "text": "Escalate for help, without much resolution.",
+              "scores": {
+                "management-system": 2,
+                "capacity": 1
+              }
+            }
           ]
         }
       ]
@@ -359,27 +1136,77 @@
           "id": "q1",
           "text": "Do different teams report different numbers for what should be the same metric?",
           "options": [
-            { "text": "Yes, regularly.", "scores": { "data": 3 } },
-            { "text": "Occasionally, and it's never fully resolved.", "scores": { "data": 2, "governance": 1 } },
-            { "text": "No, the numbers are consistent, but no one acts on them.", "scores": { "measurement": 3 } }
+            {
+              "text": "Yes, regularly.",
+              "scores": {
+                "data": 3
+              }
+            },
+            {
+              "text": "Occasionally, and it's never fully resolved.",
+              "scores": {
+                "data": 2,
+                "governance": 1
+              }
+            },
+            {
+              "text": "No, the numbers are consistent, but no one acts on them.",
+              "scores": {
+                "measurement": 3
+              }
+            }
           ]
         },
         {
           "id": "q2",
           "text": "Where does this data actually originate?",
           "options": [
-            { "text": "Manual entry across multiple spreadsheets or systems.", "scores": { "data": 2, "technology": 2 } },
-            { "text": "A single system, but with known quality issues nobody's fixed.", "scores": { "data": 3 } },
-            { "text": "It's aggregated from several systems that don't fully agree.", "scores": { "technology": 2, "data": 2 } }
+            {
+              "text": "Manual entry across multiple spreadsheets or systems.",
+              "scores": {
+                "data": 2,
+                "technology": 2
+              }
+            },
+            {
+              "text": "A single system, but with known quality issues nobody's fixed.",
+              "scores": {
+                "data": 3
+              }
+            },
+            {
+              "text": "It's aggregated from several systems that don't fully agree.",
+              "scores": {
+                "technology": 2,
+                "data": 2
+              }
+            }
           ]
         },
         {
           "id": "q3",
           "text": "When a number looks off, what typically happens?",
           "options": [
-            { "text": "People quietly stop trusting it rather than fixing it.", "scores": { "data": 2, "measurement": 1 } },
-            { "text": "It sparks a debate about whose number is right.", "scores": { "data": 3 } },
-            { "text": "It gets adjusted manually before reporting upward.", "scores": { "data": 2, "governance": 1 } }
+            {
+              "text": "People quietly stop trusting it rather than fixing it.",
+              "scores": {
+                "data": 2,
+                "measurement": 1
+              }
+            },
+            {
+              "text": "It sparks a debate about whose number is right.",
+              "scores": {
+                "data": 3
+              }
+            },
+            {
+              "text": "It gets adjusted manually before reporting upward.",
+              "scores": {
+                "data": 2,
+                "governance": 1
+              }
+            }
           ]
         }
       ]
@@ -393,27 +1220,78 @@
           "id": "q1",
           "text": "Is there a current org chart or RACI that reflects how work actually happens?",
           "options": [
-            { "text": "No documentation exists.", "scores": { "operating-model": 2, "ownership": 2 } },
-            { "text": "One exists but is out of date.", "scores": { "governance": 2, "ownership": 1 } },
-            { "text": "One exists and is accurate, but people don't behave accordingly.", "scores": { "decision-rights": 2, "governance": 1 } }
+            {
+              "text": "No documentation exists.",
+              "scores": {
+                "operating-model": 2,
+                "ownership": 2
+              }
+            },
+            {
+              "text": "One exists but is out of date.",
+              "scores": {
+                "governance": 2,
+                "ownership": 1
+              }
+            },
+            {
+              "text": "One exists and is accurate, but people don't behave accordingly.",
+              "scores": {
+                "decision-rights": 2,
+                "governance": 1
+              }
+            }
           ]
         },
         {
           "id": "q2",
           "text": "When something falls through the cracks, what usually happens?",
           "options": [
-            { "text": "Whoever notices first ends up owning it informally.", "scores": { "ownership": 3 } },
-            { "text": "It escalates to a senior leader to assign.", "scores": { "decision-rights": 2, "ownership": 1 } },
-            { "text": "It sits unresolved until someone complains.", "scores": { "ownership": 2, "governance": 1 } }
+            {
+              "text": "Whoever notices first ends up owning it informally.",
+              "scores": {
+                "ownership": 3
+              }
+            },
+            {
+              "text": "It escalates to a senior leader to assign.",
+              "scores": {
+                "decision-rights": 2,
+                "ownership": 1
+              }
+            },
+            {
+              "text": "It sits unresolved until someone complains.",
+              "scores": {
+                "ownership": 2,
+                "governance": 1
+              }
+            }
           ]
         },
         {
           "id": "q3",
           "text": "How recently has the team or organization been restructured?",
           "options": [
-            { "text": "Recently, and ownership wasn't fully re-mapped afterward.", "scores": { "operating-model": 3 } },
-            { "text": "Not recently — this has been unclear for a long time.", "scores": { "ownership": 2 } },
-            { "text": "It changes often enough that ownership never settles.", "scores": { "operating-model": 2, "change-management": 1 } }
+            {
+              "text": "Recently, and ownership wasn't fully re-mapped afterward.",
+              "scores": {
+                "operating-model": 3
+              }
+            },
+            {
+              "text": "Not recently — this has been unclear for a long time.",
+              "scores": {
+                "ownership": 2
+              }
+            },
+            {
+              "text": "It changes often enough that ownership never settles.",
+              "scores": {
+                "operating-model": 2,
+                "change-management": 1
+              }
+            }
           ]
         }
       ]
@@ -427,27 +1305,77 @@
           "id": "q1",
           "text": "What's breaking down most visibly as the organization grows?",
           "options": [
-            { "text": "Coordination between teams that used to just talk informally.", "scores": { "operating-model": 3 } },
-            { "text": "Capacity — everyone is stretched thinner than before.", "scores": { "capacity": 3 } },
-            { "text": "Consistency — new hires do things differently than tenured staff.", "scores": { "process": 2, "governance": 1 } }
+            {
+              "text": "Coordination between teams that used to just talk informally.",
+              "scores": {
+                "operating-model": 3
+              }
+            },
+            {
+              "text": "Capacity — everyone is stretched thinner than before.",
+              "scores": {
+                "capacity": 3
+              }
+            },
+            {
+              "text": "Consistency — new hires do things differently than tenured staff.",
+              "scores": {
+                "process": 2,
+                "governance": 1
+              }
+            }
           ]
         },
         {
           "id": "q2",
           "text": "Were the organization's processes and structure designed for this scale?",
           "options": [
-            { "text": "No — they were designed for a much smaller team.", "scores": { "operating-model": 2, "process": 1 } },
-            { "text": "They were designed for this scale on paper, but never actually implemented.", "scores": { "governance": 2 } },
-            { "text": "Unclear — no one has revisited the design since growth started.", "scores": { "operating-model": 2, "change-management": 1 } }
+            {
+              "text": "No — they were designed for a much smaller team.",
+              "scores": {
+                "operating-model": 2,
+                "process": 1
+              }
+            },
+            {
+              "text": "They were designed for this scale on paper, but never actually implemented.",
+              "scores": {
+                "governance": 2
+              }
+            },
+            {
+              "text": "Unclear — no one has revisited the design since growth started.",
+              "scores": {
+                "operating-model": 2,
+                "change-management": 1
+              }
+            }
           ]
         },
         {
           "id": "q3",
           "text": "How is new growth-related change being introduced to teams?",
           "options": [
-            { "text": "Multiple changes are landing on the same teams at once.", "scores": { "change-management": 3 } },
-            { "text": "Changes are announced but not sequenced against existing work.", "scores": { "change-management": 2, "capacity": 1 } },
-            { "text": "There isn't a deliberate change process at all.", "scores": { "change-management": 2, "governance": 1 } }
+            {
+              "text": "Multiple changes are landing on the same teams at once.",
+              "scores": {
+                "change-management": 3
+              }
+            },
+            {
+              "text": "Changes are announced but not sequenced against existing work.",
+              "scores": {
+                "change-management": 2,
+                "capacity": 1
+              }
+            },
+            {
+              "text": "There isn't a deliberate change process at all.",
+              "scores": {
+                "change-management": 2,
+                "governance": 1
+              }
+            }
           ]
         }
       ]

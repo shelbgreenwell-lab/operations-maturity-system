@@ -1,14 +1,22 @@
 /*
  * Operations Maturity System
- * Learn — knowledge library engine.
+ * Learn — searchable knowledge library engine.
  *
  * Responsible for:
- * - rendering the resource library
- * - filtering resources by operating layer
- * - progressive disclosure of full resource detail
- * - deep-linking a single resource via ?resource=<id>
+ * - unifying every operational domain (flagship and foundational)
+ *   and every anti-pattern into one searchable, filterable library
+ * - search, layer filter, topic/category filter, maturity filter,
+ *   and resource-type filter
+ * - curated browse sections (Start Here, Foundational Systems,
+ *   Running the Business, Measuring the Business, Improving the
+ *   Business, Scaling the Business)
+ * - the Operating Principles reference list
+ * - the "If You're Experiencing..." symptom finder into Diagnose
+ * - progressive disclosure of full resource detail, shared with
+ *   Explore via js/resource-detail.js
  *
- * Resource content lives in /data/resources.json.
+ * Content lives in /data/operating-layers.json, /data/resources.json,
+ * /data/anti-patterns.json, /data/diagnostics.json, and /data/principles.json.
  */
 
 (function (global) {
@@ -19,99 +27,308 @@
     management: 'Management', intelligence: 'Intelligence', evolution: 'Evolution'
   };
   var LAYER_ORDER = ['direction', 'design', 'execution', 'management', 'intelligence', 'evolution'];
+  var CATEGORY_ORDER = ['Foundational Systems', 'Running the Business', 'Measuring the Business', 'Improving the Business', 'Scaling the Business'];
+  var START_HERE_IDS = ['decision-rights', 'process-ownership', 'operating-rhythms', 'kpi-architecture', 'root-cause-analysis', 'operating-models'];
 
-  var resources = [];
-  var activeFilter = 'all';
   var els = {};
+  var knowledge = null;
+  var items = []; // unified: domains (flagship + foundational) + anti-patterns
+  var diagnostics = null;
+  var filters = { type: 'all', layer: 'all', category: 'all', maturity: 'all', query: '' };
 
   function byId(id) { return document.getElementById(id); }
 
-  function renderFilters() {
-    var pills = ['<button type="button" class="resource-filter is-active" data-filter="all">All</button>'];
-    LAYER_ORDER.forEach(function (id) {
-      pills.push('<button type="button" class="resource-filter" data-filter="' + id + '">' + LAYER_NAMES[id] + '</button>');
+  function buildItems(k, antiPatternsData) {
+    var domainItems = k.domains.map(function (domain) {
+      var resource = domain.isFlagship ? k.resourcesById[domain.resourceId] : null;
+      var whatItIs = resource ? resource.whatItIs : domain.whatItIs;
+      var whyItMatters = resource ? resource.whyItMatters : domain.whyItMatters;
+      var category = resource ? resource.systemCategory : domain.systemCategory;
+      return {
+        itemType: 'domain',
+        id: domain.id,
+        layerId: domain.layerId,
+        title: domain.name,
+        systemCategory: category,
+        isFlagship: !!domain.isFlagship,
+        question: resource ? resource.question : domain.question,
+        summary: whatItIs,
+        why: whyItMatters,
+        resourceId: domain.resourceId,
+        searchText: [domain.name, whatItIs, whyItMatters, domain.question].join(' ').toLowerCase()
+      };
     });
-    els.filters.innerHTML = pills.join('');
 
-    els.filters.querySelectorAll('.resource-filter').forEach(function (btn) {
+    var antiPatternItems = antiPatternsData.antiPatterns.map(function (p) {
+      return {
+        itemType: 'antipattern',
+        id: p.id,
+        title: p.name,
+        summary: p.looksLike,
+        why: p.whatItBreaks,
+        searchText: [p.name, p.looksLike, p.whatItBreaks, p.whyItHappens].join(' ').toLowerCase()
+      };
+    });
+
+    return domainItems.concat(antiPatternItems);
+  }
+
+  /* ----------------------------------------------------------
+     Filters
+     ---------------------------------------------------------- */
+
+  function renderFilterGroup(mount, options, activeValue, onSelect) {
+    mount.innerHTML = options.map(function (opt) {
+      return '<button type="button" class="resource-filter' + (opt.value === activeValue ? ' is-active' : '') +
+        '" data-value="' + opt.value + '">' + opt.label + '</button>';
+    }).join('');
+    mount.querySelectorAll('.resource-filter').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        activeFilter = btn.getAttribute('data-filter');
-        els.filters.querySelectorAll('.resource-filter').forEach(function (b) { b.classList.remove('is-active'); });
-        btn.classList.add('is-active');
-        renderGrid();
+        onSelect(btn.getAttribute('data-value'));
+        renderAll();
       });
     });
   }
 
-  function renderGrid() {
-    var visible = activeFilter === 'all' ? resources : resources.filter(function (r) { return r.layer === activeFilter; });
-    els.grid.innerHTML = visible.map(function (r) {
+  function renderFilters() {
+    renderFilterGroup(els.typeFilter, [
+      { value: 'all', label: 'All Types' },
+      { value: 'domain', label: 'Systems' },
+      { value: 'antipattern', label: 'Anti-Patterns' }
+    ], filters.type, function (v) { filters.type = v; });
+
+    renderFilterGroup(els.layerFilter, [{ value: 'all', label: 'All Layers' }].concat(
+      LAYER_ORDER.map(function (id) { return { value: id, label: LAYER_NAMES[id] }; })
+    ), filters.layer, function (v) { filters.layer = v; });
+
+    renderFilterGroup(els.categoryFilter, [{ value: 'all', label: 'All Categories' }].concat(
+      CATEGORY_ORDER.map(function (c) { return { value: c, label: c }; })
+    ), filters.category, function (v) { filters.category = v; });
+
+    renderFilterGroup(els.maturityFilter, [
+      { value: 'all', label: 'All Depth' },
+      { value: 'flagship', label: 'Fully Developed' },
+      { value: 'foundational', label: 'Foundational' }
+    ], filters.maturity, function (v) { filters.maturity = v; });
+  }
+
+  function matchesFilters(item) {
+    if (filters.type !== 'all' && item.itemType !== filters.type) return false;
+    if (filters.layer !== 'all') {
+      if (item.itemType !== 'domain' || item.layerId !== filters.layer) return false;
+    }
+    if (filters.category !== 'all') {
+      if (item.itemType !== 'domain' || item.systemCategory !== filters.category) return false;
+    }
+    if (filters.maturity !== 'all') {
+      if (item.itemType !== 'domain') return false;
+      if (filters.maturity === 'flagship' && !item.isFlagship) return false;
+      if (filters.maturity === 'foundational' && item.isFlagship) return false;
+    }
+    if (filters.query) {
+      if (item.searchText.indexOf(filters.query) === -1) return false;
+    }
+    return true;
+  }
+
+  function isFilterActive() {
+    return filters.type !== 'all' || filters.layer !== 'all' || filters.category !== 'all' ||
+      filters.maturity !== 'all' || !!filters.query;
+  }
+
+  /* ----------------------------------------------------------
+     Card rendering
+     ---------------------------------------------------------- */
+
+  function cardHtml(item) {
+    var badge = item.itemType === 'antipattern'
+      ? '<span class="badge badge--outline">Anti-Pattern</span>'
+      : (item.isFlagship ? '<span class="badge badge--accent">Flagship</span>' : '<span class="badge badge--outline">Foundational</span>');
+    return '' +
+      '<button type="button" class="card card--interactive resource-card" data-type="' + item.itemType + '" data-id="' + item.id + '" style="text-align:left">' +
+        badge +
+        '<h3>' + item.title + '</h3>' +
+        '<p class="text-muted" style="font-size:var(--step--1)">' + (item.summary || '') + '</p>' +
+      '</button>';
+  }
+
+  function bindCards(container) {
+    container.querySelectorAll('.resource-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        openItem(card.getAttribute('data-type'), card.getAttribute('data-id'));
+      });
+    });
+  }
+
+  function renderResultsCount(count) {
+    if (!els.resultsCount) return;
+    els.resultsCount.textContent = count === 0 ? 'No matches. Try a different search or filter.' :
+      count + (count === 1 ? ' result' : ' results');
+  }
+
+  function renderFlatGrid() {
+    var visible = items.filter(matchesFilters);
+    renderResultsCount(visible.length);
+    els.sections.hidden = true;
+    els.flatGrid.hidden = false;
+    els.flatGrid.innerHTML = visible.map(cardHtml).join('');
+    bindCards(els.flatGrid);
+  }
+
+  function renderSectionedBrowse() {
+    els.flatGrid.hidden = true;
+    els.sections.hidden = false;
+    renderResultsCount(items.length);
+
+    var domainItems = items.filter(function (i) { return i.itemType === 'domain'; });
+    var byId2 = {};
+    domainItems.forEach(function (i) { byId2[i.id] = i; });
+
+    var startHere = START_HERE_IDS.map(function (id) { return byId2[id]; }).filter(Boolean);
+
+    var sectionsHtml = '<div class="card-grid" style="margin-bottom:var(--space-4)">' + startHere.map(cardHtml).join('') + '</div>';
+
+    var byCategory = {};
+    CATEGORY_ORDER.forEach(function (c) { byCategory[c] = []; });
+    domainItems.forEach(function (i) {
+      if (byCategory[i.systemCategory]) byCategory[i.systemCategory].push(i);
+    });
+
+    var categoryBlocks = CATEGORY_ORDER.map(function (category) {
+      var list = byCategory[category];
+      if (!list.length) return '';
       return '' +
-        '<button type="button" class="card card--interactive resource-card" data-id="' + r.id + '" style="text-align:left">' +
-          '<span class="badge badge--outline">' + LAYER_NAMES[r.layer] + '</span>' +
-          '<h3>' + r.title + '</h3>' +
-          '<p class="text-muted" style="font-size:var(--step--1)">' + r.definition + '</p>' +
-        '</button>';
+        '<div class="section-head" style="margin-top:var(--space-7)"><span class="eyebrow">' + category + '</span></div>' +
+        '<div class="card-grid">' + list.map(cardHtml).join('') + '</div>';
     }).join('');
 
-    els.grid.querySelectorAll('.resource-card').forEach(function (card) {
-      card.addEventListener('click', function () { openResource(card.getAttribute('data-id')); });
-    });
+    els.startHereMount.innerHTML = sectionsHtml;
+    els.categorySections.innerHTML = categoryBlocks;
+
+    bindCards(els.startHereMount);
+    bindCards(els.categorySections);
   }
 
-  function listBlock(title, items) {
-    return '<div class="outcome-block"><h4>' + title + '</h4><ul>' +
-      items.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul></div>';
+  function renderAll() {
+    if (isFilterActive()) {
+      renderFlatGrid();
+    } else {
+      renderSectionedBrowse();
+    }
   }
 
-  function openResource(id) {
-    var resource = resources.filter(function (r) { return r.id === id; })[0];
-    if (!resource) return;
+  /* ----------------------------------------------------------
+     Item detail (domain/resource or anti-pattern)
+     ---------------------------------------------------------- */
 
-    var relatedLinks = (resource.relatedConcepts || []).map(function (rid) {
-      return { label: rid, type: 'resource', id: rid };
-    });
+  function openItem(type, id) {
+    if (type === 'antipattern') {
+      global.location.href = global.OMSData.href('pages/anti-patterns.html?pattern=' + id);
+      return;
+    }
+    var domain = knowledge.domains.filter(function (d) { return d.id === id; })[0];
+    if (!domain) return;
 
-    els.detail.innerHTML =
-      '<span class="badge badge--accent">' + LAYER_NAMES[resource.layer] + '</span>' +
-      '<h2 style="margin:var(--space-3) 0">' + resource.title + '</h2>' +
-      '<p class="lede">' + resource.definition + '</p>' +
-      '<div class="resource-detail__grid">' +
-        '<div class="outcome-block"><h4>Why It Matters</h4><p class="text-muted">' + resource.whyItMatters + '</p></div>' +
-        '<div class="outcome-block"><h4>Questions A Strong Operator Should Ask</h4><ul>' +
-          resource.operatorQuestions.map(function (q) { return '<li class="operator-question">' + q + '</li>'; }).join('') + '</ul></div>' +
-        '<div class="outcome-block"><h4>What Good Looks Like</h4><p class="text-muted">' + resource.goodLooksLike + '</p></div>' +
-        '<div class="outcome-block"><h4>What Bad Looks Like</h4><p class="text-muted">' + resource.badLooksLike + '</p></div>' +
-      '</div>' +
-      listBlock('Common Failure Modes', resource.failureModes) +
-      '<div style="margin-top:var(--space-5)">' +
-        '<h4 style="font-family:var(--font-mono);font-size:var(--step--1);letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-dim);margin-bottom:var(--space-3)">Related Concepts</h4>' +
-        '<div class="related-links">' + (global.OMSLinks ? global.OMSLinks.renderList(relatedLinks) : '') + '</div>' +
-      '</div>' +
-      '<button type="button" class="btn btn--ghost" id="close-resource" style="margin-top:var(--space-6)">Close</button>';
+    els.detailPanel.classList.add('is-open');
 
-    els.detail.classList.add('is-open');
-    els.detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    global.OMSResourceDetail.renderBreadcrumb(els.breadcrumb, [
+      { label: 'Learn', href: global.OMSData.href('pages/learn.html') },
+      { label: domain.name }
+    ]);
 
-    var closeBtn = byId('close-resource');
-    if (closeBtn) closeBtn.addEventListener('click', function () { els.detail.classList.remove('is-open'); });
+    if (domain.isFlagship) {
+      global.OMSResourceDetail.renderFlagship(knowledge.resourcesById[domain.resourceId], els.detailMount);
+    } else {
+      global.OMSResourceDetail.renderLight(domain, els.detailMount);
+    }
+
+    els.detailPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+
+  function closeItem() {
+    els.detailPanel.classList.remove('is-open');
+  }
+
+  /* ----------------------------------------------------------
+     Operating Principles
+     ---------------------------------------------------------- */
+
+  function renderPrinciples(principlesData) {
+    if (!els.principlesMount) return;
+    els.principlesMount.innerHTML = principlesData.principles.map(function (p) {
+      return '<p class="operator-question">' + p.text + '</p>';
+    }).join('');
+  }
+
+  /* ----------------------------------------------------------
+     If You're Experiencing...
+     ---------------------------------------------------------- */
+
+  function renderSymptomFinder(diagnosticsData) {
+    if (!els.symptomFinder) return;
+    diagnostics = diagnosticsData;
+    els.symptomFinder.innerHTML = diagnosticsData.diagnostics.map(function (d) {
+      return '<a class="symptom-card card--interactive" href="' + global.OMSData.href('pages/diagnose.html?symptom=' + d.id) + '">' +
+        '<div class="card__eyebrow">Symptom</div>' +
+        '<h4 style="margin:var(--space-2) 0 0">' + d.symptom + '</h4>' +
+        '</a>';
+    }).join('');
+  }
+
+  /* ----------------------------------------------------------
+     Init
+     ---------------------------------------------------------- */
 
   function init() {
-    els.filters = byId('resource-filters');
-    els.grid = byId('resource-grid');
-    els.detail = byId('resource-detail');
-    if (!els.grid) return;
+    els.searchInput = byId('learn-search');
+    els.typeFilter = byId('filter-type');
+    els.layerFilter = byId('filter-layer');
+    els.categoryFilter = byId('filter-category');
+    els.maturityFilter = byId('filter-maturity');
+    els.resultsCount = byId('learn-results-count');
+    els.sections = byId('learn-sections');
+    els.startHereMount = byId('start-here-mount');
+    els.categorySections = byId('category-sections-mount');
+    els.flatGrid = byId('learn-flat-grid');
+    els.detailPanel = byId('resource-detail-panel');
+    els.breadcrumb = byId('learn-breadcrumb');
+    els.detailMount = byId('resource-detail-mount');
+    els.principlesMount = byId('principles-mount');
+    els.symptomFinder = byId('symptom-finder-mount');
 
-    global.OMSData.load('resources.json').then(function (data) {
-      resources = data.resources;
+    if (!els.flatGrid) return;
+
+    if (els.searchInput) {
+      els.searchInput.addEventListener('input', function () {
+        filters.query = els.searchInput.value.trim().toLowerCase();
+        renderAll();
+      });
+    }
+
+    var closeBtn = byId('close-resource-detail');
+    if (closeBtn) closeBtn.addEventListener('click', closeItem);
+
+    Promise.all([
+      global.OMSData.loadKnowledge(),
+      global.OMSData.load('anti-patterns.json'),
+      global.OMSData.load('principles.json'),
+      global.OMSData.load('diagnostics.json')
+    ]).then(function (results) {
+      knowledge = results[0];
+      items = buildItems(knowledge, results[1]);
       renderFilters();
-      renderGrid();
+      renderPrinciples(results[2]);
+      renderSymptomFinder(results[3]);
 
       var params = new URLSearchParams(global.location.search);
-      var requested = params.get('resource');
-      if (requested && resources.some(function (r) { return r.id === requested; })) {
-        openResource(requested);
+      var requestedResource = params.get('resource');
+      if (requestedResource) {
+        filters.type = 'domain';
+      }
+      renderAll();
+
+      if (requestedResource) {
+        openItem('domain', requestedResource);
       }
     });
   }
