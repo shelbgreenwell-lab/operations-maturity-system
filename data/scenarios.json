@@ -1,4 +1,81 @@
 {
-  "description": "Contains interactive Scenario Lab cases designed to develop operational judgment, systems thinking, and root-cause diagnosis.",
-  "scenarios": []
+  "description": "Contains interactive Scenario Lab cases designed to develop operational judgment, systems thinking, and root-cause diagnosis. The place where failure appears is often not the place where failure begins.",
+  "scenarios": [
+    {
+      "id": "performance-decline-training",
+      "title": "Performance has declined 18% over the last three months.",
+      "context": "Several managers believe employees need additional training.",
+      "start": "s1",
+      "nodes": {
+        "s1": {
+          "prompt": "What would you investigate first?",
+          "choices": [
+            { "text": "Review individual performance and training records.", "next": "s2-training" },
+            { "text": "Review how the process is actually being executed across teams.", "next": "s2-process" },
+            { "text": "Review recent management directives and priorities.", "next": "s2-mgmt" }
+          ]
+        },
+        "s2-training": {
+          "clue": "Training records show most employees are fully trained and were previously performing well above today's levels. A skills gap doesn't explain a sudden 18% decline.",
+          "prompt": "Training isn't explaining the decline. What now?",
+          "choices": [
+            { "text": "Recommend refresher training anyway, just to be safe.", "next": "s3-training-dead-end" },
+            { "text": "Look at whether the underlying process changed recently.", "next": "s2-process" }
+          ]
+        },
+        "s2-mgmt": {
+          "clue": "Several managers have been sending their teams slightly different guidance on how to prioritize and execute the same process, without coordinating with each other.",
+          "prompt": "What does this suggest?",
+          "choices": [
+            { "text": "The managers are undermining an otherwise good process.", "next": "s3-reveal-setup" },
+            { "text": "There's no mechanism ensuring managers give consistent direction.", "next": "s3-reveal-setup" }
+          ]
+        },
+        "s2-process": {
+          "clue": "Process execution varies significantly by team. Some teams are following steps that don't match the documented standard at all.",
+          "prompt": "Why might teams be deviating from the standard process?",
+          "choices": [
+            { "text": "Ask team leads directly what instructions they've been giving.", "next": "s3-reveal-setup" },
+            { "text": "Assume it's a discipline problem and issue a compliance reminder.", "next": "s3-compliance-dead-end" }
+          ]
+        },
+        "s3-training-dead-end": {
+          "clue": "Refresher training completes a few weeks later. Performance doesn't recover — the team already knew how to do the work. The delay costs another sprint cycle.",
+          "prompt": "What would you investigate next?",
+          "choices": [
+            { "text": "Look at how the process is actually being executed across teams.", "next": "s2-process" }
+          ]
+        },
+        "s3-compliance-dead-end": {
+          "clue": "A compliance reminder goes out. Teams comply for about a week, then drift back to their own version. The deviation wasn't a discipline problem — it was a response to unclear direction.",
+          "prompt": "What would you investigate next?",
+          "choices": [
+            { "text": "Ask team leads directly what instructions they've been giving.", "next": "s3-reveal-setup" }
+          ]
+        },
+        "s3-reveal-setup": {
+          "clue": "Team leads confirm it: different managers have been telling their teams to prioritize and execute the same process differently — with no governance checkpoint catching the divergence before it affected performance.",
+          "prompt": "What would you recommend?",
+          "choices": [
+            { "text": "Launch additional training for the affected teams.", "next": "reveal", "flag": "chose-training-at-end" },
+            { "text": "Establish a checkpoint so manager guidance is aligned before it reaches teams.", "next": "reveal" },
+            { "text": "Keep investigating before recommending any fix.", "next": "reveal" }
+          ]
+        },
+        "reveal": {
+          "terminal": true,
+          "rootCause": "Conflicting manager instructions created process variation.",
+          "systemFailure": "Governance + Process Control",
+          "explanation": "Performance declined because different managers were independently giving their teams different guidance on how to execute the same process. No governance mechanism existed to catch that divergence before it reached the floor — so a design and control gap surfaced as an individual and team performance problem. Immediately launching training would have treated the symptom rather than the operating-system failure: the affected employees already knew how to do the work. The real fix is a governance checkpoint that keeps management direction consistent, plus a process control that catches deviation early — not a skills intervention aimed at people who were never the cause.",
+          "closing": "The place where failure appears is often not the place where failure begins.",
+          "relatedResources": [
+            { "label": "Governance", "type": "resource", "id": "governance" },
+            { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
+            { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
+            { "label": "Read: Training Fix", "type": "antipattern", "id": "training-fix" }
+          ]
+        }
+      }
+    }
+  ]
 }

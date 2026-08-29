@@ -1,4 +1,245 @@
 {
   "description": "Central knowledge library for the Operations Maturity System, containing educational resources, frameworks, implementation guidance, examples, and related operating concepts.",
-  "resources": []
+  "resources": [
+    {
+      "id": "operating-models",
+      "title": "Operating Models",
+      "layer": "design",
+      "definition": "An operating model is the explicit design of how capabilities, people, process, and technology combine to deliver an organization's strategy. It is the blueprint for how work actually gets done, not a description of who reports to whom.",
+      "whyItMatters": "Without an explicit operating model, structure gets designed around personalities and history rather than around how value is created. Strategy changes, but the operating model doesn't move with it, so execution quietly drifts away from intent.",
+      "goodLooksLike": "Leaders can describe how the organization delivers value end to end, and structural changes are justified by operating-model changes, not the reverse.",
+      "badLooksLike": "The org chart is the only artifact anyone can point to, and it explains reporting lines but not how work moves or who is accountable for outcomes.",
+      "failureModes": [
+        "Reorganizing structure without ever revisiting the underlying operating model.",
+        "Copying another company's operating model without adapting it to this business's capabilities.",
+        "Treating the operating model as a one-time design exercise instead of a living system."
+      ],
+      "operatorQuestions": [
+        "How does this organization actually deliver its core outcome, end to end?",
+        "What would have to change in our operating model for this reorg to matter?",
+        "Where does our structure no longer match how work actually flows?"
+      ],
+      "relatedConcepts": ["capability-mapping", "decision-rights", "process-architecture"]
+    },
+    {
+      "id": "capability-mapping",
+      "title": "Capability Mapping",
+      "layer": "design",
+      "definition": "Capability mapping identifies the distinct things an organization must be able to do to execute its strategy — independent of who currently does them or how they are organized.",
+      "whyItMatters": "Organizations often organize around history (who was hired first, which team formed around a crisis) rather than around the capabilities the business actually needs. A capability map exposes gaps, duplication, and misalignment that an org chart hides.",
+      "goodLooksLike": "Leadership can name the organization's critical capabilities, rate their current strength, and see clearly which team or function owns each one.",
+      "badLooksLike": "Capabilities are implicit and scattered — three teams partially own the same capability, and one important capability has no clear owner at all.",
+      "failureModes": [
+        "Confusing a capability with a department name.",
+        "Mapping capabilities once and never revisiting them as strategy shifts.",
+        "Building new capabilities without retiring the ones they replace."
+      ],
+      "operatorQuestions": [
+        "What must we be able to do well that we cannot outsource or ignore?",
+        "Which capability is most critical to our strategy and least mature today?",
+        "Where do two teams both believe they own the same capability?"
+      ],
+      "relatedConcepts": ["operating-models", "decision-rights"]
+    },
+    {
+      "id": "process-ownership",
+      "title": "Process Ownership",
+      "layer": "execution",
+      "definition": "Process ownership is the assignment of clear, singular accountability for a process's design, performance, and improvement — distinct from simply performing the steps in it.",
+      "whyItMatters": "A process without a named owner degrades silently. Nobody notices it drifting because no one is accountable for whether it still works, only for doing their piece of it.",
+      "goodLooksLike": "Every critical process has one accountable owner who can explain how it performs, where it breaks, and what's being done about it.",
+      "badLooksLike": "The process 'belongs to everyone,' which in practice means it belongs to whoever is fixing it this week.",
+      "failureModes": [
+        "Naming an owner on paper who has no actual authority to change the process.",
+        "Confusing 'the person who does the work most' with 'the person accountable for the process.'",
+        "Losing ownership continuity when the owner leaves, with no succession plan."
+      ],
+      "operatorQuestions": [
+        "If this process breaks tomorrow, whose job is it to know and to fix it?",
+        "Does the owner have the authority to actually change how this process works?",
+        "What happens to this process when its owner is unavailable?"
+      ],
+      "relatedConcepts": ["process-architecture", "decision-rights", "governance"]
+    },
+    {
+      "id": "process-architecture",
+      "title": "Process Architecture",
+      "layer": "execution",
+      "definition": "Process architecture is the deliberate design of how work flows through an organization — the sequence of steps, handoffs, decisions, and controls required to reliably produce an outcome.",
+      "whyItMatters": "Processes that grow organically accumulate exceptions, workarounds, and redundant approvals. Deliberate process architecture keeps execution understandable, teachable, and improvable instead of tribal knowledge.",
+      "goodLooksLike": "Processes are documented as a coherent system of steps and handoffs, with clear inputs, outputs, and decision points that a new hire could follow.",
+      "badLooksLike": "The process only exists in the heads of the people who run it, and it is reconstructed slightly differently by whoever explains it.",
+      "failureModes": [
+        "Documenting a process once, then letting reality diverge from the document indefinitely.",
+        "Designing a process for the happy path only, with no plan for exceptions.",
+        "Adding steps to a process without ever removing steps that no longer add value."
+      ],
+      "operatorQuestions": [
+        "Could someone new follow this process correctly using only what's documented?",
+        "Where does this process rely on a workaround nobody has formalized?",
+        "What step in this process exists only because of a problem that no longer occurs?"
+      ],
+      "relatedConcepts": ["process-ownership", "governance"]
+    },
+    {
+      "id": "decision-rights",
+      "title": "Decision Rights",
+      "layer": "design",
+      "definition": "Decision rights define who has the authority to make a given decision, who must be consulted, and who is simply informed — independent of hierarchy or job title.",
+      "whyItMatters": "When decision rights are unclear, every decision either escalates or stalls. Clear decision rights are what let an organization move quickly without every choice requiring a meeting.",
+      "goodLooksLike": "People can name who owns a given decision before the decision is needed, and most decisions are made at the level closest to the information.",
+      "badLooksLike": "Every meaningful decision escalates upward by default because nobody is confident they're allowed to make it.",
+      "failureModes": [
+        "Writing a RACI once and never testing whether people actually behave according to it.",
+        "Granting decision authority without the information or context needed to use it well.",
+        "Leaving decision rights ambiguous on purpose to avoid conflict."
+      ],
+      "operatorQuestions": [
+        "If everything requires escalation, do we actually have decision rights?",
+        "Who is accountable for this decision if it turns out to be wrong?",
+        "Where does authority and information about a decision live in two different places?"
+      ],
+      "relatedConcepts": ["operating-models", "governance", "capability-mapping"]
+    },
+    {
+      "id": "operating-rhythms",
+      "title": "Operating Rhythms",
+      "layer": "management",
+      "definition": "Operating rhythms are the recurring cadences — meetings, reviews, planning cycles — through which an organization makes and tracks decisions over time.",
+      "whyItMatters": "A meeting is not an operating rhythm. An operating rhythm exists to surface information, make a decision, and track it to completion. Without that discipline, recurring meetings become status theater.",
+      "goodLooksLike": "Each rhythm has a clear purpose, a decision it exists to make, and a visible trail of what was decided and what happened as a result.",
+      "badLooksLike": "The same meeting happens every week, attendance is mandatory, and nobody could say what decision it produced last month.",
+      "failureModes": [
+        "Adding a new recurring meeting to fix a problem instead of fixing the process or decision right.",
+        "Running a rhythm with no owner, no agenda discipline, and no follow-through tracking.",
+        "Letting information-sharing meetings substitute for actual decision-making forums."
+      ],
+      "operatorQuestions": [
+        "What would fail if this meeting disappeared?",
+        "What decision does this rhythm exist to make?",
+        "Where did the last three decisions from this meeting actually go?"
+      ],
+      "relatedConcepts": ["governance", "decision-rights", "capacity-management"]
+    },
+    {
+      "id": "governance",
+      "title": "Governance",
+      "layer": "management",
+      "definition": "Governance is the set of mechanisms that keep standards, decisions, and controls functioning over time — the difference between defining something once and it staying true.",
+      "whyItMatters": "Standardization without governance decays. Documentation captures a moment in time; governance is what keeps that moment relevant as the business changes around it.",
+      "goodLooksLike": "There are clear review cadences, ownership, and escalation paths for every standard and control that matters, and gaps get caught before they become incidents.",
+      "badLooksLike": "Standards exist because someone wrote them down once, years ago, and nobody has been assigned to keep them current.",
+      "failureModes": [
+        "Treating a policy document as equivalent to an active governance mechanism.",
+        "Creating overlapping governance bodies with no clarity on which one has final say.",
+        "Governance that only activates after something has already gone wrong."
+      ],
+      "operatorQuestions": [
+        "Who is responsible for noticing when this standard stops being followed?",
+        "What review cadence keeps this control from quietly decaying?",
+        "Where do we have governance on paper but no one actually exercising it?"
+      ],
+      "relatedConcepts": ["operating-rhythms", "decision-rights", "process-ownership"]
+    },
+    {
+      "id": "kpi-architecture",
+      "title": "KPI Architecture",
+      "layer": "intelligence",
+      "definition": "KPI architecture is the deliberate design of which metrics an organization tracks, how they relate to each other, and — critically — which decisions each metric is meant to inform.",
+      "whyItMatters": "Metrics without decisions are reporting, not management. A well-designed KPI architecture connects leading and lagging indicators to specific actions, so measurement drives behavior instead of just describing it.",
+      "goodLooksLike": "Every core metric has a named owner, a defined decision it informs, and a visible trigger for what happens when it moves in the wrong direction.",
+      "badLooksLike": "Dashboards proliferate, metrics multiply, and nobody can say which number actually changes what anyone does.",
+      "failureModes": [
+        "Adding new metrics to a dashboard without retiring metrics that no longer inform decisions.",
+        "Measuring only lagging outcomes, so problems are visible only after they've already happened.",
+        "Letting different teams define the 'same' metric differently."
+      ],
+      "operatorQuestions": [
+        "What decision does this metric enable?",
+        "What metric would detect this kind of deterioration early, before it reaches the customer?",
+        "If this number moved 10% tomorrow, would anyone actually do anything differently?"
+      ],
+      "relatedConcepts": ["operational-health", "root-cause-analysis"]
+    },
+    {
+      "id": "capacity-management",
+      "title": "Capacity Management",
+      "layer": "management",
+      "definition": "Capacity management is the ongoing practice of understanding demand, available capacity, and the buffer between them — so that commitments made are commitments the organization can actually keep.",
+      "whyItMatters": "High utilization can look efficient while making the operating system fragile. Without visible capacity management, teams say yes to everything until something breaks, and nobody sees it coming.",
+      "goodLooksLike": "Demand and capacity are both visible, prioritization decisions are made against real constraints, and teams can say no with evidence rather than guesswork.",
+      "badLooksLike": "Capacity is invisible until a deadline is missed, and the response is always to ask people to work harder rather than to rebalance the work.",
+      "failureModes": [
+        "Treating 100% utilization as a target instead of a fragility warning sign.",
+        "Adding new commitments without ever removing or resequencing existing ones.",
+        "Measuring headcount instead of effective capacity, ignoring variability and non-project work."
+      ],
+      "operatorQuestions": [
+        "What happens to this team's output when volume doubles?",
+        "Where are humans compensating for capacity we haven't planned for?",
+        "What would we have to stop doing to take on this new commitment?"
+      ],
+      "relatedConcepts": ["operating-rhythms", "governance"]
+    },
+    {
+      "id": "root-cause-analysis",
+      "title": "Root Cause Analysis",
+      "layer": "evolution",
+      "definition": "Root cause analysis is the disciplined practice of tracing a symptom back to the system condition that produced it, rather than stopping at the first plausible explanation.",
+      "whyItMatters": "The place where failure appears is often not the place where failure begins. Without root cause discipline, organizations repeatedly treat symptoms — training, tooling, headcount — while the underlying system condition keeps producing new symptoms.",
+      "goodLooksLike": "Investigations continue past the first obvious answer, gather evidence before concluding, and produce fixes aimed at the system, not just the incident.",
+      "badLooksLike": "Every investigation ends at 'someone made a mistake,' and the corrective action is a reminder email or a new mandatory training.",
+      "failureModes": [
+        "Stopping analysis at the first cause that is politically convenient.",
+        "Confusing the first person to notice the failure with the origin of the failure.",
+        "Prescribing a solution before validating the diagnosis with evidence."
+      ],
+      "operatorQuestions": [
+        "What evidence supports that diagnosis?",
+        "What evidence would prove us wrong?",
+        "If we fix only this symptom, what system condition remains untouched?"
+      ],
+      "relatedConcepts": ["continuous-improvement", "kpi-architecture"]
+    },
+    {
+      "id": "continuous-improvement",
+      "title": "Continuous Improvement",
+      "layer": "evolution",
+      "definition": "Continuous improvement is the deliberate, ongoing practice of measuring a baseline, testing changes against it, and standardizing what works — as opposed to sporadic, opinion-driven fixes.",
+      "whyItMatters": "Improvement without a baseline is opinion. Without a consistent improvement discipline, organizations lurch between neglect and overcorrection, and gains from past improvements erode unnoticed.",
+      "goodLooksLike": "Improvement work starts from a measured baseline, tests changes deliberately, and locks in gains through updated standards and governance.",
+      "badLooksLike": "Improvement happens in bursts after something breaks badly enough to get leadership's attention, then fades until the next crisis.",
+      "failureModes": [
+        "Declaring victory on an improvement with no baseline to compare against.",
+        "Running improvement initiatives that never get standardized into the actual process.",
+        "Treating improvement as a project with an end date instead of an ongoing capability."
+      ],
+      "operatorQuestions": [
+        "What was the baseline before we called this an improvement?",
+        "How will we know if this change actually worked, three months from now?",
+        "What prevents this improvement from quietly eroding after the project ends?"
+      ],
+      "relatedConcepts": ["root-cause-analysis", "operational-health"]
+    },
+    {
+      "id": "operational-health",
+      "title": "Operational Health",
+      "layer": "intelligence",
+      "definition": "Operational health is a composite view of how well the operating system is functioning right now — combining quality, capacity, risk, and performance signals rather than relying on any single metric.",
+      "whyItMatters": "A single green metric can mask a red system. Operational health views force leaders to look across signals together, catching the kind of deterioration that no individual dashboard would surface on its own.",
+      "goodLooksLike": "Leaders have a regularly reviewed, composite view of operational health that combines leading and lagging signals across functions.",
+      "badLooksLike": "Health is inferred anecdotally — 'things feel fine' — until a customer-facing incident proves otherwise.",
+      "failureModes": [
+        "Building a health score from lagging indicators only, so it always confirms problems too late.",
+        "Letting operational health reporting become disconnected from the metrics that actually drive it.",
+        "Reviewing operational health only during a crisis instead of on a standing cadence."
+      ],
+      "operatorQuestions": [
+        "What would an early warning of deterioration actually look like here?",
+        "Where are we compensating for a health issue with heroics instead of fixing it?",
+        "If this system were quietly degrading, how would we know before a customer told us?"
+      ],
+      "relatedConcepts": ["kpi-architecture", "continuous-improvement"]
+    }
+  ]
 }

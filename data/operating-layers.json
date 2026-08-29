@@ -1,4 +1,226 @@
 {
   "description": "Defines the six core layers of the Operations Maturity System and the operational domains contained within each layer.",
-  "layers": []
+  "layers": [
+    {
+      "id": "direction",
+      "number": "01",
+      "name": "Direction",
+      "question": "Where are we going?",
+      "purpose": "Translate strategic intent into clear operational direction.",
+      "topics": [
+        "Strategy",
+        "Business outcomes",
+        "Customer promise",
+        "Objectives",
+        "Priorities",
+        "Constraints",
+        "Risk appetite"
+      ],
+      "weakSignals": [
+        "Strategy exists as a slide deck, not as operating decisions.",
+        "Teams cannot explain how their work connects to a business outcome.",
+        "Priorities shift constantly with no visible tradeoff logic.",
+        "Different leaders describe the strategy differently."
+      ],
+      "strongSignals": [
+        "Every team can trace its work back to a specific outcome.",
+        "Tradeoffs and constraints are explicit, not implied.",
+        "Priorities are stable enough to plan against, and change is communicated deliberately.",
+        "Risk appetite is stated, not discovered after something breaks."
+      ],
+      "dependsOn": ["evolution"],
+      "enables": ["design"],
+      "relatedResources": [
+        { "label": "Operating Models", "type": "resource", "id": "operating-models" },
+        { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" }
+      ]
+    },
+    {
+      "id": "design",
+      "number": "02",
+      "name": "Design",
+      "question": "How should the organization work?",
+      "purpose": "Design the organizational architecture required to execute strategy.",
+      "topics": [
+        "Operating model",
+        "Capabilities",
+        "Organization structure",
+        "Roles",
+        "Accountabilities",
+        "Decision rights",
+        "Cross-functional interfaces",
+        "Service models"
+      ],
+      "weakSignals": [
+        "The org chart describes reporting lines, not how work actually gets done.",
+        "Two teams both believe they own the same decision, or neither does.",
+        "Cross-functional work depends on personal relationships rather than defined interfaces.",
+        "Roles are titles, not accountabilities."
+      ],
+      "strongSignals": [
+        "The operating model explains how capabilities combine to deliver outcomes.",
+        "Decision rights are explicit: who decides, who is consulted, who is informed.",
+        "Handoffs between functions are designed, not improvised.",
+        "Structure changes when the operating model changes, not the other way around."
+      ],
+      "dependsOn": ["direction"],
+      "enables": ["execution"],
+      "relatedResources": [
+        { "label": "Operating Models", "type": "resource", "id": "operating-models" },
+        { "label": "Capability Mapping", "type": "resource", "id": "capability-mapping" },
+        { "label": "Decision Rights", "type": "resource", "id": "decision-rights" }
+      ]
+    },
+    {
+      "id": "execution",
+      "number": "03",
+      "name": "Execution",
+      "question": "How does work actually happen?",
+      "purpose": "Create repeatable systems through which work produces value.",
+      "topics": [
+        "Processes",
+        "Workflows",
+        "SOPs",
+        "Handoffs",
+        "Standards",
+        "SLAs",
+        "Controls",
+        "Escalations",
+        "Technology",
+        "Automation"
+      ],
+      "weakSignals": [
+        "Execution quality depends on who happens to be doing the work.",
+        "SOPs exist but nobody follows them, or nobody remembers they exist.",
+        "Handoffs lose information, context, or accountability.",
+        "Escalation is the default way problems get resolved."
+      ],
+      "strongSignals": [
+        "Processes are documented, owned, and consistently followed.",
+        "Standards and controls catch problems before they reach the customer.",
+        "Automation removes manual toil from stable, well-understood processes.",
+        "Handoffs are explicit, with clear inputs, outputs, and owners."
+      ],
+      "dependsOn": ["design"],
+      "enables": ["management"],
+      "relatedResources": [
+        { "label": "Process Ownership", "type": "resource", "id": "process-ownership" },
+        { "label": "Process Architecture", "type": "resource", "id": "process-architecture" }
+      ]
+    },
+    {
+      "id": "management",
+      "number": "04",
+      "name": "Management",
+      "question": "How do we run the system every day?",
+      "purpose": "Create the mechanisms that actively manage execution.",
+      "highlight": "Processes don’t run organizations. Management systems run processes.",
+      "topics": [
+        "Operating rhythms",
+        "Performance reviews",
+        "Capacity management",
+        "Resource planning",
+        "Prioritization",
+        "Issue management",
+        "Risk management",
+        "Change management",
+        "Communication systems"
+      ],
+      "weakSignals": [
+        "Meetings happen on schedule but no decisions come out of them.",
+        "Capacity is invisible until something is already late.",
+        "Issues are managed reactively, one fire at a time.",
+        "Change lands on teams with no plan for absorbing it."
+      ],
+      "strongSignals": [
+        "Operating rhythms exist to make and track decisions, not just to meet.",
+        "Capacity and demand are visible and actively balanced.",
+        "Risks and issues are tracked to resolution, not just discussed.",
+        "Change is sequenced against the team's actual capacity to absorb it."
+      ],
+      "dependsOn": ["execution"],
+      "enables": ["intelligence"],
+      "relatedResources": [
+        { "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" },
+        { "label": "Governance", "type": "resource", "id": "governance" },
+        { "label": "Capacity Management", "type": "resource", "id": "capacity-management" }
+      ]
+    },
+    {
+      "id": "intelligence",
+      "number": "05",
+      "name": "Intelligence",
+      "question": "How do we know what's happening?",
+      "purpose": "Turn operational activity into reliable information and decisions.",
+      "topics": [
+        "KPIs",
+        "Leading indicators",
+        "Lagging indicators",
+        "Quality",
+        "Dashboards",
+        "Operational health",
+        "Forecasting",
+        "Customer signals",
+        "Employee signals",
+        "Financial signals",
+        "Data quality"
+      ],
+      "weakSignals": [
+        "Dashboards exist but nobody changes a decision based on them.",
+        "Metrics are lagging only, so problems are visible after they've already hurt customers.",
+        "Different teams report different numbers for the same thing.",
+        "Data quality issues are common knowledge but never fixed."
+      ],
+      "strongSignals": [
+        "Every core metric connects to a decision someone actually makes.",
+        "Leading indicators surface problems before they become customer-facing.",
+        "Metrics are trusted enough that people argue about the response, not the number.",
+        "Operational health is monitored continuously, not reconstructed after a failure."
+      ],
+      "dependsOn": ["management"],
+      "enables": ["evolution"],
+      "relatedResources": [
+        { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" },
+        { "label": "Operational Health", "type": "resource", "id": "operational-health" }
+      ]
+    },
+    {
+      "id": "evolution",
+      "number": "06",
+      "name": "Evolution",
+      "question": "How does the organization become better?",
+      "purpose": "Create an operating system capable of learning and adapting.",
+      "topics": [
+        "Root cause analysis",
+        "Continuous improvement",
+        "Experimentation",
+        "Innovation",
+        "Process optimization",
+        "Automation",
+        "AI",
+        "Knowledge management",
+        "Scaling",
+        "Organizational learning"
+      ],
+      "weakSignals": [
+        "The same problems recur because only symptoms get treated.",
+        "Improvement happens in bursts, driven by whoever is frustrated this quarter.",
+        "Lessons learned are not captured, so mistakes repeat across teams.",
+        "New tools and automation get layered onto broken processes."
+      ],
+      "strongSignals": [
+        "Root cause analysis is routine, not reserved for major incidents.",
+        "Improvement is continuous, measured against an established baseline.",
+        "Knowledge is captured and reused, not trapped in individual heads.",
+        "The organization treats its operating system as something it deliberately evolves."
+      ],
+      "dependsOn": ["intelligence"],
+      "enables": ["direction"],
+      "loopsBackTo": "direction",
+      "relatedResources": [
+        { "label": "Root Cause Analysis", "type": "resource", "id": "root-cause-analysis" },
+        { "label": "Continuous Improvement", "type": "resource", "id": "continuous-improvement" }
+      ]
+    }
+  ]
 }

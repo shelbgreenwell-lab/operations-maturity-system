@@ -1,20 +1,86 @@
-<!--
-  Operations Maturity System
-  Operations Maturity Assessment
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  Purpose:
-  Provides the interactive assessment experience used to
-  evaluate operational maturity across the six operating layers.
+  <title>Assess — Operations Maturity System</title>
+  <meta name="description" content="An 18-question behavioral assessment of your organization's operating maturity across all six operating layers.">
 
-  This page will eventually include:
-  - behavioral assessment questions
-  - assessment progress
-  - maturity scoring
-  - scores by operating layer
-  - strengths and maturity gaps
-  - primary constraint identification
-  - recommended next actions
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
 
-  Assessment content belongs in /data.
-  Assessment logic belongs in /js/assessment.js.
--->
+<body data-page="assess" data-base="../">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="site-nav"></div>
+
+  <main id="main">
+
+    <header class="page-header">
+      <div class="container">
+        <span class="eyebrow">Assess</span>
+        <h1>Operations Maturity Assessment</h1>
+        <p class="lede">
+          18 behavioral questions across the six operating layers. Answer based on
+          what actually happens, not what's supposed to happen.
+        </p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container container--narrow">
+
+        <div id="assessment-intro">
+          <p class="callout--stark" id="assessment-existing-note" hidden style="display:block;margin-bottom:var(--space-6)">
+            You have a previous result saved. Retaking will replace it.
+          </p>
+          <div class="callout" style="margin-bottom: var(--space-6);">
+            Artifacts are evidence. Behavior is maturity. Each question asks what
+            actually happens in a specific situation &mdash; not whether a document
+            describing it exists.
+          </div>
+          <p class="lede" style="margin-bottom: var(--space-6);">
+            Takes about 5 minutes. Your results are calculated instantly and saved
+            only in your browser, so the Command Center can use them.
+          </p>
+          <button type="button" class="btn btn--primary" id="assessment-start">Begin the Assessment</button>
+        </div>
+
+        <div id="assessment-flow" hidden>
+          <div class="assessment-progress">
+            <div class="assessment-progress__bar">
+              <div class="assessment-progress__fill" id="assessment-progress-fill"></div>
+            </div>
+            <span class="assessment-progress__label" id="assessment-progress-label"></span>
+          </div>
+          <div id="question-mount"></div>
+          <div class="question-nav">
+            <button type="button" class="btn btn--ghost" id="question-prev">&larr; Previous</button>
+          </div>
+        </div>
+
+        <div id="assessment-results" hidden></div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/assessment.js"></script>
+  <script src="../js/diagnostics.js"></script>
+  <script src="../js/scenarios.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/explore.js"></script>
+  <script src="../js/learn.js"></script>
+  <script src="../js/anti-patterns.js"></script>
+  <script src="../js/app.js"></script>
+
+</body>
+</html>

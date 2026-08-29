@@ -1,25 +1,89 @@
-<!--
-  Operations Maturity System
-  My Operations Profile
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  Purpose:
-  Provides a personalized view of the user's progress,
-  findings, and activity across the Operations Maturity System.
+  <title>My Operations Profile — Operations Maturity System</title>
+  <meta name="description" content="A personalized view of your progress, findings, and activity across the Operations Maturity System.">
 
-  This page will eventually include:
-  - current maturity score
-  - maturity by operating layer
-  - operational health
-  - assessment history
-  - current roadmap
-  - completed learning resources
-  - saved resources
-  - builders used
-  - scenario progress
-  - improvement activity
-  - maturity progression over time
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
 
-  This page should connect to the Operator Workbench while
-  remaining focused on the user's overall development and
-  operating-system profile.
--->
+<body data-page="profile" data-base="../">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="site-nav"></div>
+
+  <main id="main">
+
+    <header class="page-header">
+      <div class="container">
+        <span class="eyebrow">Profile</span>
+        <h1>My Operations Profile</h1>
+        <p class="lede">
+          A personalized view of your progress, findings, and activity across the
+          system &mdash; current maturity, learning history, and everything you've
+          built so far.
+        </p>
+        <div class="foundational-notice">
+          <span class="badge">Coming Into The System</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container container--narrow">
+        <div class="framework-preview">
+          <h3 style="margin-bottom: var(--space-4);">What your profile will bring together</h3>
+          <div class="tag-list">
+            <span class="pill">Current maturity score</span>
+            <span class="pill">Maturity by operating layer</span>
+            <span class="pill">Operational health</span>
+            <span class="pill">Assessment history</span>
+            <span class="pill">Current roadmap</span>
+            <span class="pill">Completed learning resources</span>
+            <span class="pill">Saved resources</span>
+            <span class="pill">Builders used</span>
+            <span class="pill">Scenario progress</span>
+            <span class="pill">Improvement activity</span>
+            <span class="pill">Maturity progression over time</span>
+          </div>
+        </div>
+
+        <p class="callout" style="margin-top: var(--space-6);">
+          Your profile will connect to the Operator Workbench while staying
+          focused on your overall development and operating-system maturity
+          &mdash; not just the artifacts you've created.
+        </p>
+
+        <div style="margin-top: var(--space-6);">
+          <span class="eyebrow">Available Now</span>
+          <div class="related-links" style="margin-top: var(--space-4);">
+            <a href="assess.html">Take the Assessment</a>
+            <a href="command-center.html">View Command Center</a>
+            <a href="workbench.html">Open the Workbench</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/assessment.js"></script>
+  <script src="../js/diagnostics.js"></script>
+  <script src="../js/scenarios.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/explore.js"></script>
+  <script src="../js/learn.js"></script>
+  <script src="../js/anti-patterns.js"></script>
+  <script src="../js/app.js"></script>
+
+</body>
+</html>

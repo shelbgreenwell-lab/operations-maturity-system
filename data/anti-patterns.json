@@ -1,4 +1,271 @@
 {
   "description": "Defines common operational anti-patterns, their warning signs, root causes, business impact, and recommended corrective actions.",
-  "antiPatterns": []
+  "antiPatterns": [
+    {
+      "id": "hero-organization",
+      "name": "Hero Organization",
+      "looksLike": "A small number of people are personally responsible for keeping critical things running. When they're out, things slow down or stop.",
+      "whyItHappens": "Early growth rewards the person who steps up and just makes it work. That behavior gets praised, repeated, and never replaced with a system.",
+      "whyItFeelsReasonable": "Heroics feel like commitment and capability. Leaders see the problem get solved and reward the person, not the absence of a system.",
+      "whatItBreaks": "The organization's capacity is capped by a handful of people's availability, and their departure becomes a genuine operational risk rather than a staffing inconvenience.",
+      "signals": [
+        "\"Ask Sarah, she knows how that works\" is a common sentence.",
+        "Vacation requests from key people trigger visible anxiety.",
+        "Onboarding a replacement takes months because nothing is written down."
+      ],
+      "likelySystemCause": "execution",
+      "investigate": [
+        { "label": "Process Ownership", "type": "resource", "id": "process-ownership" },
+        { "label": "Execution Layer", "type": "layer", "id": "execution" },
+        { "label": "Run the Diagnostic", "type": "page", "id": "diagnose" }
+      ]
+    },
+    {
+      "id": "meeting-operating-system",
+      "name": "Meeting Operating System",
+      "looksLike": "The calendar is full of recurring meetings that stand in for an actual management system — status updates, syncs, and check-ins with no clear decision output.",
+      "whyItHappens": "When there's no real operating rhythm, adding a meeting feels like the fastest way to create visibility and coordination.",
+      "whyItFeelsReasonable": "Meetings feel like alignment and communication is happening. Attendance is easy to measure; decision quality is not.",
+      "whatItBreaks": "Time is consumed without decisions being made or tracked, and people mistake attendance for governance.",
+      "signals": [
+        "Nobody can say what decision came out of last week's recurring meeting.",
+        "The same status gets reported in three different meetings.",
+        "Meetings get added to solve problems; they're rarely removed."
+      ],
+      "likelySystemCause": "management",
+      "investigate": [
+        { "label": "Operating Rhythms", "type": "resource", "id": "operating-rhythms" },
+        { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
+        { "label": "Run the Diagnostic", "type": "page", "id": "diagnose" }
+      ]
+    },
+    {
+      "id": "sop-graveyard",
+      "name": "SOP Graveyard",
+      "looksLike": "A large library of documented procedures that few people read, fewer follow, and nobody keeps current.",
+      "whyItHappens": "Documentation gets created in response to an audit, incident, or onboarding push, then never gets a governance mechanism to keep it accurate.",
+      "whyItFeelsReasonable": "Having documentation feels like the job is done. It's an artifact leadership can point to as evidence of maturity.",
+      "whatItBreaks": "The organization believes it has standardized processes when it actually has stale documents and undocumented real behavior running in parallel.",
+      "signals": [
+        "SOPs contradict how the work is actually performed.",
+        "Nobody has updated key procedures in over a year.",
+        "New hires are told to \"ignore that doc, just ask around.\""
+      ],
+      "likelySystemCause": "governance",
+      "investigate": [
+        { "label": "Governance", "type": "resource", "id": "governance" },
+        { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
+        { "label": "Explore the Execution Layer", "type": "layer", "id": "execution" }
+      ]
+    },
+    {
+      "id": "dashboard-theater",
+      "name": "Dashboard Theater",
+      "looksLike": "Dashboards, reports, and visualizations everywhere — but decisions are still made on gut feel or the loudest voice in the room.",
+      "whyItHappens": "Investing in visualization is visible and fundable. Connecting metrics to actual decision-making processes is harder and less visible work.",
+      "whyItFeelsReasonable": "Dashboards look like data-driven management. Building them satisfies a desire to feel in control of the numbers.",
+      "whatItBreaks": "Metrics without decisions are reporting, not management. The organization pays the cost of measurement without capturing the benefit.",
+      "signals": [
+        "The same dashboard is reviewed weekly with no resulting action.",
+        "Different teams maintain competing versions of the same metric.",
+        "A metric trending badly for months hasn't triggered any intervention."
+      ],
+      "likelySystemCause": "intelligence",
+      "investigate": [
+        { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" },
+        { "label": "Operational Health", "type": "resource", "id": "operational-health" },
+        { "label": "Explore the Intelligence Layer", "type": "layer", "id": "intelligence" }
+      ]
+    },
+    {
+      "id": "escalation-culture",
+      "name": "Escalation Culture",
+      "looksLike": "Problems routinely jump straight to senior leaders because nobody below them feels confident resolving anything independently.",
+      "whyItHappens": "Decision rights were never made explicit, so the safest move for anyone uncertain is to push the decision upward.",
+      "whyItFeelsReasonable": "Escalation feels like diligence and appropriate caution. Leaders often feel needed and important resolving it personally.",
+      "whatItBreaks": "If everything requires escalation, you don't have decision rights. Leadership becomes a bottleneck, and the organization can't move faster than its most senior people's calendars.",
+      "signals": [
+        "Senior leaders are looped into decisions well below their level.",
+        "Teams wait for permission rather than acting within a defined scope.",
+        "The same category of issue escalates repeatedly instead of getting a standing resolution."
+      ],
+      "likelySystemCause": "decision rights",
+      "investigate": [
+        { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
+        { "label": "Explore the Design Layer", "type": "layer", "id": "design" },
+        { "label": "Run the Diagnostic", "type": "page", "id": "diagnose" }
+      ]
+    },
+    {
+      "id": "training-fix",
+      "name": "Training Fix",
+      "looksLike": "Performance problems are addressed by sending people to training, regardless of whether a skills gap is actually the cause.",
+      "whyItHappens": "Training is fast to approve, doesn't require confronting process or management issues, and puts the responsibility for improvement on individuals.",
+      "whyItFeelsReasonable": "It feels proactive and developmental. Nobody has to admit the process, tooling, or management system might be the actual problem.",
+      "whatItBreaks": "The underlying system condition remains untouched, so the same performance issue resurfaces with the next person or the next quarter.",
+      "signals": [
+        "Training is proposed before anyone investigates root cause.",
+        "The same training gets repeated for successive cohorts with no lasting effect.",
+        "Skilled, well-trained people still can't execute consistently."
+      ],
+      "likelySystemCause": "governance",
+      "investigate": [
+        { "label": "Root Cause Analysis", "type": "resource", "id": "root-cause-analysis" },
+        { "label": "Run the Diagnostic", "type": "page", "id": "diagnose" },
+        { "label": "Try the Scenario Lab", "type": "page", "id": "scenario-lab" }
+      ]
+    },
+    {
+      "id": "tooling-fix",
+      "name": "Tooling Fix",
+      "looksLike": "A new software tool is purchased to solve a problem that is actually about process, ownership, or governance.",
+      "whyItHappens": "Buying a tool feels like tangible progress and can be championed and budgeted quickly, unlike the harder work of redesigning a process.",
+      "whyItFeelsReasonable": "Vendors sell outcomes, not just software, and it's easier to believe a tool will fix a human/process problem than to redesign the system.",
+      "whatItBreaks": "Automating a bad process just makes the bad process faster. The tool adds cost and complexity without resolving the actual constraint.",
+      "signals": [
+        "A new tool is rolled out without changing the process it's meant to support.",
+        "Adoption is low because the tool doesn't match how work actually happens.",
+        "The same category of problem persists across multiple prior tool replacements."
+      ],
+      "likelySystemCause": "technology",
+      "investigate": [
+        { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
+        { "label": "Explore the Execution Layer", "type": "layer", "id": "execution" },
+        { "label": "Run the Diagnostic", "type": "page", "id": "diagnose" }
+      ]
+    },
+    {
+      "id": "everything-is-priority",
+      "name": "Everything Is Priority",
+      "looksLike": "Every initiative is labeled top priority, so teams have no real basis for sequencing or saying no.",
+      "whyItHappens": "Leaders avoid the harder conversation of making tradeoffs explicit, so they resolve conflicting demands by declaring all of them urgent.",
+      "whyItFeelsReasonable": "Calling something a priority feels like leadership and urgency. It avoids the discomfort of telling a stakeholder their request is not the priority.",
+      "whatItBreaks": "Capacity gets fragmented across too many initiatives, nothing finishes on schedule, and teams burn out trying to serve every simultaneous demand.",
+      "signals": [
+        "More than a handful of concurrent initiatives are all labeled \"P1.\"",
+        "Teams can't articulate what they'd stop doing to take on new work.",
+        "Prioritization conversations end without any actual deprioritization."
+      ],
+      "likelySystemCause": "direction",
+      "investigate": [
+        { "label": "Capacity Management", "type": "resource", "id": "capacity-management" },
+        { "label": "Explore the Direction Layer", "type": "layer", "id": "direction" },
+        { "label": "Explore the Management Layer", "type": "layer", "id": "management" }
+      ]
+    },
+    {
+      "id": "shadow-process",
+      "name": "Shadow Process",
+      "looksLike": "The documented, official process and the process people actually follow have quietly diverged.",
+      "whyItHappens": "The official process didn't account for a real exception or constraint, so people built a workaround and never fed it back into the design.",
+      "whyItFeelsReasonable": "The workaround solves an immediate problem, and updating official documentation feels like unnecessary overhead compared to just getting the work done.",
+      "whatItBreaks": "Nobody has an accurate picture of how work actually happens, which makes it impossible to reliably improve, audit, or scale the process.",
+      "signals": [
+        "Spreadsheets or side channels exist to compensate for a gap in the \"real\" process.",
+        "Auditors or new hires are surprised by how work actually gets done.",
+        "Two teams performing the \"same\" process do it in incompatible ways."
+      ],
+      "likelySystemCause": "process",
+      "investigate": [
+        { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
+        { "label": "Process Ownership", "type": "resource", "id": "process-ownership" },
+        { "label": "Run the Diagnostic", "type": "page", "id": "diagnose" }
+      ]
+    },
+    {
+      "id": "leader-bottleneck",
+      "name": "Leader Bottleneck",
+      "looksLike": "Progress across multiple teams depends on the availability and personal attention of a single leader.",
+      "whyItHappens": "The leader has historically been the fastest, most trusted decision-maker, so decision rights informally concentrated around them instead of being distributed.",
+      "whyItFeelsReasonable": "It feels efficient in the moment — the leader genuinely does make good, fast decisions. The cost only shows up as the organization grows past what one person can attend to.",
+      "whatItBreaks": "Scale exposes ambiguity: what worked when the leader could personally touch every decision breaks down as volume and team count grow, and the leader becomes the constraint on organizational throughput.",
+      "signals": [
+        "Multiple teams are blocked waiting on the same person's sign-off.",
+        "That leader's calendar is the actual bottleneck on delivery timelines.",
+        "Decisions reverse or stall whenever that leader is unavailable."
+      ],
+      "likelySystemCause": "decision rights",
+      "investigate": [
+        { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
+        { "label": "Operating Models", "type": "resource", "id": "operating-models" },
+        { "label": "Explore the Design Layer", "type": "layer", "id": "design" }
+      ]
+    },
+    {
+      "id": "kpi-explosion",
+      "name": "KPI Explosion",
+      "looksLike": "Dozens of metrics are tracked across teams with no clear hierarchy, ownership, or connection to decisions.",
+      "whyItHappens": "Every team adds metrics that matter to them locally, and nobody is responsible for pruning or organizing the resulting sprawl.",
+      "whyItFeelsReasonable": "More measurement feels like more rigor. It's easier to add a metric than to argue one should be removed.",
+      "whatItBreaks": "Attention gets diluted across too many numbers, genuinely important signals get lost in the noise, and reporting overhead grows without improving decisions.",
+      "signals": [
+        "No one can name the organization's five most important metrics without checking a document.",
+        "Metrics get added regularly; almost none are ever retired.",
+        "Different reports show conflicting numbers for what should be the same metric."
+      ],
+      "likelySystemCause": "measurement",
+      "investigate": [
+        { "label": "KPI Architecture", "type": "resource", "id": "kpi-architecture" },
+        { "label": "Operational Health", "type": "resource", "id": "operational-health" },
+        { "label": "Explore the Intelligence Layer", "type": "layer", "id": "intelligence" }
+      ]
+    },
+    {
+      "id": "raci-illusion",
+      "name": "RACI Illusion",
+      "looksLike": "A completed RACI chart exists for key processes, but people still don't behave as though decision authority is actually clear.",
+      "whyItHappens": "Building the RACI was treated as the deliverable itself, rather than the starting point for reinforcing and governing the behavior it describes.",
+      "whyItFeelsReasonable": "Having a RACI chart is tangible proof of clarity. It's easy to mistake the document for the outcome it's supposed to produce.",
+      "whatItBreaks": "Having a RACI does not mean decision authority is clear. Decisions keep escalating or stalling exactly as before, and now there's a document that says they shouldn't.",
+      "signals": [
+        "People can't recall what the RACI says about a decision they're actively stuck on.",
+        "The RACI was built once during a project and never revisited.",
+        "Behavior during real decisions doesn't match the documented chart."
+      ],
+      "likelySystemCause": "decision rights",
+      "investigate": [
+        { "label": "Decision Rights", "type": "resource", "id": "decision-rights" },
+        { "label": "Governance", "type": "resource", "id": "governance" },
+        { "label": "Explore the Design Layer", "type": "layer", "id": "design" }
+      ]
+    },
+    {
+      "id": "automation-trap",
+      "name": "Automation Trap",
+      "looksLike": "A poorly performing or inconsistent process gets automated in an effort to improve it.",
+      "whyItHappens": "Automation is seen as inherently an improvement, so it gets applied to whatever process is causing the most visible pain, without first fixing the process design.",
+      "whyItFeelsReasonable": "Automation projects are exciting, fundable, and modern. It feels like progress compared to the slower work of redesigning a process.",
+      "whatItBreaks": "Automating a bad process just makes the bad process faster. Inconsistency and errors that used to be caught by a human now happen at machine speed and scale.",
+      "signals": [
+        "Automation was scoped before the underlying process was standardized.",
+        "The automated process still produces the same category of errors, just faster.",
+        "Nobody can explain the rules the automation is actually enforcing."
+      ],
+      "likelySystemCause": "process",
+      "investigate": [
+        { "label": "Process Architecture", "type": "resource", "id": "process-architecture" },
+        { "label": "Continuous Improvement", "type": "resource", "id": "continuous-improvement" },
+        { "label": "Explore the Execution Layer", "type": "layer", "id": "execution" }
+      ]
+    },
+    {
+      "id": "local-optimum",
+      "name": "Local Optimum",
+      "looksLike": "A team or function optimizes its own metrics or workflow in a way that creates friction or cost somewhere else in the organization.",
+      "whyItHappens": "Teams are measured and rewarded on locally visible outcomes, with no mechanism connecting their optimization to the end-to-end value stream.",
+      "whyItFeelsReasonable": "The team is genuinely improving the number they're accountable for, and that number looks like real progress from inside the function.",
+      "whatItBreaks": "Organizations are structured vertically, but value usually moves horizontally — a local win can quietly create a larger loss somewhere downstream.",
+      "signals": [
+        "One team's efficiency gain creates rework or delay for another team.",
+        "Cross-functional handoffs are the site of recurring friction that no single team owns.",
+        "Metrics are set and reviewed entirely within functional silos."
+      ],
+      "likelySystemCause": "operating model",
+      "investigate": [
+        { "label": "Operating Models", "type": "resource", "id": "operating-models" },
+        { "label": "Capability Mapping", "type": "resource", "id": "capability-mapping" },
+        { "label": "Explore the Design Layer", "type": "layer", "id": "design" }
+      ]
+    }
+  ]
 }

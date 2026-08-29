@@ -1,29 +1,105 @@
-<!--
-  Operations Maturity System
-  Operations Command Center
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  Purpose:
-  Provides the central executive view of the organization's
-  operating system.
+  <title>Command Center — Operations Maturity System</title>
+  <meta name="description" content="The central operating intelligence dashboard: maturity, health, constraints, and prioritized recommendations.">
 
-  This page will eventually display:
-  - Operating System Score
-  - maturity
-  - operational health
-  - primary system constraint
-  - operating debt
-  - scale readiness
-  - resilience
-  - decision friction
-  - process drift
-  - operational risks
-  - improvement opportunities
-  - recommended priorities
-  - system alerts
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
 
-  Dashboard behavior belongs in /js/dashboard.js.
-  Supporting data should come from /data.
+<body data-page="command-center" data-base="../">
 
-  This page should connect insights across the entire platform
-  rather than functioning as an isolated dashboard.
--->
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="site-nav"></div>
+
+  <main id="main">
+
+    <header class="page-header">
+      <div class="container">
+        <span class="eyebrow">Command Center</span>
+        <h1>Your operating system, at a glance.</h1>
+        <p class="lede">
+          A single view of maturity, health, and constraint &mdash; built from your
+          assessment results.
+        </p>
+        <div class="page-header__meta">
+          <span class="demo-notice" id="command-center-demo-notice" hidden>Demonstration Data</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Operating System Overview</span>
+        </div>
+        <div id="metric-grid-mount" class="metric-grid"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Your Operating System</span>
+          <h2>Maturity by layer</h2>
+        </div>
+        <div class="card">
+          <div id="command-layer-bars" class="layer-bars"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Constraint</span>
+        </div>
+        <div id="command-constraint-mount" class="constraint-panel"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">What Should I Fix First?</span>
+          <h2>Prioritized recommendation</h2>
+        </div>
+        <div id="priority-mount" class="priority-list"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container container--narrow" style="text-align: center;">
+        <p class="lede" style="margin: 0 auto;">
+          Haven't taken the assessment yet? Your Command Center will use real
+          data the moment you do.
+        </p>
+        <div class="hero__actions" style="justify-content: center; margin-top: var(--space-5);">
+          <a class="btn btn--primary" href="assess.html">Take the Assessment</a>
+          <a class="btn btn--secondary" href="workbench.html">Open the Workbench</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/assessment.js"></script>
+  <script src="../js/diagnostics.js"></script>
+  <script src="../js/scenarios.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/explore.js"></script>
+  <script src="../js/learn.js"></script>
+  <script src="../js/anti-patterns.js"></script>
+  <script src="../js/app.js"></script>
+
+</body>
+</html>
