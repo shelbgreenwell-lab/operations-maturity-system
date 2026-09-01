@@ -16,6 +16,7 @@
   var VS = null;  // OMSValueStream (import integration)
   var Cap = null; // OMSCapacity (import integration)
   var BP = null;  // OMSBlueprint (link picker)
+  var Rhy = null; // OMSRhythm (reviewed-in lookup)
   var els = {};
   var project = null;
   var viewerState = { tab: 'overview', openDimIndex: 0, exceptionOnly: false };
@@ -297,6 +298,23 @@
      Dimensions — full detail, threshold challenge, trend entry
      ---------------------------------------------------------- */
 
+  function reviewedInHtml(dim) {
+    if (!Rhy) return '';
+    var rhythms = Rhy.store.list().filter(function (r) { return (r.data.signals || []).some(function (s) { return s.relatedHealthDimensionId === dim.id; }); });
+    if (!rhythms.length) {
+      return '<div class="callout" style="margin-top:var(--space-4)">This dimension is not reviewed in any Operating Rhythm yet. <a href="' + operatingRhythmHref() + '">Design one &rarr;</a></div>';
+    }
+    return '<span class="eyebrow" style="margin-top:var(--space-5);display:block">Reviewed In</span>' +
+      '<div class="build-project-row__meta" style="margin-top:var(--space-2)">' +
+      rhythms.map(function (r) { return '<a class="badge badge--outline" href="' + operatingRhythmHref(r.id) + '">' + esc(r.name) + ' &rarr;</a>'; }).join('') +
+      '</div>';
+  }
+
+  function operatingRhythmHref(rhythmId) {
+    var base = global.OMSData ? global.OMSData.href('pages/operating-rhythm.html') : 'operating-rhythm.html';
+    return rhythmId ? base + '?rhythm=' + encodeURIComponent(rhythmId) : base;
+  }
+
   function renderDimensionsTab(mount) {
     var dims = project.data.dimensions || [];
     if (!dims.length) { mount.innerHTML = '<p class="callout">No health dimensions defined yet. Add them from the wizard.</p>'; return; }
@@ -334,6 +352,7 @@
           '<span class="badge badge--outline">Reported at: ' + esc(dim.reportingLocation || 'Not set') + '</span>' +
         '</div>' +
         (flags.length ? '<span class="eyebrow" style="margin-top:var(--space-5);display:block">Coverage Gaps</span><ul style="margin:var(--space-2) 0 0 1.2em;font-size:var(--step--1)">' + flags.map(function (f) { return '<li><strong>' + esc(f.rule) + ':</strong> ' + esc(f.message) + '</li>'; }).join('') + '</ul>' : '<p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-4)">No coverage gaps for this dimension.</p>') +
+        reviewedInHtml(dim) +
         '<span class="eyebrow" style="margin-top:var(--space-5);display:block">Health Trend (Manual Entry)</span>' +
         '<p class="text-dim" style="font-size:var(--step--1)">Add a data point per review period. At least three are needed to describe a trend — this is a simple transparent calculation, not statistical process control.</p>' +
         '<div id="trend-mount"></div>' +
@@ -569,6 +588,7 @@
     VS = global.OMSValueStream;
     Cap = global.OMSCapacity;
     BP = global.OMSBlueprint;
+    Rhy = global.OMSRhythm;
 
     els.launcher = byId('health-launcher');
     els.wizard = byId('health-wizard');

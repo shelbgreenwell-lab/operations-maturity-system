@@ -16,6 +16,7 @@
   var VS = null;  // OMSValueStream (import integration)
   var Cap = null; // OMSCapacity (import integration)
   var BP = null;  // OMSBlueprint (link picker)
+  var Rhy = null; // OMSRhythm (reviewed-in lookup)
   var els = {};
   var project = null;
   var viewerState = { tab: 'overview', qualityView: 'flags' };
@@ -341,6 +342,7 @@
         '</div>' +
         (kpi.gamingRisk ? '<div class="risk-flag risk-flag--warning" style="margin-top:var(--space-4)"><div class="risk-flag__header"><span class="badge risk-flag__badge risk-flag__badge--warning">Metric Distortion Risk</span></div><p class="risk-flag__message">' + esc(kpi.gamingRisk) + '</p></div>' : '') +
         (flags.length ? '<span class="eyebrow" style="margin-top:var(--space-5);display:block">Quality Flags</span><ul style="margin:var(--space-2) 0 0 1.2em;font-size:var(--step--1)">' + flags.map(function (f) { return '<li><strong>' + esc(f.rule) + ':</strong> ' + esc(f.message) + '</li>'; }).join('') + '</ul>' : '<p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-4)">No quality flags for this KPI.</p>') +
+        reviewedInHtml(kpi) +
         '<div class="inspector-panel__actions" style="margin-top:var(--space-4)">' +
           (kpi.relatedProcessId ? '<a class="btn btn--secondary" href="' + processArchitectHref(kpi.relatedProcessId) + '">Open Process &rarr;</a>' : '<button type="button" class="btn btn--ghost" data-create-process="' + openIndex + '">Create Process</button>') +
           '<button type="button" class="btn btn--ghost" data-save-finding="' + openIndex + '">Save To Workbench</button>' +
@@ -363,6 +365,23 @@
       saveBtn.textContent = 'Saved ✓';
       saveBtn.disabled = true;
     });
+  }
+
+  function reviewedInHtml(kpi) {
+    if (!Rhy) return '';
+    var rhythms = Rhy.store.list().filter(function (r) { return (r.data.signals || []).some(function (s) { return s.relatedKpiId === kpi.id; }); });
+    if (!rhythms.length) {
+      return '<div class="callout" style="margin-top:var(--space-4)">This KPI is not reviewed in any Operating Rhythm yet. <a href="' + operatingRhythmHref() + '">Design one &rarr;</a></div>';
+    }
+    return '<span class="eyebrow" style="margin-top:var(--space-5);display:block">Reviewed In</span>' +
+      '<div class="build-project-row__meta" style="margin-top:var(--space-2)">' +
+      rhythms.map(function (r) { return '<a class="badge badge--outline" href="' + operatingRhythmHref(r.id) + '">' + esc(r.name) + ' &rarr;</a>'; }).join('') +
+      '</div>';
+  }
+
+  function operatingRhythmHref(rhythmId) {
+    var base = global.OMSData ? global.OMSData.href('pages/operating-rhythm.html') : 'operating-rhythm.html';
+    return rhythmId ? base + '?rhythm=' + encodeURIComponent(rhythmId) : base;
   }
 
   function processArchitectHref(projectId) {
@@ -574,6 +593,7 @@
     VS = global.OMSValueStream;
     Cap = global.OMSCapacity;
     BP = global.OMSBlueprint;
+    Rhy = global.OMSRhythm;
 
     els.launcher = byId('kpi-launcher');
     els.wizard = byId('kpi-wizard');

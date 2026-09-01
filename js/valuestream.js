@@ -708,6 +708,11 @@
     return base + '?' + paramName + '=' + encodeURIComponent(id);
   }
 
+  function operatingRhythmHref(valueStreamId) {
+    var base = global.OMSData ? global.OMSData.href('pages/operating-rhythm.html') : 'operating-rhythm.html';
+    return base + '?fromValueStream=' + encodeURIComponent(valueStreamId);
+  }
+
   function renderSystemsView(mount) {
     var stages = project.data.stages || [];
     var chain = [];
@@ -996,6 +1001,7 @@
         '<button type="button" class="btn btn--secondary" id="vs-export-json-btn">Export JSON</button>' +
         '<button type="button" class="btn btn--secondary" id="vs-print-btn">Print / Save As PDF</button>' +
         '<a class="btn btn--secondary" href="' + operationalHealthHref('importVs', project.id) + '">Send To Health Model</a>' +
+        '<a class="btn btn--secondary" href="' + operatingRhythmHref(project.id) + '">Add Review Rhythm</a>' +
       '</div>';
 
     mount.querySelector('#vs-export-json-btn').addEventListener('click', function () { B.exportJson(project); });

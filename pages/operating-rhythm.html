@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>KPI Architect — Operations Maturity System</title>
-  <meta name="description" content="Design measures that support decisions, not dashboards that collect numbers.">
+  <title>Operating Rhythm Designer — Operations Maturity System</title>
+  <meta name="description" content="Design the recurring management mechanisms that turn information into decisions and decisions into action.">
 
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/components.css">
   <link rel="stylesheet" href="../css/responsive.css">
 </head>
 
-<body data-page="kpi-architect" data-base="../">
+<body data-page="operating-rhythm" data-base="../">
 
   <a class="skip-link" href="#main">Skip to content</a>
   <div id="site-nav"></div>
@@ -22,32 +22,32 @@
     <header class="page-header">
       <div class="container">
         <nav id="page-breadcrumb" class="breadcrumb" aria-label="Breadcrumb"></nav>
-        <span class="eyebrow">KPI Architect</span>
-        <h1>Design measures that support decisions, not dashboards that collect numbers.</h1>
+        <span class="eyebrow">Operating Rhythm Designer</span>
+        <h1>Design the recurring management mechanisms that turn information into decisions and decisions into action.</h1>
         <p class="lede">
-          Metrics without decisions are reporting, not management. Start from the
-          decision a measurement needs to support, not from a list of numbers to
-          track.
+          A meeting is not an operating rhythm. Start from what needs
+          managing and the decisions it must produce &mdash; not from a
+          meeting name and a calendar slot.
         </p>
-        <p class="page-header__use-when"><strong>USE THIS WHEN</strong> you need to design or audit a set of KPIs and want to know whether each one actually earns its place.</p>
+        <p class="page-header__use-when"><strong>USE THIS WHEN</strong> you need to design or audit a recurring review and want to know whether it actually produces decisions.</p>
       </div>
     </header>
 
     <section class="section">
       <div class="container container--narrow">
 
-        <div id="kpi-launcher">
+        <div id="rhythm-launcher">
           <div style="display:flex; gap: var(--space-3); flex-wrap: wrap;">
-            <button type="button" class="btn btn--primary" id="new-kpi-btn">Build Health Model</button>
-            <button type="button" class="btn btn--secondary" id="load-sample-kpi-btn">Load Sample Model</button>
+            <button type="button" class="btn btn--primary" id="new-rhythm-btn">Design Operating Rhythm</button>
+            <button type="button" class="btn btn--secondary" id="load-sample-rhythm-btn">Load Sample (5 Rhythms)</button>
           </div>
-          <p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-3)">To import candidate metrics directly, open a Value Stream or Capacity Model and look for "Add To Health Model" on its metrics.</p>
-          <div id="kpi-resume-list"></div>
+          <p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-3)">To manage governance more broadly than a single recurring rhythm — policies, controls, change authority, escalation design — use <a href="governance.html">Governance Architecture</a>.</p>
+          <div id="rhythm-resume-list"></div>
         </div>
 
-        <div id="kpi-wizard" hidden>
+        <div id="rhythm-wizard" hidden>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-5);flex-wrap:wrap;gap:var(--space-2)">
-            <button type="button" class="btn btn--ghost" id="builder-exit">&larr; Exit to My KPI Models</button>
+            <button type="button" class="btn btn--ghost" id="builder-exit">&larr; Exit to My Operating Rhythms</button>
             <span id="builder-project-name" class="text-mono text-dim" style="font-size:var(--step--1)"></span>
           </div>
           <div id="builder-progress" class="builder-progress"></div>
@@ -62,15 +62,15 @@
       </div>
     </section>
 
-    <section class="section" id="kpi-viewer-section">
+    <section class="section" id="rhythm-viewer-section">
       <div class="container">
-        <div id="kpi-viewer" hidden>
+        <div id="rhythm-viewer" hidden>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);flex-wrap:wrap;gap:var(--space-3)">
-            <button type="button" class="btn btn--ghost" id="viewer-exit">&larr; Exit to My KPI Models</button>
-            <button type="button" class="btn btn--secondary" id="viewer-edit">Edit KPI Model</button>
+            <button type="button" class="btn btn--ghost" id="viewer-exit">&larr; Exit to My Operating Rhythms</button>
+            <button type="button" class="btn btn--secondary" id="viewer-edit">Edit This Rhythm</button>
           </div>
-          <div id="kpi-sample-banner"></div>
-          <div id="kpi-viewer-body"></div>
+          <div id="rhythm-sample-banner"></div>
+          <div id="rhythm-viewer-body"></div>
         </div>
       </div>
     </section>
@@ -87,19 +87,20 @@
   <script src="../js/blueprint-core.js"></script>
   <script src="../js/valuestream-core.js"></script>
   <script src="../js/capacity-core.js"></script>
-  <script src="../js/rhythm-core.js"></script>
   <script src="../js/kpi-core.js"></script>
-  <script src="../js/kpi-sample.js"></script>
-  <script src="../js/kpi.js"></script>
+  <script src="../js/health-core.js"></script>
+  <script src="../js/rhythm-core.js"></script>
+  <script src="../js/rhythm-sample.js"></script>
+  <script src="../js/rhythm.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      OMSKpiPage.init();
+      OMSRhythmPage.init();
     });
   </script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      if (window.OMSNav) window.OMSNav.renderBreadcrumb('page-breadcrumb', [], "KPI Architect");
+      if (window.OMSNav) window.OMSNav.renderBreadcrumb('page-breadcrumb', [], "Operating Rhythm Designer");
     });
   </script>
 </body>

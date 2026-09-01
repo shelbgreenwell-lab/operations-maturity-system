@@ -485,6 +485,57 @@
   }
 
   /* ----------------------------------------------------------
+     Governance — a modest summary shown only once at least one
+     Governance Model or Operating Rhythm exists. Not a redesign
+     of Command Center: a handful of counts and a link out.
+     ---------------------------------------------------------- */
+
+  function renderGovernance() {
+    var section = byId('command-governance-section');
+    var mount = byId('command-governance-mount');
+    var G = global.OMSGovernance;
+    var R = global.OMSRhythm;
+    if (!section || !mount) return;
+    var govModels = G ? G.store.list() : [];
+    var rhythms = R ? R.store.list() : [];
+    if (!govModels.length && !rhythms.length) { section.hidden = true; return; }
+    section.hidden = false;
+
+    var gaps = G ? G.governanceGaps() : [];
+    var criticalSystemsWithoutGovernance = gaps.filter(function (f) { return f.rule === 'Critical Process With No Governance'; }).length;
+    var kpisReviewedNowhere = gaps.filter(function (f) { return f.rule === 'Critical KPI Reviewed Nowhere'; }).length;
+    var decisionsWithoutOwners = rhythms.reduce(function (sum, r) { return sum + (r.data.decisions || []).filter(function (d) { return !d.owner; }).length; }, 0)
+      + gaps.filter(function (f) { return f.rule === 'Decision With No Forum Or Owner'; }).length;
+
+    var today = new Date();
+    var overdueGovernanceReviews = 0;
+    rhythms.forEach(function (r) {
+      (r.data.decisions || []).forEach(function (d) {
+        if (d.reviewDate) { var dt = new Date(d.reviewDate); if (!isNaN(dt.getTime()) && dt < today) overdueGovernanceReviews++; }
+      });
+    });
+
+    var repeatedUnresolvedIssues = R ? R.decisionYield(rhythms).repeatedUnresolved : 0;
+
+    var highEscalationConcentration = rhythms.filter(function (r) { return R.rhythmFlags(r).some(function (f) { return f.rule === 'Every Decision Escalates'; }); }).length;
+    govModels.forEach(function (m) {
+      highEscalationConcentration += (G.escalationFlags(m.data.escalations || []).filter(function (f) { return f.rule === 'Everything Escalates'; }).length);
+    });
+
+    mount.innerHTML =
+      metricGridHtml([
+        { label: 'Critical Systems Without Governance', value: criticalSystemsWithoutGovernance },
+        { label: 'Decisions Without Owners', value: decisionsWithoutOwners },
+        { label: 'KPIs Reviewed Nowhere', value: kpisReviewedNowhere },
+        { label: 'Overdue Governance Reviews', value: overdueGovernanceReviews },
+        { label: 'Repeated Unresolved Issues', value: repeatedUnresolvedIssues },
+        { label: 'High Escalation Concentration', value: highEscalationConcentration }
+      ]) +
+      '<a class="btn btn--secondary" href="governance.html" style="margin-top:var(--space-3);display:inline-block;margin-right:var(--space-3)">Open Governance &rarr;</a>' +
+      '<a class="btn btn--secondary" href="operating-rhythm.html" style="margin-top:var(--space-3);display:inline-block">Open Operating Rhythm Designer &rarr;</a>';
+  }
+
+  /* ----------------------------------------------------------
      System Story — a deterministic narrative assembled only from
      what is actually stored. Not AI, not fabricated: if there isn't
      enough data, it says so.
@@ -532,6 +583,23 @@
       if (weakOrCritical.length) lines.push('"' + weakOrCritical[0] + '"' + (weakOrCritical.length > 1 ? ' and ' + (weakOrCritical.length - 1) + ' other system' + (weakOrCritical.length > 2 ? 's' : '') : '') + ' currently show weak or critical health, even where performance is still on target.');
     }
 
+    var R = global.OMSRhythm;
+    var G = global.OMSGovernance;
+    if (R) {
+      var rhythms = R.store.list();
+      if (rhythms.length) {
+        var dupFindings = R.crossRhythmFindings(rhythms).filter(function (f) { return f.rule === 'Metric Reviewed In Multiple Places'; });
+        var gaps = G ? G.governanceGaps() : [];
+        if (dupFindings.length && gaps.length) {
+          lines.push('The same signal is reviewed in ' + dupFindings.length + ' set' + (dupFindings.length === 1 ? '' : 's') + ' of overlapping rhythms, while ' + gaps.length + ' governance gap' + (gaps.length === 1 ? '' : 's') + ' — including things no rhythm reviews at all — remain open. You don\'t have too many meetings; you have too many meetings doing the same job, and several important jobs no meeting is doing.');
+        } else if (dupFindings.length) {
+          lines.push(dupFindings.length + ' signal' + (dupFindings.length === 1 ? '' : 's') + ' — ' + dupFindings[0].message.split('"')[1] + (dupFindings.length > 1 ? ' among others' : '') + ' — ' + (dupFindings.length === 1 ? 'is' : 'are') + ' reviewed in three or more different rhythms.');
+        } else if (gaps.length) {
+          lines.push(gaps.length + ' governance gap' + (gaps.length === 1 ? '' : 's') + ' — including ' + gaps[0].rule.toLowerCase() + ' — remain open.');
+        }
+      }
+    }
+
     if (!lines.length) {
       mount.innerHTML =
         '<p class="callout">There isn\'t enough stored data yet to tell this story. Take the assessment, map an Organization Blueprint, or start work in the Workbench, and this section will fill in.</p>' +
@@ -559,6 +627,7 @@
       renderFlow();
       renderCapacity();
       renderOperationalHealth();
+      renderGovernance();
       renderSystemStory(results, attentionItems);
     });
   }

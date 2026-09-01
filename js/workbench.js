@@ -1088,6 +1088,66 @@
       : '<span class="badge badge--outline" title="Load this Health Model to open it">Health: ' + esc(label) + '</span>';
   }
 
+  function syncRhythmFindings() {
+    var R = global.OMSRhythm;
+    if (!R) return;
+    var existingRefIds = {};
+    ws.findings.forEach(function (f) { if (f.sourceRefId) existingRefIds[f.sourceRefId] = true; });
+    R.store.list().forEach(function (rItem) {
+      (rItem.data.findings || []).forEach(function (rf) {
+        if (existingRefIds[rf.id]) return;
+        WB.addItem(ws, 'findings', {
+          title: rf.type, message: rf.message, sourceType: 'rhythm', sourceLabel: rItem.name, confidenceStatus: 'Observed',
+          relatedRhythm: { rhythmId: rItem.id, rhythmName: rItem.name },
+          relatedLayer: '', evidenceNeeded: rf.why || '', systemsInvolved: '', recommendedInvestigation: '',
+          date: rf.savedAt, status: 'New', sourceRefId: rf.id
+        });
+        existingRefIds[rf.id] = true;
+      });
+    });
+  }
+
+  function rhythmChip(rel) {
+    if (!rel) return '';
+    var R = global.OMSRhythm;
+    var live = rel.rhythmId && R ? R.store.get(rel.rhythmId) : null;
+    var label = rel.rhythmName || (live && live.name);
+    if (!label) return '';
+    return live
+      ? '<a class="badge badge--outline" href="operating-rhythm.html?rhythm=' + encodeURIComponent(rel.rhythmId) + '" title="Open in Operating Rhythm Designer">Rhythm: ' + esc(label) + ' &rarr;</a>'
+      : '<span class="badge badge--outline" title="Load this Operating Rhythm to open it">Rhythm: ' + esc(label) + '</span>';
+  }
+
+  function syncGovernanceFindings() {
+    var G = global.OMSGovernance;
+    if (!G) return;
+    var existingRefIds = {};
+    ws.findings.forEach(function (f) { if (f.sourceRefId) existingRefIds[f.sourceRefId] = true; });
+    G.store.list().forEach(function (gItem) {
+      (gItem.data.findings || []).forEach(function (gf) {
+        if (existingRefIds[gf.id]) return;
+        WB.addItem(ws, 'findings', {
+          title: gf.type, message: gf.message, sourceType: 'governance', sourceLabel: gItem.name, confidenceStatus: 'Observed',
+          relatedGovernanceModel: { modelId: gItem.id, modelName: gItem.name },
+          relatedLayer: '', evidenceNeeded: gf.why || '', systemsInvolved: '', recommendedInvestigation: '',
+          date: gf.savedAt, status: 'New', sourceRefId: gf.id
+        });
+        existingRefIds[gf.id] = true;
+      });
+    });
+  }
+
+  function governanceChip(rel) {
+    if (!rel) return '';
+    var G = global.OMSGovernance;
+    var live = rel.modelId && G ? G.store.get(rel.modelId) : null;
+    var label = rel.modelName || (live && live.name);
+    if (!label) return '';
+    return live
+      ? '<a class="badge badge--outline" href="governance.html?model=' + encodeURIComponent(rel.modelId) + '" title="Open in Governance">Governance: ' + esc(label) + ' &rarr;</a>'
+      : '<span class="badge badge--outline" title="Load this Governance Model to open it">Governance: ' + esc(label) + '</span>';
+  }
+
   var CONFIDENCE_TONE = { Observed: '', Inferred: 'moderate', Validated: 'low' };
   function confidenceBadge(status) {
     if (!status) return '';
@@ -1101,6 +1161,8 @@
     syncCapacityFindings();
     syncKpiFindings();
     syncHealthFindings();
+    syncRhythmFindings();
+    syncGovernanceFindings();
     mount.innerHTML =
       '<h3>From Your Assessment</h3>' +
       '<div id="wb-assessment-mount" style="margin-bottom:var(--space-7)"></div>' +
@@ -1113,7 +1175,7 @@
     var findingsMount = mount.querySelector('#wb-findings-mount');
     var list = ws.findings.filter(function (f) { return f.status !== 'Dismissed'; });
     if (!list.length) {
-      findingsMount.innerHTML = '<p class="callout">No open findings. Findings arrive here from a Blueprint\'s Health &amp; Risk view, a Value Stream\'s flow signals, a KPI Architect quality flag, an Operational Health signal, or from "Add Finding to Workbench" on a Diagnose result.</p>';
+      findingsMount.innerHTML = '<p class="callout">No open findings. Findings arrive here from a Blueprint\'s Health &amp; Risk view, a Value Stream\'s flow signals, a KPI Architect quality flag, an Operational Health signal, an Operating Rhythm anti-pattern, a Governance gap, or from "Add Finding to Workbench" on a Diagnose result.</p>';
       return;
     }
 
@@ -1122,7 +1184,7 @@
         '<div class="risk-flag" data-finding="' + f.id + '">' +
           '<div class="risk-flag__header">' + confidenceBadge(f.confidenceStatus) + '<span class="risk-flag__rule">' + esc(f.title) + '</span></div>' +
           '<p class="risk-flag__message">' + esc(f.message || f.recommendedInvestigation || '') + '</p>' +
-          '<div class="build-project-row__meta" style="margin-bottom:var(--space-3)">' + blueprintChip(f.relatedBlueprint) + valueStreamChip(f.relatedValueStream) + capacityChip(f.relatedCapacityModel) + kpiChip(f.relatedKpiModel) + healthChip(f.relatedHealthModel) + '<span class="text-dim text-mono" style="font-size:var(--step--1)">From ' + esc(f.sourceLabel || f.sourceType) + (f.date ? ' &middot; ' + fmtDate(f.date) : '') + '</span></div>' +
+          '<div class="build-project-row__meta" style="margin-bottom:var(--space-3)">' + blueprintChip(f.relatedBlueprint) + valueStreamChip(f.relatedValueStream) + capacityChip(f.relatedCapacityModel) + kpiChip(f.relatedKpiModel) + healthChip(f.relatedHealthModel) + rhythmChip(f.relatedRhythm) + governanceChip(f.relatedGovernanceModel) + '<span class="text-dim text-mono" style="font-size:var(--step--1)">From ' + esc(f.sourceLabel || f.sourceType) + (f.date ? ' &middot; ' + fmtDate(f.date) : '') + '</span></div>' +
           '<div class="inspector-panel__actions">' +
             '<button type="button" class="btn btn--secondary" data-add-priority="' + f.id + '">Add To Priorities</button>' +
             '<button type="button" class="btn btn--secondary" data-start-inv="' + f.id + '">Start Investigation</button>' +
