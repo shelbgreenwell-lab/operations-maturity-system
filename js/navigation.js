@@ -43,6 +43,7 @@
     { id: 'dependency-map', label: 'Dependency Map', path: 'pages/dependency-map.html' },
     { id: 'glossary', label: 'Glossary', path: 'pages/glossary.html' },
     { id: 'governance', label: 'Governance', path: 'pages/governance.html' },
+    { id: 'operating-rhythm', label: 'Operating Rhythm Designer', path: 'pages/operating-rhythm.html' },
     { id: 'risk', label: 'Risk', path: 'pages/risk.html' },
     { id: 'capacity', label: 'Capacity', path: 'pages/capacity.html' },
     { id: 'kpi-architect', label: 'KPI Architect', path: 'pages/kpi-architect.html' },
