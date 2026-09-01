@@ -363,8 +363,9 @@
     var project = opts.project;
     var steps = opts.steps;
     var els = opts.els; // { progress, body, prev, next, stepLabel }
+    var projectStore = opts.store || store; // callers outside the builder-projects store (e.g. Blueprint, Value Streams) must pass their own
 
-    function persist() { store.save(project); }
+    function persist() { projectStore.save(project); }
 
     function goTo(index) {
       if (index < 0 || index >= steps.length) return;

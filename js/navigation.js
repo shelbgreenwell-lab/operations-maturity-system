@@ -39,6 +39,7 @@
     { id: 'improve', label: 'Improve', path: 'pages/improve.html' },
     { id: 'scenario-lab', label: 'Scenario Lab', path: 'pages/scenario-lab.html' },
     { id: 'anti-patterns', label: 'Anti-Patterns', path: 'pages/anti-patterns.html' },
+    { id: 'value-streams', label: 'Value Streams', path: 'pages/value-streams.html' },
     { id: 'dependency-map', label: 'Dependency Map', path: 'pages/dependency-map.html' },
     { id: 'glossary', label: 'Glossary', path: 'pages/glossary.html' },
     { id: 'governance', label: 'Governance', path: 'pages/governance.html' },

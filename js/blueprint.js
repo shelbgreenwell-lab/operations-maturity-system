@@ -395,7 +395,7 @@
     if (els.viewerSection) els.viewerSection.hidden = true;
     if (els.projectName) els.projectName.textContent = project.name;
     B.initWizard({
-      project: project, steps: WIZARD_STEPS,
+      project: project, steps: WIZARD_STEPS, store: BP.store,
       els: { progress: els.progress, body: els.stepBody, prev: els.prev, next: els.next, stepLabel: els.stepLabel }
     });
     updateUrl();

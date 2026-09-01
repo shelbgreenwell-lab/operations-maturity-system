@@ -107,6 +107,16 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .vs-timeline-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+    text-align: left;
+  }
+
+  .vs-timeline-row__meta {
+    text-align: left;
+  }
+
   .site-footer__inner {
     flex-direction: column;
     gap: var(--space-4);

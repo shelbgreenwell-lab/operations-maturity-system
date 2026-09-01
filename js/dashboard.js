@@ -329,6 +329,47 @@
   }
 
   /* ----------------------------------------------------------
+     Flow — a modest summary of Value Stream Intelligence, shown only
+     once at least one Value Stream has been mapped. Command Center
+     does not attempt to visualize the flow itself; that lives on the
+     Value Streams page.
+     ---------------------------------------------------------- */
+
+  function renderFlow() {
+    var section = byId('command-flow-section');
+    var mount = byId('command-flow-mount');
+    var VS = global.OMSValueStream;
+    if (!section || !mount) return;
+    var list = VS ? VS.store.list() : [];
+    if (!VS || !list.length) { section.hidden = true; return; }
+    section.hidden = false;
+
+    var criticalRisks = 0, criticalHandoffs = 0, reworkLoops = 0, noOwner = 0;
+    var largestWait = null;
+
+    list.forEach(function (vs) {
+      VS.riskAnalysis(vs).forEach(function (r) { if (r.severity === 'critical') criticalRisks++; });
+      (vs.data.handoffs || []).forEach(function (h) { if (VS.handoffHealth(vs, h).status === 'Critical') criticalHandoffs++; });
+      reworkLoops += (vs.data.rework || []).length;
+      if (!vs.owner) noOwner++;
+      VS.whereIsValueWaiting(vs).forEach(function (loc) {
+        if (!largestWait || loc.hours > largestWait.hours) largestWait = { label: loc.label, hours: loc.hours, vsName: vs.name };
+      });
+    });
+
+    mount.innerHTML =
+      metricGridHtml([
+        { label: 'Mapped Value Streams', value: list.length },
+        { label: 'Critical Flow Risks', value: criticalRisks },
+        { label: 'Critical Handoffs', value: criticalHandoffs },
+        { label: 'Active Rework Loops', value: reworkLoops },
+        { label: 'No End-To-End Owner', value: noOwner, note: 'value streams' }
+      ]) +
+      (largestWait ? '<p class="text-muted" style="margin-top:var(--space-4)">Largest wait right now: <strong>' + esc(largestWait.label) + '</strong> (' + VS.fmtHours(largestWait.hours) + ') in "' + esc(largestWait.vsName) + '."</p>' : '') +
+      '<a class="btn btn--secondary" href="value-streams.html" style="margin-top:var(--space-3);display:inline-block">Open Value Streams &rarr;</a>';
+  }
+
+  /* ----------------------------------------------------------
      System Story — a deterministic narrative assembled only from
      what is actually stored. Not AI, not fabricated: if there isn't
      enough data, it says so.
@@ -388,6 +429,7 @@
       renderActiveImprovement();
       renderRisk();
       var attentionItems = renderAttention();
+      renderFlow();
       renderSystemStory(results, attentionItems);
     });
   }
