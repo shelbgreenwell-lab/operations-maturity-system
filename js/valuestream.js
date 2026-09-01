@@ -703,6 +703,11 @@
     return base + '?fromValueStream=' + encodeURIComponent(project.id) + '&queue=' + encodeURIComponent(queueId);
   }
 
+  function operationalHealthHref(paramName, id) {
+    var base = global.OMSData ? global.OMSData.href('pages/operational-health.html') : 'operational-health.html';
+    return base + '?' + paramName + '=' + encodeURIComponent(id);
+  }
+
   function renderSystemsView(mount) {
     var stages = project.data.stages || [];
     var chain = [];
@@ -990,6 +995,7 @@
       '<div class="hero__actions" style="margin-top:var(--space-5)">' +
         '<button type="button" class="btn btn--secondary" id="vs-export-json-btn">Export JSON</button>' +
         '<button type="button" class="btn btn--secondary" id="vs-print-btn">Print / Save As PDF</button>' +
+        '<a class="btn btn--secondary" href="' + operationalHealthHref('importVs', project.id) + '">Send To Health Model</a>' +
       '</div>';
 
     mount.querySelector('#vs-export-json-btn').addEventListener('click', function () { B.exportJson(project); });

@@ -943,6 +943,7 @@
   function renderHealthTab(mount) {
     var risks = BP.systemicRisks(project);
     var gaps = BP.ownershipGaps(project);
+    var coverageGaps = measurementCoverageGaps(project);
     var isHealthView = viewerState.heatmapView === 'health';
 
     mount.innerHTML =
@@ -954,7 +955,7 @@
             '<button type="button" data-view="health" class="' + (isHealthView ? 'is-active' : '') + '">Health View</button>' +
           '</div>' +
         '</div>' +
-        '<p class="text-dim" style="margin:var(--space-2) 0 var(--space-4)">Health View shows the worst manually-set health signal in each OMS layer. Layers with no signals set show as Unknown &mdash; that is not the same as healthy.</p>' +
+        '<p class="text-dim" style="margin:var(--space-2) 0 var(--space-4)">Health View shows the worst manually-set health signal in each OMS layer. Layers with no signals set show as Unknown &mdash; that is not the same as healthy. This is distinct from an Operational Health Model, which tracks live signals rather than a single manual setting per layer.</p>' +
         '<div class="heatmap-grid" id="heatmap-grid"></div>' +
       '</div>' +
       '<div style="margin-bottom:var(--space-6)">' +
@@ -962,7 +963,8 @@
         '<p class="lede">Deterministic checks over the relationships you’ve mapped. These are structural signals, not a diagnosis.</p>' +
         '<div id="risk-flags"></div>' +
       '</div>' +
-      '<div><h3>Ownership &amp; Clarity Gaps</h3><div id="gap-flags"></div></div>';
+      '<div style="margin-bottom:var(--space-6)"><h3>Ownership &amp; Clarity Gaps</h3><div id="gap-flags"></div></div>' +
+      '<div><h3>Measurement Coverage</h3><p class="lede">High-criticality objects with no KPI Model or Health Model pointing back to them.</p><div id="coverage-flags"></div></div>';
 
     renderHeatmap(mount.querySelector('#heatmap-grid'));
     mount.querySelectorAll('#heatmap-toggle [data-view]').forEach(function (btn) {
@@ -970,6 +972,7 @@
     });
     renderFlagList(mount.querySelector('#risk-flags'), risks, 'systemic-risk');
     renderFlagList(mount.querySelector('#gap-flags'), gaps, 'ownership-gap');
+    renderFlagList(mount.querySelector('#coverage-flags'), coverageGaps, 'measurement-coverage-gap');
   }
 
   function renderTraceResult(mount, target, mode) {
@@ -1132,6 +1135,66 @@
       }).join('');
   }
 
+  function kpiSignalHtml(type, item) {
+    var K = global.OMSKpi;
+    if (!K) return '';
+    var models = K.store.list().filter(function (m) {
+      return m.data.relatedBlueprintProjectId === project.id && m.data.relatedBlueprintType === type && m.data.relatedBlueprintId === item.id;
+    });
+    if (!models.length) return '';
+    return '<h5 class="text-mono text-dim" style="text-transform:uppercase;font-size:var(--step--1);margin-top:var(--space-5)">KPI Signal</h5>' +
+      models.map(function (m) {
+        var load = K.measurementLoad(m);
+        return '<p class="text-muted" style="margin-bottom:var(--space-2)"><a href="kpi-architect.html?model=' + encodeURIComponent(m.id) + '">' + esc(m.name) + '</a> &mdash; ' + load.total + ' KPI' + (load.total === 1 ? '' : 's') + ', ' + load.withDecision + ' linked to a decision.</p>';
+      }).join('');
+  }
+
+  function healthSignalHtml(type, item) {
+    var H = global.OMSHealth;
+    if (!H) return '';
+    var models = H.store.list().filter(function (m) {
+      return m.data.relatedBlueprintProjectId === project.id && m.data.relatedBlueprintType === type && m.data.relatedBlueprintId === item.id;
+    });
+    if (!models.length) return '';
+    return '<h5 class="text-mono text-dim" style="text-transform:uppercase;font-size:var(--step--1);margin-top:var(--space-5)">Operational Health Signal</h5>' +
+      models.map(function (m) {
+        var overall = H.overallHealth(m);
+        return '<p class="text-muted" style="margin-bottom:var(--space-2)"><a href="operational-health.html?model=' + encodeURIComponent(m.id) + '">' + esc(m.name) + '</a> &mdash; ' +
+          '<span class="health-badge health-badge--' + (overall.status || 'unknown').toLowerCase() + '">' + esc(overall.status) + '</span></p>';
+      }).join('');
+  }
+
+  /* ----------------------------------------------------------
+     Section 38, 44, 45 — measurement coverage. A high-criticality
+     object with no linked KPI Model and no linked Health Model
+     is a system with no health signal, not a maturity judgment.
+     ---------------------------------------------------------- */
+
+  var MEASURABLE_TYPES = ['teams', 'roles', 'processes', 'capabilities', 'valueStreams', 'technology'];
+
+  function measurementCoverageGaps(project) {
+    var K = global.OMSKpi;
+    var H = global.OMSHealth;
+    if (!K && !H) return [];
+    var gaps = [];
+    MEASURABLE_TYPES.forEach(function (type) {
+      (project.data[type] || []).forEach(function (item) {
+        if (item.criticality !== 'High' && item.criticality !== 'Critical') return;
+        var hasKpi = K ? K.store.list().some(function (m) { return m.data.relatedBlueprintProjectId === project.id && m.data.relatedBlueprintType === type && m.data.relatedBlueprintId === item.id; }) : false;
+        var hasHealth = H ? H.store.list().some(function (m) { return m.data.relatedBlueprintProjectId === project.id && m.data.relatedBlueprintType === type && m.data.relatedBlueprintId === item.id; }) : false;
+        if (!hasKpi && !hasHealth) {
+          var name = BP.entityName(type, item) || 'Untitled';
+          gaps.push({
+            severity: 'warning', rule: 'Critical System With No Health Signal',
+            message: name + ' (' + BP.ENTITY_META[type].label + ') is marked ' + item.criticality + ' criticality but has no linked KPI Model or Health Model.',
+            why: 'This object\'s criticality is ' + item.criticality + ', and no KPI Architect or Operational Health model points back to it.'
+          });
+        }
+      });
+    });
+    return gaps;
+  }
+
   function renderInspectorContent(panel, type, item) {
     var name = BP.entityName(type, item);
     var health = BP.getHealth(project, type, item.id);
@@ -1171,6 +1234,8 @@
         return '<div class="dva-row"><div class="dva-row__col"><h5>Designed</h5><p>' + esc(d.designed) + '</p></div><div class="dva-row__col dva-row__col--actual"><h5>Actual</h5><p>' + esc(d.actual) + '</p></div></div>';
       }).join('') : '') +
       capacitySignalHtml(type, item) +
+      kpiSignalHtml(type, item) +
+      healthSignalHtml(type, item) +
       '<div class="inspector-panel__actions">' +
         '<button type="button" class="btn btn--secondary" id="insp-edit">Edit</button>' +
         '<button type="button" class="btn btn--secondary" id="insp-focus">Focus</button>' +
