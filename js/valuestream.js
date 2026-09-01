@@ -582,7 +582,10 @@
         (signals.length
           ? '<div style="margin-top:var(--space-2)">' + signals.map(function (s) { return '<div class="risk-flag risk-flag--warning" style="margin-top:var(--space-2)"><div class="risk-flag__header"><span class="badge risk-flag__badge risk-flag__badge--warning">' + esc(s.rule) + '</span></div><p class="risk-flag__message">' + esc(s.message) + '</p></div>'; }).join('') + '</div>'
           : '<p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-2)">No flow signals tripped for this queue. That does not guarantee it is healthy.</p>') +
-        '<div class="inspector-panel__actions" style="margin-top:var(--space-4)"><button type="button" class="btn btn--ghost" data-save-finding="queue" data-id="' + q.id + '">Save To Workbench</button></div>' +
+        '<div class="inspector-panel__actions" style="margin-top:var(--space-4)">' +
+          '<a class="btn btn--secondary" href="' + capacityHref(q.id) + '">Analyze Capacity &rarr;</a>' +
+          '<button type="button" class="btn btn--ghost" data-save-finding="queue" data-id="' + q.id + '">Save To Workbench</button>' +
+        '</div>' +
       '</div>';
     }).join('');
     bindSaveFindingButtons(mount);
@@ -693,6 +696,11 @@
 
   function decisionRightsHref() {
     return global.OMSData ? global.OMSData.href('pages/decision-rights.html') : 'decision-rights.html';
+  }
+
+  function capacityHref(queueId) {
+    var base = global.OMSData ? global.OMSData.href('pages/capacity.html') : 'capacity.html';
+    return base + '?fromValueStream=' + encodeURIComponent(project.id) + '&queue=' + encodeURIComponent(queueId);
   }
 
   function renderSystemsView(mount) {

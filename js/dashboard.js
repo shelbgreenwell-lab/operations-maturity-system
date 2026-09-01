@@ -370,6 +370,46 @@
   }
 
   /* ----------------------------------------------------------
+     Capacity — a modest summary of Capacity Intelligence, shown only
+     once at least one Capacity Model has been analyzed.
+     ---------------------------------------------------------- */
+
+  function renderCapacity() {
+    var section = byId('command-capacity-section');
+    var mount = byId('command-capacity-mount');
+    var Cap = global.OMSCapacity;
+    if (!section || !mount) return;
+    var list = Cap ? Cap.store.list() : [];
+    if (!Cap || !list.length) { section.hidden = true; return; }
+    section.hidden = false;
+
+    var overCapacity = 0, lowBuffer = 0, skillBottlenecks = 0, growingQueues = 0;
+    var largestReworkTax = null;
+
+    list.forEach(function (m) {
+      var d = Cap.demandCapacityBalance(m);
+      if (d.capacity > 0 && d.totalTypicalLoad > d.capacity) overCapacity++;
+      if (d.bufferPct != null && d.bufferPct >= 0 && d.bufferPct < 8) lowBuffer++;
+      (m.data.skills || []).forEach(function (s) { if (Cap.isYes(s.isBottleneck)) skillBottlenecks++; });
+      var qb = Cap.queueBehavior(m);
+      if (qb && qb.structurallyGrowing) growingQueues++;
+      var rt = Cap.reworkTax(m);
+      if (!largestReworkTax || rt.pct > largestReworkTax.pct) largestReworkTax = { pct: rt.pct, name: m.name };
+    });
+
+    mount.innerHTML =
+      metricGridHtml([
+        { label: 'Active Capacity Models', value: list.length },
+        { label: 'Systems Over Capacity', value: overCapacity },
+        { label: 'Low Buffer Systems', value: lowBuffer },
+        { label: 'Critical Skill Bottlenecks', value: skillBottlenecks },
+        { label: 'Growing Queues', value: growingQueues }
+      ]) +
+      (largestReworkTax && largestReworkTax.pct ? '<p class="text-muted" style="margin-top:var(--space-4)">Largest rework tax right now: <strong>' + esc(largestReworkTax.pct + '%') + '</strong> of capacity in "' + esc(largestReworkTax.name) + '."</p>' : '') +
+      '<a class="btn btn--secondary" href="capacity.html" style="margin-top:var(--space-3);display:inline-block">Open Capacity &rarr;</a>';
+  }
+
+  /* ----------------------------------------------------------
      System Story — a deterministic narrative assembled only from
      what is actually stored. Not AI, not fabricated: if there isn't
      enough data, it says so.
@@ -430,6 +470,7 @@
       renderRisk();
       var attentionItems = renderAttention();
       renderFlow();
+      renderCapacity();
       renderSystemStory(results, attentionItems);
     });
   }

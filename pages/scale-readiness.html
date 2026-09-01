@@ -62,6 +62,8 @@
           approximation, built from your assessment.
         </p>
 
+        <div id="scale-capacity-mount"></div>
+
         <div style="margin-top: var(--space-6);">
           <span class="eyebrow">Related Now</span>
           <div class="related-links" style="margin-top: var(--space-4);">
@@ -89,10 +91,38 @@
   <script src="../js/learn.js"></script>
   <script src="../js/anti-patterns.js"></script>
   <script src="../js/app.js"></script>
+  <script src="../js/capacity-core.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.OMSNav) window.OMSNav.renderBreadcrumb('page-breadcrumb', [], "Scale Readiness");
+
+      var mount = document.getElementById('scale-capacity-mount');
+      var Cap = window.OMSCapacity;
+      if (!mount || !Cap) return;
+      var models = Cap.store.list();
+      if (!models.length) return;
+
+      var esc = function (s) { return (s == null ? '' : String(s)).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+      var rows = models.map(function (m) {
+        var d = Cap.demandCapacityBalance(m);
+        var scale = Cap.scaleTest(m, 2);
+        return { name: m.name, current: d.utilization, at2x: scale.pctOfCapacity, id: m.id, constrainedSkills: scale.constrainedSkills };
+      }).filter(function (r) { return r.current != null; });
+      if (!rows.length) return;
+
+      mount.innerHTML = '<div class="section-head" style="margin-top: var(--space-6);"><span class="eyebrow">From Your Capacity Models</span><h3>Current demand load vs. demand at 2x</h3></div>' +
+        rows.map(function (r) {
+          var constraint = r.constrainedSkills && r.constrainedSkills.length ? r.constrainedSkills.map(function (s) { return s.name; }).join(', ') + ' capacity' : 'Not yet identified';
+          return '<div class="card" style="margin-bottom: var(--space-4)">' +
+            '<div class="metric-grid">' +
+              '<div class="metric-card"><span class="metric-card__label">Current Demand Load</span><span class="metric-card__value metric-card__value--accent">' + r.current + '%</span></div>' +
+              '<div class="metric-card"><span class="metric-card__label">At 2x Demand</span><span class="metric-card__value metric-card__value--accent">' + (r.at2x == null ? '—' : r.at2x + '%') + '</span></div>' +
+            '</div>' +
+            '<p class="text-muted" style="margin-top: var(--space-3)"><strong>' + esc(r.name) + '</strong> &mdash; potential scale constraint: ' + esc(constraint) + '.</p>' +
+            '<a class="btn btn--secondary" href="capacity.html?model=' + encodeURIComponent(r.id) + '">View Capacity Model &rarr;</a>' +
+          '</div>';
+        }).join('');
     });
   </script>
 </body>
