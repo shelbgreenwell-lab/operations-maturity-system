@@ -45,6 +45,8 @@
     { id: 'governance', label: 'Governance', path: 'pages/governance.html' },
     { id: 'risk', label: 'Risk', path: 'pages/risk.html' },
     { id: 'capacity', label: 'Capacity', path: 'pages/capacity.html' },
+    { id: 'kpi-architect', label: 'KPI Architect', path: 'pages/kpi-architect.html' },
+    { id: 'operational-health', label: 'Operational Health', path: 'pages/operational-health.html' },
     { id: 'scale-readiness', label: 'Scale Readiness', path: 'pages/scale-readiness.html' },
     { id: 'operating-debt', label: 'Operating Debt', path: 'pages/operating-debt.html' },
     { id: 'transformation', label: 'Transformation', path: 'pages/transformation.html' }

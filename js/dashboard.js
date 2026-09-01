@@ -410,6 +410,81 @@
   }
 
   /* ----------------------------------------------------------
+     Operational Health — a modest summary shown only once at
+     least one Health Model or KPI Model exists. Health is not
+     maturity and not performance: this section is deliberately
+     kept separate from the maturity heatmap above.
+     ---------------------------------------------------------- */
+
+  function renderOperationalHealth() {
+    var section = byId('command-health-section');
+    var mount = byId('command-health-mount');
+    var H = global.OMSHealth;
+    var K = global.OMSKpi;
+    var BP = global.OMSBlueprint;
+    var WB = global.OMSWorkbenchCore;
+    if (!section || !mount) return;
+    var healthModels = H ? H.store.list() : [];
+    var kpiModels = K ? K.store.list() : [];
+    if (!healthModels.length && !kpiModels.length) { section.hidden = true; return; }
+    section.hidden = false;
+
+    var worstOverall = null, criticalSystems = 0, deterioratingSignals = 0, earlyWarningsActive = 0;
+    healthModels.forEach(function (m) {
+      var overall = H.overallHealth(m);
+      if (!worstOverall || H.STATUS_RANK[overall.status] > H.STATUS_RANK[worstOverall.status]) {
+        worstOverall = { status: overall.status, name: m.name };
+      }
+      if (overall.status === 'Critical' || overall.status === 'Weak') criticalSystems++;
+      (m.data.dimensions || []).forEach(function (d) {
+        var trend = H.trendForDimension(d);
+        if (trend.label === 'Deteriorating') deterioratingSignals++;
+        var status = H.dimensionStatus(d).status;
+        if (d.earlyWarning && status !== 'Healthy' && status !== 'Unknown') earlyWarningsActive++;
+      });
+    });
+
+    var kpisWithoutOwners = 0;
+    kpiModels.forEach(function (m) { (m.data.kpis || []).forEach(function (k) { if (!k.owner) kpisWithoutOwners++; }); });
+
+    var criticalSystemsWithoutMeasures = 0;
+    if (BP) {
+      var measurableTypes = ['teams', 'roles', 'processes', 'capabilities', 'valueStreams', 'technology'];
+      BP.store.list().forEach(function (bp) {
+        measurableTypes.forEach(function (type) {
+          (bp.data[type] || []).forEach(function (item) {
+            if (item.criticality !== 'High' && item.criticality !== 'Critical') return;
+            var hasKpi = kpiModels.some(function (m) { return m.data.relatedBlueprintProjectId === bp.id && m.data.relatedBlueprintType === type && m.data.relatedBlueprintId === item.id; });
+            var hasHealth = healthModels.some(function (m) { return m.data.relatedBlueprintProjectId === bp.id && m.data.relatedBlueprintType === type && m.data.relatedBlueprintId === item.id; });
+            if (!hasKpi && !hasHealth) criticalSystemsWithoutMeasures++;
+          });
+        });
+      });
+    }
+
+    var interventionsOffTarget = 0;
+    var ws = WB && WB.load();
+    if (ws) {
+      (ws.interventions || []).forEach(function (iv) {
+        if (WB.evaluateMeasurement(iv.baselineValue, iv.targetValue, iv.actualValue) === 'Not Met') interventionsOffTarget++;
+      });
+    }
+
+    mount.innerHTML =
+      (worstOverall ? '<div class="build-project-row__meta" style="margin-bottom:var(--space-4)"><span class="health-badge health-badge--' + worstOverall.status.toLowerCase() + '">' + esc(worstOverall.status) + '</span><strong>Overall Health Signal</strong><span class="text-dim text-mono" style="font-size:var(--step--1)">Worst: ' + esc(worstOverall.name) + '</span></div>' : '') +
+      metricGridHtml([
+        { label: 'Critical Systems', value: criticalSystems },
+        { label: 'Deteriorating Signals', value: deterioratingSignals },
+        { label: 'Active Early Warnings', value: earlyWarningsActive },
+        { label: 'KPIs Without Owners', value: kpisWithoutOwners },
+        { label: 'Critical Systems Without Measures', value: criticalSystemsWithoutMeasures },
+        { label: 'Interventions Off Target', value: interventionsOffTarget }
+      ]) +
+      '<a class="btn btn--secondary" href="operational-health.html" style="margin-top:var(--space-3);display:inline-block;margin-right:var(--space-3)">Open Operational Health &rarr;</a>' +
+      '<a class="btn btn--secondary" href="kpi-architect.html" style="margin-top:var(--space-3);display:inline-block">Open KPI Architect &rarr;</a>';
+  }
+
+  /* ----------------------------------------------------------
      System Story — a deterministic narrative assembled only from
      what is actually stored. Not AI, not fabricated: if there isn't
      enough data, it says so.
@@ -445,6 +520,18 @@
       if (unmitigated > 0) lines.push(unmitigated + ' high-impact risk' + (unmitigated === 1 ? ' has' : 's have') + ' no mitigation.');
     }
 
+    var H = global.OMSHealth;
+    if (H) {
+      var deteriorating = 0, weakOrCritical = [];
+      H.store.list().forEach(function (m) {
+        var overall = H.overallHealth(m);
+        if (overall.status === 'Weak' || overall.status === 'Critical') weakOrCritical.push(m.name);
+        (m.data.dimensions || []).forEach(function (d) { if (H.trendForDimension(d).label === 'Deteriorating') deteriorating++; });
+      });
+      if (deteriorating > 0) lines.push(deteriorating + ' operating signal' + (deteriorating === 1 ? ' is' : 's are') + ' trending deteriorating.');
+      if (weakOrCritical.length) lines.push('"' + weakOrCritical[0] + '"' + (weakOrCritical.length > 1 ? ' and ' + (weakOrCritical.length - 1) + ' other system' + (weakOrCritical.length > 2 ? 's' : '') : '') + ' currently show weak or critical health, even where performance is still on target.');
+    }
+
     if (!lines.length) {
       mount.innerHTML =
         '<p class="callout">There isn\'t enough stored data yet to tell this story. Take the assessment, map an Organization Blueprint, or start work in the Workbench, and this section will fill in.</p>' +
@@ -471,6 +558,7 @@
       var attentionItems = renderAttention();
       renderFlow();
       renderCapacity();
+      renderOperationalHealth();
       renderSystemStory(results, attentionItems);
     });
   }

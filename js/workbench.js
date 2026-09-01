@@ -234,6 +234,7 @@
       problem: rc.observedProblem || '', rootCause: rc.validatedRootCause || '', proposedChange: '',
       currentState: '', targetState: '', affectedSystem: rc.systemsInvolved || '', owner: '',
       baselineLabel: '', baselineValue: '', targetValue: '', actualValue: '', successMetric: '', expectedResult: '',
+      relatedKpiId: '', measurementFrequency: '',
       expectedEffects: [], startDate: '', reviewDate: '', risk: '', status: 'Designing',
       relatedRootCauseId: rc.id, relatedPriorityId: null, relatedBlueprint: rc.relatedBlueprint || null
     });
@@ -776,6 +777,7 @@
           '<span class="' + statusClass(iv.status) + '">' + esc(iv.status) + '</span>' +
         '</div>' +
         '<div class="build-project-row__meta" style="margin:var(--space-2) 0">' + blueprintChip(iv.relatedBlueprint) + '</div>' +
+        relatedKpiPanel(iv) +
         '<div class="current-change-target">' +
           '<div class="current-change-target__col"><h5>Current</h5><p>' + esc(iv.currentState || '—') + '</p></div>' +
           '<div class="current-change-target__arrow">&rarr;</div>' +
@@ -806,9 +808,11 @@
         { key: 'baselineValue', label: 'Baseline value', type: 'text' },
         { key: 'targetValue', label: 'Target value', type: 'text' },
         { key: 'actualValue', label: 'Actual value (only enter what you measured)', type: 'text' },
+        { key: 'relatedKpiId', label: 'Related KPI (optional)', type: 'select', options: kpiOptionsFlat() },
         { key: 'successMetric', label: 'Success metric', type: 'text' },
         { key: 'expectedResult', label: 'Expected result', type: 'textarea', wide: true },
         { key: 'startDate', label: 'Start date', type: 'text', help: 'YYYY-MM-DD' },
+        { key: 'measurementFrequency', label: 'Measurement frequency', type: 'select', options: ['Daily', 'Weekly', 'Monthly', 'Quarterly'] },
         { key: 'reviewDate', label: 'Review date', type: 'text', help: 'YYYY-MM-DD' },
         { key: 'risk', label: 'Risk', type: 'textarea' },
         { key: 'status', label: 'Status', type: 'select', options: INTERVENTION_STATUSES }
@@ -820,6 +824,16 @@
         WB.save(ws);
         renderIvSummary(iv);
         renderStatStrip();
+      });
+      var kpiSelect = fieldsMount.querySelector('[data-key="relatedKpiId"]');
+      if (kpiSelect) kpiSelect.addEventListener('change', function () {
+        var found = findKpiByCompositeId(iv.relatedKpiId);
+        if (found) {
+          if (!iv.baselineLabel) iv.baselineLabel = found.kpi.name;
+          if (!iv.targetValue && found.kpi.target) iv.targetValue = found.kpi.target;
+          WB.save(ws);
+          renderInterventionsTab(mount);
+        }
       });
     });
 
@@ -981,6 +995,99 @@
       : '<span class="badge badge--outline" title="Load this Capacity Model to open it">Capacity: ' + esc(label) + '</span>';
   }
 
+  function syncKpiFindings() {
+    var K = global.OMSKpi;
+    if (!K) return;
+    var existingRefIds = {};
+    ws.findings.forEach(function (f) { if (f.sourceRefId) existingRefIds[f.sourceRefId] = true; });
+    K.store.list().forEach(function (kItem) {
+      (kItem.data.findings || []).forEach(function (kf) {
+        if (existingRefIds[kf.id]) return;
+        WB.addItem(ws, 'findings', {
+          title: kf.type, message: kf.message, sourceType: 'kpi', sourceLabel: kItem.name, confidenceStatus: 'Observed',
+          relatedKpiModel: { modelId: kItem.id, modelName: kItem.name },
+          relatedLayer: '', evidenceNeeded: kf.why || '', systemsInvolved: '', recommendedInvestigation: '',
+          date: kf.savedAt, status: 'New', sourceRefId: kf.id
+        });
+        existingRefIds[kf.id] = true;
+      });
+    });
+  }
+
+  function kpiOptionsFlat() {
+    var K = global.OMSKpi;
+    if (!K) return [];
+    var opts = [];
+    K.store.list().forEach(function (m) {
+      (m.data.kpis || []).forEach(function (k) {
+        opts.push({ value: m.id + '::' + k.id, label: m.name + ': ' + (k.name || 'Untitled KPI') });
+      });
+    });
+    return opts;
+  }
+
+  function findKpiByCompositeId(compositeId) {
+    if (!compositeId) return null;
+    var K = global.OMSKpi;
+    if (!K) return null;
+    var parts = compositeId.split('::');
+    var model = K.store.get(parts[0]);
+    if (!model) return null;
+    var kpi = (model.data.kpis || []).filter(function (k) { return k.id === parts[1]; })[0];
+    return kpi ? { model: model, kpi: kpi } : null;
+  }
+
+  function relatedKpiPanel(iv) {
+    var found = findKpiByCompositeId(iv.relatedKpiId);
+    if (!found) return '';
+    var k = found.kpi;
+    return '<div class="build-project-row__meta" style="margin-bottom:var(--space-3)">' +
+      '<a class="badge badge--outline" href="kpi-architect.html?model=' + encodeURIComponent(found.model.id) + '" title="Open in KPI Architect">KPI: ' + esc(k.name) + ' &rarr;</a>' +
+      (k.target ? '<span class="badge badge--outline">KPI Target: ' + esc(k.target) + ' (' + esc(k.direction || '') + ')</span>' : '') +
+      '</div>';
+  }
+
+  function kpiChip(rel) {
+    if (!rel) return '';
+    var K = global.OMSKpi;
+    var live = rel.modelId && K ? K.store.get(rel.modelId) : null;
+    var label = rel.modelName || (live && live.name);
+    if (!label) return '';
+    return live
+      ? '<a class="badge badge--outline" href="kpi-architect.html?model=' + encodeURIComponent(rel.modelId) + '" title="Open in KPI Architect">KPI: ' + esc(label) + ' &rarr;</a>'
+      : '<span class="badge badge--outline" title="Load this KPI Model to open it">KPI: ' + esc(label) + '</span>';
+  }
+
+  function syncHealthFindings() {
+    var H = global.OMSHealth;
+    if (!H) return;
+    var existingRefIds = {};
+    ws.findings.forEach(function (f) { if (f.sourceRefId) existingRefIds[f.sourceRefId] = true; });
+    H.store.list().forEach(function (hItem) {
+      (hItem.data.findings || []).forEach(function (hf) {
+        if (existingRefIds[hf.id]) return;
+        WB.addItem(ws, 'findings', {
+          title: hf.type, message: hf.message, sourceType: 'health', sourceLabel: hItem.name, confidenceStatus: 'Observed',
+          relatedHealthModel: { modelId: hItem.id, modelName: hItem.name },
+          relatedLayer: '', evidenceNeeded: hf.why || '', systemsInvolved: '', recommendedInvestigation: '',
+          date: hf.savedAt, status: 'New', sourceRefId: hf.id
+        });
+        existingRefIds[hf.id] = true;
+      });
+    });
+  }
+
+  function healthChip(rel) {
+    if (!rel) return '';
+    var H = global.OMSHealth;
+    var live = rel.modelId && H ? H.store.get(rel.modelId) : null;
+    var label = rel.modelName || (live && live.name);
+    if (!label) return '';
+    return live
+      ? '<a class="badge badge--outline" href="operational-health.html?model=' + encodeURIComponent(rel.modelId) + '" title="Open in Operational Health">Health: ' + esc(label) + ' &rarr;</a>'
+      : '<span class="badge badge--outline" title="Load this Health Model to open it">Health: ' + esc(label) + '</span>';
+  }
+
   var CONFIDENCE_TONE = { Observed: '', Inferred: 'moderate', Validated: 'low' };
   function confidenceBadge(status) {
     if (!status) return '';
@@ -992,6 +1099,8 @@
     syncBlueprintFindings();
     syncValueStreamFindings();
     syncCapacityFindings();
+    syncKpiFindings();
+    syncHealthFindings();
     mount.innerHTML =
       '<h3>From Your Assessment</h3>' +
       '<div id="wb-assessment-mount" style="margin-bottom:var(--space-7)"></div>' +
@@ -1004,7 +1113,7 @@
     var findingsMount = mount.querySelector('#wb-findings-mount');
     var list = ws.findings.filter(function (f) { return f.status !== 'Dismissed'; });
     if (!list.length) {
-      findingsMount.innerHTML = '<p class="callout">No open findings. Findings arrive here from a Blueprint\'s Health &amp; Risk view, a Value Stream\'s flow signals, or from "Add Finding to Workbench" on a Diagnose result.</p>';
+      findingsMount.innerHTML = '<p class="callout">No open findings. Findings arrive here from a Blueprint\'s Health &amp; Risk view, a Value Stream\'s flow signals, a KPI Architect quality flag, an Operational Health signal, or from "Add Finding to Workbench" on a Diagnose result.</p>';
       return;
     }
 
@@ -1013,7 +1122,7 @@
         '<div class="risk-flag" data-finding="' + f.id + '">' +
           '<div class="risk-flag__header">' + confidenceBadge(f.confidenceStatus) + '<span class="risk-flag__rule">' + esc(f.title) + '</span></div>' +
           '<p class="risk-flag__message">' + esc(f.message || f.recommendedInvestigation || '') + '</p>' +
-          '<div class="build-project-row__meta" style="margin-bottom:var(--space-3)">' + blueprintChip(f.relatedBlueprint) + valueStreamChip(f.relatedValueStream) + capacityChip(f.relatedCapacityModel) + '<span class="text-dim text-mono" style="font-size:var(--step--1)">From ' + esc(f.sourceLabel || f.sourceType) + (f.date ? ' &middot; ' + fmtDate(f.date) : '') + '</span></div>' +
+          '<div class="build-project-row__meta" style="margin-bottom:var(--space-3)">' + blueprintChip(f.relatedBlueprint) + valueStreamChip(f.relatedValueStream) + capacityChip(f.relatedCapacityModel) + kpiChip(f.relatedKpiModel) + healthChip(f.relatedHealthModel) + '<span class="text-dim text-mono" style="font-size:var(--step--1)">From ' + esc(f.sourceLabel || f.sourceType) + (f.date ? ' &middot; ' + fmtDate(f.date) : '') + '</span></div>' +
           '<div class="inspector-panel__actions">' +
             '<button type="button" class="btn btn--secondary" data-add-priority="' + f.id + '">Add To Priorities</button>' +
             '<button type="button" class="btn btn--secondary" data-start-inv="' + f.id + '">Start Investigation</button>' +
