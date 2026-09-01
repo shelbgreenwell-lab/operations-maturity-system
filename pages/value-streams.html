@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Value Streams — Operations Maturity System</title>
-  <meta name="description" content="Understand how value moves end-to-end across teams, processes, systems, decisions, and organizational boundaries.">
+  <title>Value Stream Intelligence — Operations Maturity System</title>
+  <meta name="description" content="See how value moves, where work waits, and what constrains flow — including the handoffs between teams where good systems usually fail.">
 
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/components.css">
@@ -22,55 +22,60 @@
     <header class="page-header">
       <div class="container">
         <nav id="page-breadcrumb" class="breadcrumb" aria-label="Breadcrumb"></nav>
-        <span class="eyebrow">Build &rsaquo; Value Streams</span>
-        <h1>Value Streams</h1>
+        <span class="eyebrow">Value Stream Intelligence</span>
+        <h1>See how value moves, where work waits, and what constrains flow.</h1>
         <p class="lede">
           Organizations are structured vertically. Value usually moves horizontally.
-          This tool will map how it actually flows.
+          Customers experience the horizontal system &mdash; and most operational
+          failure happens at waiting, handoffs, queues, approvals, rework, and
+          information gaps, not inside any one team's own work.
         </p>
-        <div class="foundational-notice">
-          <span class="badge">Coming Into The System</span>
-        </div>
+        <p class="page-header__use-when"><strong>USE THIS WHEN</strong> a customer outcome is slow or inconsistent and you need to see the whole flow, not just one team's part of it.</p>
       </div>
     </header>
 
     <section class="section">
       <div class="container container--narrow">
-        <div class="framework-preview">
-          <h3 style="margin-bottom: var(--space-4);">What a value stream map will capture</h3>
-          <div class="tag-list">
-            <span class="pill">Stages</span>
-            <span class="pill">Owners</span>
-            <span class="pill">Teams involved</span>
-            <span class="pill">Inputs &amp; outputs</span>
-            <span class="pill">Work time</span>
-            <span class="pill">Wait time</span>
-            <span class="pill">Handoffs</span>
-            <span class="pill">Approvals</span>
-            <span class="pill">Systems used</span>
-            <span class="pill">Quality</span>
-            <span class="pill">Risks</span>
-            <span class="pill">Operational friction</span>
+
+        <div id="vs-launcher">
+          <div style="display:flex; gap: var(--space-3); flex-wrap: wrap;">
+            <button type="button" class="btn btn--primary" id="new-vs-btn">Create Value Stream</button>
+            <button type="button" class="btn btn--secondary" id="load-sample-vs-btn">Load Sample</button>
+            <button type="button" class="btn btn--secondary" id="import-from-blueprint-btn">Import From Blueprint</button>
+          </div>
+          <div id="vs-from-blueprint"></div>
+          <div id="vs-resume-list"></div>
+        </div>
+
+        <div id="vs-wizard" hidden>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-5);flex-wrap:wrap;gap:var(--space-2)">
+            <button type="button" class="btn btn--ghost" id="builder-exit">&larr; Exit to My Value Streams</button>
+            <span id="builder-project-name" class="text-mono text-dim" style="font-size:var(--step--1)"></span>
+          </div>
+          <div id="builder-progress" class="builder-progress"></div>
+          <p id="builder-step-label" class="text-mono text-dim" style="font-size:var(--step--1);margin-bottom:var(--space-4)"></p>
+          <div id="builder-step-body"></div>
+          <div class="builder-step-nav">
+            <button type="button" class="btn btn--secondary" id="builder-prev">&larr; Previous</button>
+            <button type="button" class="btn btn--primary" id="builder-next">Next &rarr;</button>
           </div>
         </div>
 
-        <h3 style="margin: var(--space-7) 0 var(--space-4);">Example value streams</h3>
-        <div class="tag-list">
-          <span class="pill">Lead to Customer</span>
-          <span class="pill">Order to Delivery</span>
-          <span class="pill">Issue to Resolution</span>
-          <span class="pill">Idea to Launch</span>
-          <span class="pill">Hire to Productive Employee</span>
-          <span class="pill">Customer Feedback to Product Change</span>
-        </div>
+      </div>
+    </section>
 
-        <div style="margin-top: var(--space-7);">
-          <span class="eyebrow">Related Now</span>
-          <div class="related-links" style="margin-top: var(--space-4);">
-            <a href="explore.html?layer=execution">Explore the Execution Layer</a>
-            <a href="learn.html?resource=process-architecture">Process Architecture</a>
-            <a href="dependency-map.html">Dependency Map</a>
+    <section class="section" id="vs-viewer-section">
+      <div class="container">
+        <div id="vs-viewer" hidden>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);flex-wrap:wrap;gap:var(--space-3)">
+            <button type="button" class="btn btn--ghost" id="viewer-exit">&larr; Exit to My Value Streams</button>
+            <div style="display:flex;gap:var(--space-2);flex-wrap:wrap">
+              <button type="button" class="btn btn--secondary" id="viewer-edit">Edit Value Stream</button>
+              <button type="button" class="btn btn--secondary" id="viewer-update-blueprint">Update Blueprint</button>
+            </div>
           </div>
+          <div id="vs-sample-banner"></div>
+          <div id="vs-viewer-body"></div>
         </div>
       </div>
     </section>
@@ -82,15 +87,26 @@
   <script src="../js/data.js"></script>
   <script src="../js/navigation.js"></script>
   <script src="../js/search.js"></script>
-  <script src="../js/assessment.js"></script>
-  <script src="../js/diagnostics.js"></script>
-  <script src="../js/scenarios.js"></script>
-  <script src="../js/dashboard.js"></script>
-  <script src="../js/resource-detail.js"></script>
-  <script src="../js/explore.js"></script>
-  <script src="../js/learn.js"></script>
-  <script src="../js/anti-patterns.js"></script>
   <script src="../js/app.js"></script>
+  <script src="../js/builder-core.js"></script>
+  <script src="../js/blueprint-core.js"></script>
+  <script src="../js/valuestream-core.js"></script>
+  <script src="../js/valuestream-sample.js"></script>
+  <script src="../js/valuestream.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      OMSValueStreamPage.init();
+      var importBtn = document.getElementById('import-from-blueprint-btn');
+      if (importBtn) importBtn.addEventListener('click', function () {
+        var section = document.getElementById('vs-from-blueprint');
+        if (section && section.innerHTML.trim()) {
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          alert('No value streams exist in a Blueprint yet. Map one in the Organization Blueprint first, or create a new Value Stream here directly.');
+        }
+      });
+    });
+  </script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {

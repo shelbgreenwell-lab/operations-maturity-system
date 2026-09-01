@@ -113,6 +113,7 @@
   <script src="../js/search.js"></script>
   <script src="../js/app.js"></script>
   <script src="../js/builder-core.js"></script>
+  <script src="../js/valuestream-core.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var FLAGSHIP = [
@@ -133,12 +134,18 @@
           title: 'Process Architect',
           description: 'Design a complete process — stages, handoffs, exceptions, and controls.',
           steps: ['Stages', 'Handoffs', 'Exceptions', 'Controls', 'Metrics']
+        },
+        {
+          type: 'value-streams', href: 'value-streams.html', eyebrow: 'Execution',
+          title: 'Value Stream Intelligence',
+          description: 'See how value moves end-to-end, where it waits, and where handoffs between teams break down.',
+          steps: ['Stages', 'Queues', 'Handoffs', 'Rework', 'Approvals', 'Trace']
         }
       ];
 
       var flagshipMount = document.getElementById('flagship-builders-mount');
       flagshipMount.innerHTML = FLAGSHIP.map(function (b) {
-        var existing = OMSBuilder.store.list(b.type);
+        var existing = (b.type === 'value-streams' && window.OMSValueStream) ? OMSValueStream.store.list() : OMSBuilder.store.list(b.type);
         var cta = existing.length
           ? 'Resume (' + existing.length + (existing.length === 1 ? ' project' : ' projects') + ')'
           : 'Start Designing';

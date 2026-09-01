@@ -109,10 +109,27 @@
       });
     }
 
+    if (global.OMSValueStream) {
+      global.OMSValueStream.store.list().forEach(function (vs) {
+        items.push({ type: 'Value Stream', title: vs.name, subtitle: '', url: href('pages/value-streams.html') + '?valuestream=' + encodeURIComponent(vs.id), text: vs.name.toLowerCase() });
+        (vs.data.stages || []).forEach(function (s) {
+          if (!s.name) return;
+          items.push({ type: 'Value Stream: Stage', title: s.name, subtitle: 'Stage in ' + vs.name, url: href('pages/value-streams.html') + '?valuestream=' + encodeURIComponent(vs.id), text: s.name.toLowerCase() });
+        });
+        (vs.data.handoffs || []).forEach(function (h) {
+          var from = (global.OMSValueStream.byId(vs.data.stages, h.fromStageId) || {}).name;
+          var to = (global.OMSValueStream.byId(vs.data.stages, h.toStageId) || {}).name;
+          if (!from || !to) return;
+          var name = from + ' → ' + to;
+          items.push({ type: 'Value Stream: Handoff', title: name, subtitle: 'Handoff in ' + vs.name, url: href('pages/value-streams.html') + '?valuestream=' + encodeURIComponent(vs.id), text: name.toLowerCase() });
+        });
+      });
+    }
+
     return items;
   }
 
-  var TYPE_ORDER = ['Resource', 'Anti-Pattern', 'Diagnostic Symptom', 'Glossary', 'Builder Project', 'Blueprint Object'];
+  var TYPE_ORDER = ['Resource', 'Anti-Pattern', 'Diagnostic Symptom', 'Glossary', 'Builder Project', 'Blueprint Object', 'Value Stream'];
 
   function renderResults(mount, query, allItems) {
     var q = query.trim().toLowerCase();

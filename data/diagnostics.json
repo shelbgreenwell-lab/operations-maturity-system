@@ -90,6 +90,11 @@
           "label": "Explore the Execution Layer",
           "type": "layer",
           "id": "execution"
+        },
+        {
+          "label": "Map the Value Stream",
+          "type": "page",
+          "id": "value-streams"
         }
       ],
       "resourceToStudy": {
@@ -142,6 +147,11 @@
           "label": "Explore the Execution Layer",
           "type": "layer",
           "id": "execution"
+        },
+        {
+          "label": "Map the Value Stream",
+          "type": "page",
+          "id": "value-streams"
         }
       ],
       "resourceToStudy": {
@@ -199,6 +209,11 @@
           "label": "Explore the Management Layer",
           "type": "layer",
           "id": "management"
+        },
+        {
+          "label": "Map the Value Stream",
+          "type": "page",
+          "id": "value-streams"
         }
       ],
       "resourceToStudy": {
@@ -246,6 +261,11 @@
           "label": "Explore the Management Layer",
           "type": "layer",
           "id": "management"
+        },
+        {
+          "label": "Map the Value Stream",
+          "type": "page",
+          "id": "value-streams"
         }
       ],
       "resourceToStudy": {
