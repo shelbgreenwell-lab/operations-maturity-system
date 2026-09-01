@@ -1,0 +1,190 @@
+{
+  "description": "Terms specific to how OMS models an operating system. Not a general business dictionary — only terms that matter to understanding OMS itself.",
+  "terms": [
+    {
+      "id": "operating-system",
+      "term": "Operating System",
+      "category": "core",
+      "definition": "How an organization actually converts strategic intent into repeatable outcomes — the outcomes it owes, the capabilities and value streams that produce them, who owns what, how decisions get made, and how the whole thing is measured and governed. Every organization has one, whether or not anyone designed it.",
+      "whatThisIsNot": "Not software or IT infrastructure. In OMS this always means the operating model of the business, not a computer operating system."
+    },
+    {
+      "id": "operating-layer",
+      "term": "Operating Layer",
+      "category": "core",
+      "definition": "One of the six lenses OMS uses to view an operating system: Direction, Design, Execution, Management, Intelligence, Evolution. Used consistently throughout OMS — assessment scores, diagnostics, and Blueprint objects are all organized by layer.",
+      "whatThisIsNot": "Not an organizational reporting layer or management level."
+    },
+    {
+      "id": "operating-model",
+      "term": "Operating Model",
+      "category": "core",
+      "definition": "How an organization or team is designed to repeatedly convert strategy into outcomes: its capabilities, ownership, interfaces, and workflows. What the Operating Model Designer builds."
+    },
+    {
+      "id": "capability",
+      "term": "Capability",
+      "category": "core",
+      "definition": "Something an organization must be able to do to produce its outcomes — e.g. Sales, Implementation, Customer Success. Capabilities are executed by teams, supported by processes and technology, and connected to value streams."
+    },
+    {
+      "id": "value-stream",
+      "term": "Value Stream",
+      "category": "core",
+      "definition": "A major flow that crosses the organization end to end and produces value for someone — e.g. Lead → Customer, Issue → Resolution. Composed of the capabilities involved, roughly in the order work flows through them."
+    },
+    {
+      "id": "process",
+      "term": "Process",
+      "category": "core",
+      "definition": "A defined sequence of work with an owner, a purpose, and (ideally) a way to know whether it's working. In Blueprint, a process belongs to one capability and can be measured, governed, and handed off."
+    },
+    {
+      "id": "handoff",
+      "term": "Handoff",
+      "category": "core",
+      "definition": "The point where ownership of work changes hands between capabilities or teams. Handoffs are where context is most often lost — an undefined handoff is one of OMS's deterministic systemic risk signals."
+    },
+    {
+      "id": "decision-rights",
+      "term": "Decision Rights",
+      "category": "core",
+      "definition": "Who has authority to make a given decision, and where that authority sits. When decision rights are unclear, decisions default upward to whoever is senior enough to feel safe deciding — usually the wrong measure of who should decide."
+    },
+    {
+      "id": "governance",
+      "term": "Governance",
+      "category": "core",
+      "definition": "The mechanisms that keep a standard alive after it's written down: who reviews it, how often, what triggers an off-cycle review, and who has authority to change it. Documentation creates a standard; governance keeps it from decaying."
+    },
+    {
+      "id": "operating-rhythm",
+      "term": "Operating Rhythm",
+      "category": "core",
+      "definition": "A recurring mechanism that manages the system day to day — a review, a standup, a business review — built around real decisions and metrics.",
+      "whatThisIsNot": "A recurring meeting with no decision attached to it is not an operating rhythm. It's just a meeting."
+    },
+    {
+      "id": "control",
+      "term": "Control",
+      "category": "core",
+      "definition": "A preventive, detective, or corrective mechanism sized to an actual operational risk. Not every risk needs all three control types."
+    },
+    {
+      "id": "metric",
+      "term": "Metric",
+      "category": "core",
+      "definition": "A measured signal that should support a specific decision. A metric with no decision attached to it is reporting, not management."
+    },
+    {
+      "id": "leading-indicator",
+      "term": "Leading Indicator",
+      "category": "core",
+      "definition": "A metric that predicts a future outcome, as opposed to a lagging indicator that confirms a past one. Pipeline coverage predicts revenue; revenue itself is lagging."
+    },
+    {
+      "id": "constraint",
+      "term": "Constraint",
+      "category": "diagnostic",
+      "definition": "The likely system-level cause Diagnose surfaces from a symptom — a candidate explanation to validate with evidence, not a confirmed diagnosis.",
+      "whatThisIsNot": "Not the same as a root cause. A constraint is a hypothesis; a root cause is what's left after that hypothesis has been tested against evidence."
+    },
+    {
+      "id": "root-cause",
+      "term": "Root Cause",
+      "category": "workbench",
+      "definition": "The validated explanation for an observed problem, recorded in the Workbench only after an investigation has weighed evidence for and against it — including what would prove it wrong.",
+      "whatThisIsNot": "Diagnosis is not root cause. A likely constraint becomes a root cause only after validation, not on first guess."
+    },
+    {
+      "id": "intervention",
+      "term": "Intervention",
+      "category": "workbench",
+      "definition": "A designed change made in response to a validated root cause, tracked from Current State through the change to a Target State, with a baseline and a measured result.",
+      "whatThisIsNot": "Activity is not improvement. An intervention only counts once it has a baseline and a measured effect — not just a change that was made."
+    },
+    {
+      "id": "operating-debt",
+      "term": "Operating Debt",
+      "category": "core",
+      "definition": "The accumulated gap between how an organization currently operates and how it would need to operate to run predictably at its current scale — workarounds, undocumented exceptions, and informal handoffs that compound as the organization grows."
+    },
+    {
+      "id": "designed-state",
+      "term": "Designed State",
+      "category": "blueprint",
+      "definition": "How a Blueprint object is supposed to work, as entered by the user. Compared against the Actual State to surface a Design/Reality Gap."
+    },
+    {
+      "id": "actual-state",
+      "term": "Actual State",
+      "category": "blueprint",
+      "definition": "How a Blueprint object actually works in practice, as entered by the user — often different from its Designed State. The difference is the Design/Reality Gap."
+    },
+    {
+      "id": "systemic-risk",
+      "term": "Systemic Risk",
+      "category": "blueprint",
+      "definition": "A structural risk detected by a deterministic rule over the Blueprint's relationship graph — e.g. Key Person Dependency, Technology Concentration Risk, Decision Bottleneck. Each finding names the exact rule that triggered it.",
+      "whatThisIsNot": "Not a prediction. A systemic risk is a structural pattern in what you've mapped, not a forecast of what will happen."
+    },
+    {
+      "id": "maturity",
+      "term": "Maturity",
+      "category": "maturity",
+      "definition": "How developed an operating layer is, on a five-level scale from Reactive to Adaptive. Demonstrated by consistent operating behavior, not by the existence of documents.",
+      "whatThisIsNot": "Maturity is not the same as Health. A mature system can be temporarily unhealthy, and an immature system can look healthy by luck."
+    },
+    {
+      "id": "operational-health",
+      "term": "Operational Health",
+      "category": "maturity",
+      "definition": "How well a system is functioning right now, as distinct from how developed it is. A Blueprint object's Health Signal is set manually and never silently overridden by a maturity or assessment score."
+    },
+    {
+      "id": "completeness",
+      "term": "Blueprint Completeness",
+      "category": "blueprint",
+      "definition": "How much of the operating architecture has been mapped in a Blueprint — a coverage measure, not a quality or maturity judgment. A Blueprint can be 100% complete and still describe a badly designed system."
+    },
+    {
+      "id": "finding",
+      "term": "Finding",
+      "category": "workbench",
+      "definition": "A signal surfaced elsewhere in OMS — from a Blueprint rule, a diagnostic, or an assessment — waiting for a decision in the Workbench's Findings inbox. Adding a finding never automatically creates active work."
+    },
+    {
+      "id": "observation",
+      "term": "Observation",
+      "category": "workbench",
+      "definition": "Something a user noticed, captured in the Workbench before any interpretation is applied.",
+      "whatThisIsNot": "An observation is never automatically labeled a diagnosis or a root cause — that requires investigation."
+    },
+    {
+      "id": "priority",
+      "term": "Priority",
+      "category": "workbench",
+      "definition": "A problem statement worth acting on, carrying a business impact, urgency, owner, and success measure — more than a task on a list."
+    },
+    {
+      "id": "priority-signal",
+      "term": "Priority Signal",
+      "category": "workbench",
+      "definition": "A deterministic High/Moderate/Low rating computed from a priority's business impact, urgency, dependency value, risk, and effort, with the reasons always shown.",
+      "whatThisIsNot": "Not a scientifically validated score. It's a transparent, explainable ranking rule, not a prediction."
+    },
+    {
+      "id": "blueprint-object",
+      "term": "Blueprint Object",
+      "category": "blueprint",
+      "definition": "Any one of the 15 entity types a Blueprint models — an outcome, capability, value stream, role, decision, process, handoff, system, data asset, metric, rhythm, governance mechanism, or improvement mechanism — each with real relationships to the others."
+    },
+    {
+      "id": "evidence",
+      "term": "Evidence",
+      "category": "workbench",
+      "definition": "A recorded observation, interview, data point, or document that informs an investigation's diagnosis, tagged with a type and a confidence level.",
+      "whatThisIsNot": "Evidence informs the diagnosis. It does not replace reasoning — the investigator still has to weigh it."
+    }
+  ]
+}

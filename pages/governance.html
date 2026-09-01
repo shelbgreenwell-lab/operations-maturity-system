@@ -21,6 +21,7 @@
 
     <header class="page-header">
       <div class="container">
+        <nav id="page-breadcrumb" class="breadcrumb" aria-label="Breadcrumb"></nav>
         <span class="eyebrow">Governance</span>
         <h1>Governance Architecture</h1>
         <p class="lede">
@@ -69,6 +70,7 @@
 
   <script src="../js/data.js"></script>
   <script src="../js/navigation.js"></script>
+  <script src="../js/search.js"></script>
   <script src="../js/assessment.js"></script>
   <script src="../js/diagnostics.js"></script>
   <script src="../js/scenarios.js"></script>
@@ -79,5 +81,10 @@
   <script src="../js/anti-patterns.js"></script>
   <script src="../js/app.js"></script>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.OMSNav) window.OMSNav.renderBreadcrumb('page-breadcrumb', [], "Governance");
+    });
+  </script>
 </body>
 </html>

@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>My Operations Profile — Operations Maturity System</title>
-  <meta name="description" content="A personalized view of your progress, findings, and activity across the Operations Maturity System.">
+  <title>Profile &amp; Data — Operations Maturity System</title>
+  <meta name="description" content="A personal summary of your progress, and full control over the OMS data stored in this browser.">
 
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/components.css">
@@ -21,52 +21,65 @@
 
     <header class="page-header">
       <div class="container">
+        <nav id="page-breadcrumb" class="breadcrumb" aria-label="Breadcrumb"></nav>
         <span class="eyebrow">Profile</span>
-        <h1>My Operations Profile</h1>
+        <h1>Your Progress &amp; Data</h1>
         <p class="lede">
-          A personalized view of your progress, findings, and activity across the
-          system &mdash; current maturity, learning history, and everything you've
-          built so far.
+          Everything OMS knows about your organization &mdash; and full control
+          over it. Nothing here leaves this browser.
         </p>
-        <div class="foundational-notice">
-          <span class="badge">Coming Into The System</span>
-        </div>
+        <p class="page-header__use-when"><strong>USE THIS WHEN</strong> you want a quick summary of where things stand, or need to export, import, or clear what's stored.</p>
       </div>
     </header>
 
     <section class="section">
-      <div class="container container--narrow">
-        <div class="framework-preview">
-          <h3 style="margin-bottom: var(--space-4);">What your profile will bring together</h3>
-          <div class="tag-list">
-            <span class="pill">Current maturity score</span>
-            <span class="pill">Maturity by operating layer</span>
-            <span class="pill">Operational health</span>
-            <span class="pill">Assessment history</span>
-            <span class="pill">Current roadmap</span>
-            <span class="pill">Completed learning resources</span>
-            <span class="pill">Saved resources</span>
-            <span class="pill">Builders used</span>
-            <span class="pill">Scenario progress</span>
-            <span class="pill">Improvement activity</span>
-            <span class="pill">Maturity progression over time</span>
-          </div>
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Your Operating System</span>
+          <h2>Where things stand right now</h2>
         </div>
+        <div id="profile-summary-mount" class="metric-grid"></div>
+        <div class="related-links" style="margin-top:var(--space-4)">
+          <a href="command-center.html">Open Command Center</a>
+          <a href="assess.html">Take the Assessment</a>
+          <a href="workbench.html">Open the Workbench</a>
+        </div>
+      </div>
+    </section>
 
-        <p class="callout" style="margin-top: var(--space-6);">
-          Your profile will connect to the Operator Workbench while staying
-          focused on your overall development and operating-system maturity
-          &mdash; not just the artifacts you've created.
+    <section class="section">
+      <div class="container container--narrow">
+        <div class="section-head">
+          <span class="eyebrow">Data Management</span>
+          <h2>What's stored, and where</h2>
+        </div>
+        <p class="callout">
+          OMS keeps everything &mdash; your assessment, Blueprints, builder
+          projects, and Workbench &mdash; in this browser's local storage only.
+          Nothing is sent to a server. Clearing your browser data, or opening
+          OMS in a different browser or device, means starting fresh unless
+          you've exported a copy below.
         </p>
 
-        <div style="margin-top: var(--space-6);">
-          <span class="eyebrow">Available Now</span>
-          <div class="related-links" style="margin-top: var(--space-4);">
-            <a href="assess.html">Take the Assessment</a>
-            <a href="command-center.html">View Command Center</a>
-            <a href="workbench.html">Open the Workbench</a>
-          </div>
+        <div id="profile-storage-list" style="margin: var(--space-5) 0"></div>
+
+        <div class="section-head" style="margin-top:var(--space-7)">
+          <span class="eyebrow">Actions</span>
         </div>
+        <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-3)">
+          <button type="button" class="btn btn--primary" id="profile-export-btn">Export All Data</button>
+          <label class="btn btn--secondary" style="cursor:pointer">Import Data
+            <input type="file" accept="application/json" id="profile-import-input" hidden>
+          </label>
+          <button type="button" class="btn btn--secondary" id="profile-clear-sample-btn">Clear Sample Data</button>
+          <button type="button" class="btn btn--ghost" id="profile-clear-all-btn" style="color:var(--color-critical)">Clear All My Data</button>
+        </div>
+        <p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-4)">
+          Export saves one JSON file with everything above, for backup or moving
+          to another browser. Import overwrites the matching sections with what's
+          in the file you choose. Both clear actions ask for confirmation first
+          and cannot be undone.
+        </p>
       </div>
     </section>
 
@@ -76,15 +89,20 @@
 
   <script src="../js/data.js"></script>
   <script src="../js/navigation.js"></script>
-  <script src="../js/assessment.js"></script>
-  <script src="../js/diagnostics.js"></script>
-  <script src="../js/scenarios.js"></script>
-  <script src="../js/dashboard.js"></script>
-  <script src="../js/resource-detail.js"></script>
-  <script src="../js/explore.js"></script>
-  <script src="../js/learn.js"></script>
-  <script src="../js/anti-patterns.js"></script>
+  <script src="../js/search.js"></script>
+  <script src="../js/workbench-core.js"></script>
   <script src="../js/app.js"></script>
+  <script src="../js/data-management.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      OMSDataManagement.init();
+    });
+  </script>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.OMSNav) window.OMSNav.renderBreadcrumb('page-breadcrumb', [], "Profile");
+    });
+  </script>
 </body>
 </html>

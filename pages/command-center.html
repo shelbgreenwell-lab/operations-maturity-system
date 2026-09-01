@@ -21,12 +21,14 @@
 
     <header class="page-header">
       <div class="container">
+        <nav id="page-breadcrumb" class="breadcrumb" aria-label="Breadcrumb"></nav>
         <span class="eyebrow">Command Center</span>
         <h1>Your operating system, at a glance.</h1>
         <p class="lede">
           A single view of maturity, health, and constraint &mdash; built from your
           assessment results.
         </p>
+        <p class="page-header__use-when"><strong>USE THIS WHEN</strong> you want to see the whole operating system at once, not work inside one part of it.</p>
         <div class="page-header__meta">
           <span class="demo-notice" id="command-center-demo-notice" hidden>Demonstration Data</span>
         </div>
@@ -36,21 +38,33 @@
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow">Operating System Overview</span>
+          <span class="eyebrow">System Story</span>
+          <h2>What is actually happening in your operating system?</h2>
         </div>
-        <div id="metric-grid-mount" class="metric-grid"></div>
+        <div id="system-story-mount" class="card"></div>
       </div>
     </section>
 
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow">Your Operating System</span>
+          <span class="eyebrow">Maturity</span>
           <h2>Maturity by layer</h2>
         </div>
-        <div class="card">
+        <div id="command-maturity-mount" class="metric-grid"></div>
+        <div class="card" style="margin-top:var(--space-4)">
           <div id="command-layer-bars" class="layer-bars"></div>
         </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Health</span>
+          <h2>How well is it running?</h2>
+        </div>
+        <div id="command-health-mount" class="metric-grid"></div>
       </div>
     </section>
 
@@ -76,10 +90,40 @@
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <span class="eyebrow">System Architecture</span>
+          <span class="eyebrow">Architecture</span>
           <h2>How the operating system is put together</h2>
         </div>
         <div id="system-architecture-mount"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Active Improvement</span>
+          <h2>What are we doing about it?</h2>
+        </div>
+        <div id="managed-action-mount"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Risk</span>
+          <h2>What could break, and what already has a flag on it</h2>
+        </div>
+        <div id="command-risk-mount"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Attention</span>
+          <h2>What deserves a look right now</h2>
+        </div>
+        <div id="command-attention-mount"></div>
       </div>
     </section>
 
@@ -102,10 +146,12 @@
 
   <script src="../js/data.js"></script>
   <script src="../js/navigation.js"></script>
+  <script src="../js/search.js"></script>
   <script src="../js/assessment.js"></script>
   <script src="../js/diagnostics.js"></script>
   <script src="../js/scenarios.js"></script>
   <script src="../js/blueprint-core.js"></script>
+  <script src="../js/workbench-core.js"></script>
   <script src="../js/dashboard.js"></script>
   <script src="../js/resource-detail.js"></script>
   <script src="../js/explore.js"></script>
@@ -113,5 +159,10 @@
   <script src="../js/anti-patterns.js"></script>
   <script src="../js/app.js"></script>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.OMSNav) window.OMSNav.renderBreadcrumb('page-breadcrumb', [], "Command Center");
+    });
+  </script>
 </body>
 </html>
