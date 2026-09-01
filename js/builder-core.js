@@ -122,10 +122,12 @@
     }
 
     if (field.type === 'multiselect') {
-      var checks = resolveOptions(field, null).map(function (opt, i) {
-        var checked = (value || []).indexOf(opt) !== -1;
-        return '<label class="builder-check"><input type="checkbox" data-key="' + field.key + '" value="' + opt + '"' +
-          (checked ? ' checked' : '') + '> ' + opt + '</label>';
+      var checks = resolveOptions(field, null).map(function (opt) {
+        var v = typeof opt === 'string' ? opt : opt.value;
+        var l = typeof opt === 'string' ? opt : opt.label;
+        var checked = (value || []).indexOf(v) !== -1;
+        return '<label class="builder-check"><input type="checkbox" data-key="' + field.key + '" value="' + v + '"' +
+          (checked ? ' checked' : '') + '> ' + l + '</label>';
       }).join('');
       return label + help + '<div class="builder-check-group" id="' + uid + '">' + checks + '</div>';
     }
@@ -184,6 +186,7 @@
 
     function render() {
       var items = project.data[dataKey];
+      items.forEach(function (item) { if (!item.id) item.id = newId('item'); });
       if (!items.length && hideAdd) {
         mount.innerHTML = '<p class="callout">' + (opts.emptyMessage || 'Add items in an earlier step first.') + '</p>';
         return;
