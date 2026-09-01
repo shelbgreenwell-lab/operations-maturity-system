@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Operator Workbench — Operations Maturity System</title>
-  <meta name="description" content="Where Findings saved from an Organization Blueprint become active, tracked work.">
+  <meta name="description" content="Turn operational insight into managed action: observations become investigations, findings become priorities, priorities become interventions, results become standards.">
 
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/components.css">
@@ -23,61 +23,49 @@
       <div class="container">
         <span class="eyebrow">Workbench</span>
         <h1>Operator Workbench</h1>
-        <p class="lede">
-          Where Findings saved from an Organization Blueprint &mdash; systemic
-          risks, ownership gaps, and more &mdash; become active, tracked work.
-        </p>
+        <p class="lede">Turn operational insight into managed action.</p>
       </div>
     </header>
 
-    <section class="section">
+    <section class="section" style="padding-top:0">
       <div class="container">
-        <div id="workbench-summary" style="margin-bottom:var(--space-6)"></div>
 
-        <div class="bp-filter-row" id="workbench-blueprint-filter"></div>
-        <div class="bp-filter-row" id="workbench-status-filter"></div>
-        <div class="bp-filter-row" id="workbench-severity-filter"></div>
-        <input type="search" class="search-input" id="workbench-search" placeholder="Search findings by message or rule&hellip;" style="margin-bottom:var(--space-5);width:100%;max-width:420px">
+        <div id="wb-stat-strip" style="margin-bottom:var(--space-5)"></div>
 
-        <div id="workbench-findings-list"></div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="section-head section-head--wide">
-          <span class="eyebrow">Coming Next</span>
-          <h2>The rest of the Workbench.</h2>
+        <div class="bp-toolbar" style="margin-bottom:var(--space-4)">
+          <input type="search" class="search-input" id="wb-search" placeholder="Search this workspace&hellip;">
+          <div class="bp-tabs" id="wb-tabs"></div>
         </div>
-        <div class="card-grid card-grid--3">
-          <div class="card builder-card--muted"><div class="card__eyebrow">Priorities</div><h3>Prioritized Operating Work</h3><p class="text-muted" style="font-size:var(--step--1)">Rank open findings and builder drafts against what matters most right now.</p></div>
-          <div class="card builder-card--muted"><div class="card__eyebrow">Diagnostics</div><h3>Saved Diagnoses</h3><p class="text-muted" style="font-size:var(--step--1)">Keep a Diagnose outcome here instead of losing it when you close the tab.</p></div>
-          <div class="card builder-card--muted"><div class="card__eyebrow">Roadmaps</div><h3>Improvement Roadmaps</h3><p class="text-muted" style="font-size:var(--step--1)">Sequence findings and builder work into a plan with real dates.</p></div>
-        </div>
-        <p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-4)">Not yet functional &mdash; shown so you know what's coming.</p>
-      </div>
-    </section>
 
-    <section class="section">
-      <div class="container container--narrow" style="text-align: center;">
-        <p class="lede" style="margin: 0 auto;">
-          Findings come from an Organization Blueprint's Health &amp; Risk view.
-        </p>
-        <div class="hero__actions" style="justify-content: center; margin-top: var(--space-5);">
-          <a class="btn btn--primary" href="blueprint.html">Open Blueprint</a>
-          <a class="btn btn--secondary" href="diagnose.html">Run a Diagnostic</a>
+        <div class="resource-filters" id="wb-utility-row" style="margin-bottom:var(--space-5)">
+          <button type="button" class="resource-filter" id="wb-load-sample-btn">Load Sample Workspace</button>
+          <button type="button" class="resource-filter" id="wb-clear-sample-btn" hidden>Clear Sample Workspace</button>
+          <button type="button" class="resource-filter" id="wb-export-btn">Export Workspace</button>
+          <label class="resource-filter" style="cursor:pointer">Import Workspace
+            <input type="file" id="wb-import-input" accept="application/json" style="display:none">
+          </label>
+          <button type="button" class="resource-filter" id="wb-clear-all-btn">Clear Workspace</button>
         </div>
+
+        <div id="wb-tab-body"></div>
+
       </div>
     </section>
 
   </main>
+
+  <button type="button" class="btn btn--primary quick-capture-fab" id="wb-capture-fab">+ Capture</button>
 
   <div id="site-footer"></div>
 
   <script src="../js/data.js"></script>
   <script src="../js/navigation.js"></script>
   <script src="../js/app.js"></script>
+  <script src="../js/builder-core.js"></script>
   <script src="../js/blueprint-core.js"></script>
+  <script src="../js/blueprint-sample.js"></script>
+  <script src="../js/workbench-core.js"></script>
+  <script src="../js/workbench-sample.js"></script>
   <script src="../js/workbench.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {

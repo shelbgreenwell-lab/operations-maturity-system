@@ -505,6 +505,8 @@
   global.OMSBuilder = {
     store: store,
     newId: newId,
+    fieldHtml: fieldHtml,
+    bindFieldEvents: bindFieldEvents,
     repeatableList: repeatableList,
     objectForm: objectForm,
     renderProgress: renderProgress,

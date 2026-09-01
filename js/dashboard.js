@@ -194,10 +194,50 @@
       '<a class="btn btn--secondary" href="blueprint.html?blueprint=' + encodeURIComponent(bp.id) + '">Open Blueprint &rarr;</a>';
   }
 
+  /* ----------------------------------------------------------
+     Managed Action — a light Workbench summary. Command Center
+     answers "what is happening in the operating system?"; the
+     Workbench answers "what are we doing about it?" — this section
+     only surfaces the headline counts, never the work itself.
+     ---------------------------------------------------------- */
+
+  function renderManagedAction() {
+    var mount = byId('managed-action-mount');
+    if (!mount) return;
+    var WB = global.OMSWorkbenchCore;
+    if (!WB) return;
+    var ws = WB.load();
+    var hasAny = WB.ENTITY_ORDER.some(function (t) { return (ws[t] || []).length > 0; });
+
+    if (!hasAny) {
+      mount.innerHTML =
+        '<p class="callout">Nothing is being actively worked yet. The Workbench is where findings become priorities, priorities become interventions, and results get measured.</p>' +
+        '<a class="btn btn--primary" href="workbench.html">Open Workbench</a>';
+      return;
+    }
+
+    var activePriorities = ws.priorities.filter(function (p) { return p.status !== 'Complete'; }).length;
+    var openInvestigations = ws.investigations.filter(function (i) { return i.rootCauseStatus !== 'Validated' && i.rootCauseStatus !== 'Disproven'; }).length;
+    var interventionsInTest = ws.interventions.filter(function (i) { return i.status === 'Testing' || i.status === 'Ready to Test'; }).length;
+    var openRisks = ws.risks.filter(function (r) { return r.status !== 'Closed'; }).length;
+    var attention = WB.attentionNeeded(ws).length;
+
+    mount.innerHTML =
+      '<div class="metric-grid" style="margin-bottom:var(--space-5)">' +
+        '<div class="metric-card"><span class="metric-card__label">Active Priorities</span><span class="metric-card__value metric-card__value--accent">' + activePriorities + '</span></div>' +
+        '<div class="metric-card"><span class="metric-card__label">Open Investigations</span><span class="metric-card__value metric-card__value--accent">' + openInvestigations + '</span></div>' +
+        '<div class="metric-card"><span class="metric-card__label">Interventions In Test</span><span class="metric-card__value metric-card__value--accent">' + interventionsInTest + '</span></div>' +
+        '<div class="metric-card"><span class="metric-card__label">Risks</span><span class="metric-card__value metric-card__value--accent">' + openRisks + '</span></div>' +
+        '<div class="metric-card"><span class="metric-card__label">Attention Needed</span><span class="metric-card__value' + (attention ? ' metric-card__value--accent' : '') + '">' + attention + '</span></div>' +
+      '</div>' +
+      '<a class="btn btn--secondary" href="workbench.html">Open Workbench &rarr;</a>';
+  }
+
   function init() {
     var stored = global.OMSData.storage.get('assessment', null);
     render(stored || DEMO_RESULTS);
     renderSystemArchitecture();
+    renderManagedAction();
   }
 
   global.OMSDashboard = { init: init };

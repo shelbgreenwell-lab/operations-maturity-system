@@ -217,7 +217,26 @@
         '</div>';
     }
 
+    if (global.OMSWorkbenchCore) {
+      html += '<div class="next-action" style="margin-top:var(--space-4)"><span>Keep this while you work</span>' +
+        '<button type="button" class="btn btn--secondary" id="resource-save-to-workbench">Save To Workbench</button></div>';
+    }
+
     mountEl.innerHTML = html;
+
+    var saveBtn = mountEl.querySelector('#resource-save-to-workbench');
+    if (saveBtn) saveBtn.addEventListener('click', function () {
+      var WB = global.OMSWorkbenchCore;
+      var wsData = WB.load();
+      var already = wsData.savedSystems.some(function (s) { return s.resourceRef && s.resourceRef.id === resource.id; });
+      if (already) { saveBtn.textContent = 'Already Saved'; saveBtn.disabled = true; return; }
+      WB.addItem(wsData, 'savedSystems', {
+        resourceRef: { type: 'resource', id: resource.id, label: resource.title },
+        layer: resource.layer || '', whySaved: '', relatedPriorityId: null, relatedInvestigationId: null, notes: ''
+      });
+      saveBtn.textContent = 'Saved To Workbench ✓';
+      saveBtn.disabled = true;
+    });
   }
 
   /**

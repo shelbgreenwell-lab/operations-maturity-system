@@ -132,6 +132,15 @@
         '</div>';
     }
 
+    var workbenchLinkHtml = '';
+    if (global.OMSWorkbenchCore) {
+      workbenchLinkHtml =
+        '<div class="next-action" style="margin-top:var(--space-4)">' +
+          '<span>Track this as an active finding</span>' +
+          '<button type="button" class="btn btn--secondary" id="diagnose-add-finding">Add Finding To Workbench</button>' +
+        '</div>';
+    }
+
     var evidenceHtml = constraint.evidence.map(function (e) { return '<li>' + e + '</li>'; }).join('');
     var questionsHtml = constraint.questionsToAsk.map(function (q) { return '<li class="operator-question">' + q + '</li>'; }).join('');
     var notYetHtml = constraint.whatNotToDoYet.map(function (n) { return '<li>' + n + '</li>'; }).join('');
@@ -179,10 +188,25 @@
         '</div>'
         : '') +
       blueprintLinkHtml +
+      workbenchLinkHtml +
       '<button type="button" class="btn btn--ghost" id="diagnose-restart" style="margin-top:var(--space-7)">Investigate a different symptom</button>';
 
     var restart = byId('diagnose-restart');
     if (restart) restart.addEventListener('click', restartFlow);
+
+    var addFindingBtn = byId('diagnose-add-finding');
+    if (addFindingBtn) addFindingBtn.addEventListener('click', function () {
+      var WB = global.OMSWorkbenchCore;
+      var wsData = WB.load();
+      WB.addItem(wsData, 'findings', {
+        title: constraint.name, message: constraint.why, sourceType: 'diagnostic', sourceLabel: state.symptom.symptom,
+        confidenceStatus: 'Inferred', relatedBlueprint: null, relatedLayer: layerEntry ? layerEntry.id : '',
+        evidenceNeeded: constraint.evidence.join(' '), systemsInvolved: '', recommendedInvestigation: (constraint.questionsToAsk || [])[0] || '',
+        date: new Date().toISOString(), status: 'New', sourceRefId: null
+      });
+      addFindingBtn.textContent = 'Added to Workbench ✓';
+      addFindingBtn.disabled = true;
+    });
   }
 
   function restartFlow() {
