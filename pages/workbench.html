@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Operator Workbench — Operations Maturity System</title>
-  <meta name="description" content="The working environment for turning operational knowledge and diagnostic findings into active operating work.">
+  <meta name="description" content="Where Findings saved from an Organization Blueprint become active, tracked work.">
 
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/components.css">
@@ -24,49 +24,48 @@
         <span class="eyebrow">Workbench</span>
         <h1>Operator Workbench</h1>
         <p class="lede">
-          Where operational knowledge and diagnostic findings become active work
-          &mdash; priorities, saved diagnoses, roadmaps, and decisions in one place.
+          Where Findings saved from an Organization Blueprint &mdash; systemic
+          risks, ownership gaps, and more &mdash; become active, tracked work.
         </p>
-        <div class="foundational-notice">
-          <span class="badge">Coming Into The System</span>
-        </div>
       </div>
     </header>
 
     <section class="section">
-      <div class="container container--narrow">
-        <div class="framework-preview">
-          <h3 style="margin-bottom: var(--space-4);">What the Workbench will hold</h3>
-          <div class="tag-list">
-            <span class="pill">Current operational priorities</span>
-            <span class="pill">Saved diagnoses</span>
-            <span class="pill">Assessments</span>
-            <span class="pill">Processes</span>
-            <span class="pill">Value streams</span>
-            <span class="pill">Risks</span>
-            <span class="pill">Improvement initiatives</span>
-            <span class="pill">Roadmaps</span>
-            <span class="pill">Saved resources</span>
-            <span class="pill">Operating evidence</span>
-            <span class="pill">Decisions</span>
-            <span class="pill">Builders and tools in progress</span>
-          </div>
+      <div class="container">
+        <div id="workbench-summary" style="margin-bottom:var(--space-6)"></div>
+
+        <div class="bp-filter-row" id="workbench-blueprint-filter"></div>
+        <div class="bp-filter-row" id="workbench-status-filter"></div>
+        <div class="bp-filter-row" id="workbench-severity-filter"></div>
+        <input type="search" class="search-input" id="workbench-search" placeholder="Search findings by message or rule&hellip;" style="margin-bottom:var(--space-5);width:100%;max-width:420px">
+
+        <div id="workbench-findings-list"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head section-head--wide">
+          <span class="eyebrow">Coming Next</span>
+          <h2>The rest of the Workbench.</h2>
         </div>
+        <div class="card-grid card-grid--3">
+          <div class="card builder-card--muted"><div class="card__eyebrow">Priorities</div><h3>Prioritized Operating Work</h3><p class="text-muted" style="font-size:var(--step--1)">Rank open findings and builder drafts against what matters most right now.</p></div>
+          <div class="card builder-card--muted"><div class="card__eyebrow">Diagnostics</div><h3>Saved Diagnoses</h3><p class="text-muted" style="font-size:var(--step--1)">Keep a Diagnose outcome here instead of losing it when you close the tab.</p></div>
+          <div class="card builder-card--muted"><div class="card__eyebrow">Roadmaps</div><h3>Improvement Roadmaps</h3><p class="text-muted" style="font-size:var(--step--1)">Sequence findings and builder work into a plan with real dates.</p></div>
+        </div>
+        <p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-4)">Not yet functional &mdash; shown so you know what's coming.</p>
+      </div>
+    </section>
 
-        <p class="callout" style="margin-top: var(--space-6);">
-          The Workbench is designed to connect activity across the entire system
-          &mdash; not operate as a standalone feature. A diagnostic finding, an
-          assessment gap, and a Build tool in progress should all live here together.
+    <section class="section">
+      <div class="container container--narrow" style="text-align: center;">
+        <p class="lede" style="margin: 0 auto;">
+          Findings come from an Organization Blueprint's Health &amp; Risk view.
         </p>
-
-        <div style="margin-top: var(--space-6);">
-          <span class="eyebrow">Start Building Toward It</span>
-          <div class="related-links" style="margin-top: var(--space-4);">
-            <a href="diagnose.html">Run a Diagnostic</a>
-            <a href="assess.html">Take the Assessment</a>
-            <a href="build.html">Explore Build</a>
-            <a href="command-center.html">View Command Center</a>
-          </div>
+        <div class="hero__actions" style="justify-content: center; margin-top: var(--space-5);">
+          <a class="btn btn--primary" href="blueprint.html">Open Blueprint</a>
+          <a class="btn btn--secondary" href="diagnose.html">Run a Diagnostic</a>
         </div>
       </div>
     </section>
@@ -77,15 +76,14 @@
 
   <script src="../js/data.js"></script>
   <script src="../js/navigation.js"></script>
-  <script src="../js/assessment.js"></script>
-  <script src="../js/diagnostics.js"></script>
-  <script src="../js/scenarios.js"></script>
-  <script src="../js/dashboard.js"></script>
-  <script src="../js/resource-detail.js"></script>
-  <script src="../js/explore.js"></script>
-  <script src="../js/learn.js"></script>
-  <script src="../js/anti-patterns.js"></script>
   <script src="../js/app.js"></script>
+  <script src="../js/blueprint-core.js"></script>
+  <script src="../js/workbench.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      OMSWorkbench.init();
+    });
+  </script>
 
 </body>
 </html>

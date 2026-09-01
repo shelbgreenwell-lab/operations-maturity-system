@@ -214,6 +214,27 @@
     });
   }
 
+  /* ----------------------------------------------------------
+     Blueprint mapping — see js/blueprint-import.js for how this
+     gets merged. No source field maps cleanly onto an escalation
+     owner or a linked role/process, so those are left blank rather
+     than guessed.
+     ---------------------------------------------------------- */
+
+  function buildBlueprintMapping(d) {
+    var BP = global.OMSBlueprint;
+    var mapping = { decisions: [] };
+    (d.decisions || []).forEach(function (dec) {
+      if (!dec.name) return;
+      mapping.decisions.push({
+        id: BP.newId('dec'), name: dec.name, owner: dec.decider || '',
+        frequency: dec.frequency || '', impact: dec.businessImpact || '',
+        escalationOwner: '', roleId: '', processId: ''
+      });
+    });
+    return mapping;
+  }
+
   function stepOutput(container, project, ctrl) {
     var d = project.data;
     var results = analyzeAll(d);
@@ -253,13 +274,21 @@
       '</tr></thead><tbody>' + (rows || '<tr><td colspan="8" class="text-dim">No decisions yet.</td></tr>') + '</tbody></table></div>' +
       '<div class="section-head" style="margin-top:var(--space-7)"><span class="eyebrow">Related Systems</span></div>' +
       '<div class="related-links" id="next-systems-mount"></div>' +
-      '<div id="output-actions-mount" style="margin-top:var(--space-7)"></div>';
+      '<div id="add-to-blueprint-mount" style="margin-top:var(--space-7)"></div>' +
+      '<div id="output-actions-mount" style="margin-top:var(--space-5)"></div>';
 
     container.querySelector('#next-systems-mount').innerHTML = global.OMSLinks.renderList([
       { label: 'Operating Model Designer', type: 'page', id: 'operating-model' },
       { label: 'Process Architect', type: 'page', id: 'process-architect' },
       { label: 'Governance', type: 'resource', id: 'governance' }
     ]);
+
+    if (global.OMSBlueprintImport) {
+      global.OMSBlueprintImport.renderButton(container.querySelector('#add-to-blueprint-mount'), {
+        sourceLabel: project.name || 'Decision Rights Architect',
+        buildMapping: function () { return buildBlueprintMapping(project.data); }
+      });
+    }
 
     B.renderOutputActions(container.querySelector('#output-actions-mount'), project, {
       learnLinks: [
