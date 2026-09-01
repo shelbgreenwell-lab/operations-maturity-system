@@ -1117,6 +1117,21 @@
     if (panel) panel.remove();
   }
 
+  function capacitySignalHtml(type, item) {
+    var Cap = global.OMSCapacity;
+    if (!Cap) return '';
+    var models = Cap.store.list().filter(function (m) {
+      return m.data.relatedBlueprintProjectId === project.id && m.data.relatedBlueprintType === type && m.data.relatedBlueprintId === item.id;
+    });
+    if (!models.length) return '';
+    return '<h5 class="text-mono text-dim" style="text-transform:uppercase;font-size:var(--step--1);margin-top:var(--space-5)">Capacity Signal</h5>' +
+      models.map(function (m) {
+        var d = Cap.demandCapacityBalance(m);
+        var util = Cap.utilizationBand(d.utilization);
+        return '<p class="text-muted" style="margin-bottom:var(--space-2)"><a href="capacity.html?model=' + encodeURIComponent(m.id) + '">' + esc(m.name) + '</a> &mdash; ' + (d.utilization == null ? 'incomplete data' : d.utilization + '% utilization (' + util.band + ')') + '</p>';
+      }).join('');
+  }
+
   function renderInspectorContent(panel, type, item) {
     var name = BP.entityName(type, item);
     var health = BP.getHealth(project, type, item.id);
@@ -1155,8 +1170,7 @@
       (diffs.length ? '<h5 class="text-mono text-dim" style="text-transform:uppercase;font-size:var(--step--1)">Designed vs Actual</h5>' + diffs.map(function (d) {
         return '<div class="dva-row"><div class="dva-row__col"><h5>Designed</h5><p>' + esc(d.designed) + '</p></div><div class="dva-row__col dva-row__col--actual"><h5>Actual</h5><p>' + esc(d.actual) + '</p></div></div>';
       }).join('') : '') +
-      '<h5 class="text-mono text-dim" style="text-transform:uppercase;font-size:var(--step--1);margin-top:var(--space-5)">Related OMS Resource / Builder / Diagnostic</h5>' +
-      '<p class="text-dim">Not yet connected in this Blueprint &mdash; coming in a later iteration.</p>' +
+      capacitySignalHtml(type, item) +
       '<div class="inspector-panel__actions">' +
         '<button type="button" class="btn btn--secondary" id="insp-edit">Edit</button>' +
         '<button type="button" class="btn btn--secondary" id="insp-focus">Focus</button>' +

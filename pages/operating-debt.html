@@ -57,6 +57,8 @@
           from your assessment.
         </p>
 
+        <div id="debt-capacity-mount"></div>
+
         <div style="margin-top: var(--space-6);">
           <span class="eyebrow">Related Now</span>
           <div class="related-links" style="margin-top: var(--space-4);">
@@ -84,10 +86,35 @@
   <script src="../js/learn.js"></script>
   <script src="../js/anti-patterns.js"></script>
   <script src="../js/app.js"></script>
+  <script src="../js/capacity-core.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.OMSNav) window.OMSNav.renderBreadcrumb('page-breadcrumb', [], "Operating Debt");
+
+      var mount = document.getElementById('debt-capacity-mount');
+      var Cap = window.OMSCapacity;
+      if (!mount || !Cap) return;
+      var DEBT_LIKE_RULES = ['Rework Consuming Material Capacity', 'Meeting Load High', 'Manual Allocation Bottleneck', 'Failure Demand High'];
+      var esc = function (s) { return (s == null ? '' : String(s)).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+
+      var candidates = [];
+      Cap.store.list().forEach(function (m) {
+        Cap.findings(m).forEach(function (f) {
+          if (DEBT_LIKE_RULES.indexOf(f.rule) !== -1) candidates.push({ model: m, finding: f });
+        });
+      });
+      if (!candidates.length) return;
+
+      mount.innerHTML = '<div class="section-head" style="margin-top: var(--space-6);"><span class="eyebrow">From Your Capacity Models</span><h3>Candidates worth calling operating debt</h3></div>' +
+        '<p class="text-dim" style="font-size: var(--step--1); margin-bottom: var(--space-4);">These are capacity findings that often indicate operating debt &mdash; not an automatic classification. Decide case by case whether each represents debt worth tracking.</p>' +
+        candidates.map(function (c) {
+          return '<div class="risk-flag risk-flag--warning" style="margin-bottom: var(--space-3)">' +
+            '<div class="risk-flag__header"><span class="badge risk-flag__badge risk-flag__badge--warning">' + esc(c.finding.rule) + '</span></div>' +
+            '<p class="risk-flag__message">' + esc(c.finding.message) + '</p>' +
+            '<p class="text-dim" style="font-size: var(--step--1)">From "' + esc(c.model.name) + '" &mdash; <a href="capacity.html?model=' + encodeURIComponent(c.model.id) + '">View As Operating Debt In Capacity &rarr;</a></p>' +
+          '</div>';
+        }).join('');
     });
   </script>
 </body>

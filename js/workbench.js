@@ -951,6 +951,36 @@
       : '<span class="badge badge--outline" title="Load this Value Stream to open it">Value Stream: ' + esc(label) + '</span>';
   }
 
+  function syncCapacityFindings() {
+    var Cap = global.OMSCapacity;
+    if (!Cap) return;
+    var existingRefIds = {};
+    ws.findings.forEach(function (f) { if (f.sourceRefId) existingRefIds[f.sourceRefId] = true; });
+    Cap.store.list().forEach(function (capItem) {
+      (capItem.data.findings || []).forEach(function (cf) {
+        if (existingRefIds[cf.id]) return;
+        WB.addItem(ws, 'findings', {
+          title: cf.type, message: cf.message, sourceType: 'capacity', sourceLabel: capItem.name, confidenceStatus: 'Observed',
+          relatedCapacityModel: { modelId: capItem.id, modelName: capItem.name },
+          relatedLayer: '', evidenceNeeded: cf.why || '', systemsInvolved: '', recommendedInvestigation: '',
+          date: cf.savedAt, status: 'New', sourceRefId: cf.id
+        });
+        existingRefIds[cf.id] = true;
+      });
+    });
+  }
+
+  function capacityChip(rel) {
+    if (!rel) return '';
+    var Cap = global.OMSCapacity;
+    var live = rel.modelId && Cap ? Cap.store.get(rel.modelId) : null;
+    var label = rel.modelName || (live && live.name);
+    if (!label) return '';
+    return live
+      ? '<a class="badge badge--outline" href="capacity.html?model=' + encodeURIComponent(rel.modelId) + '" title="Open in Capacity">Capacity: ' + esc(label) + ' &rarr;</a>'
+      : '<span class="badge badge--outline" title="Load this Capacity Model to open it">Capacity: ' + esc(label) + '</span>';
+  }
+
   var CONFIDENCE_TONE = { Observed: '', Inferred: 'moderate', Validated: 'low' };
   function confidenceBadge(status) {
     if (!status) return '';
@@ -961,6 +991,7 @@
   function renderFindingsTab(mount) {
     syncBlueprintFindings();
     syncValueStreamFindings();
+    syncCapacityFindings();
     mount.innerHTML =
       '<h3>From Your Assessment</h3>' +
       '<div id="wb-assessment-mount" style="margin-bottom:var(--space-7)"></div>' +
@@ -982,7 +1013,7 @@
         '<div class="risk-flag" data-finding="' + f.id + '">' +
           '<div class="risk-flag__header">' + confidenceBadge(f.confidenceStatus) + '<span class="risk-flag__rule">' + esc(f.title) + '</span></div>' +
           '<p class="risk-flag__message">' + esc(f.message || f.recommendedInvestigation || '') + '</p>' +
-          '<div class="build-project-row__meta" style="margin-bottom:var(--space-3)">' + blueprintChip(f.relatedBlueprint) + valueStreamChip(f.relatedValueStream) + '<span class="text-dim text-mono" style="font-size:var(--step--1)">From ' + esc(f.sourceLabel || f.sourceType) + (f.date ? ' &middot; ' + fmtDate(f.date) : '') + '</span></div>' +
+          '<div class="build-project-row__meta" style="margin-bottom:var(--space-3)">' + blueprintChip(f.relatedBlueprint) + valueStreamChip(f.relatedValueStream) + capacityChip(f.relatedCapacityModel) + '<span class="text-dim text-mono" style="font-size:var(--step--1)">From ' + esc(f.sourceLabel || f.sourceType) + (f.date ? ' &middot; ' + fmtDate(f.date) : '') + '</span></div>' +
           '<div class="inspector-panel__actions">' +
             '<button type="button" class="btn btn--secondary" data-add-priority="' + f.id + '">Add To Priorities</button>' +
             '<button type="button" class="btn btn--secondary" data-start-inv="' + f.id + '">Start Investigation</button>' +
