@@ -147,12 +147,25 @@
     var edges = [];
     function edge(fromType, fromId, toType, toId, relation) {
       if (!fromId || !toId) return;
+      var exists = edges.some(function (e) {
+        return e.relation === relation && e.from.type === fromType && e.from.id === fromId && e.to.type === toType && e.to.id === toId;
+      });
+      if (exists) return;
       edges.push({ from: { type: fromType, id: fromId }, to: { type: toType, id: toId }, relation: relation });
     }
 
     (d.capabilities || []).forEach(function (c) {
       (c.outcomeIds || []).forEach(function (oid) { edge('capabilities', c.id, 'outcomes', oid, 'supports'); });
       (c.valueStreamIds || []).forEach(function (vid) { edge('capabilities', c.id, 'valueStreams', vid, 'enables'); });
+    });
+
+    // Value streams record which capabilities are involved from their own
+    // side too (the field a user is actually guided to fill in first) —
+    // derive the same capability -> value stream edge from that direction
+    // as well, so the relationship doesn't depend on which of the two
+    // redundant fields happened to get filled in.
+    (d.valueStreams || []).forEach(function (vs) {
+      (vs.capabilityIds || []).forEach(function (cid) { edge('capabilities', cid, 'valueStreams', vs.id, 'enables'); });
     });
 
     (d.outcomes || []).forEach(function (o) {

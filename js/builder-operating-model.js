@@ -333,6 +333,89 @@
     ctrl.persist();
   }
 
+  /* ----------------------------------------------------------
+     Blueprint mapping — see js/blueprint-import.js for how this
+     gets merged. Ownership is folded into outcome/capability owner
+     fields rather than modeled separately, since Blueprint already
+     carries an owner on both.
+     ---------------------------------------------------------- */
+
+  function buildBlueprintMapping(d) {
+    var BP = global.OMSBlueprint;
+    var mapping = { outcomes: [], valueRecipients: [], capabilities: [], valueStreams: [], handoffs: [], governance: [] };
+    var capIdByName = {};
+
+    (d.outcomes || []).forEach(function (o) {
+      if (!o.outcome) return;
+      mapping.outcomes.push({
+        id: BP.newId('out'), name: o.outcome, description: o.whyItMatters || '',
+        priority: o.priority || '', successMeasure: o.howRecognized || '', owner: ''
+      });
+    });
+
+    (d.valueRecipients || []).forEach(function (r) {
+      if (!r.type) return;
+      mapping.valueRecipients.push({ id: BP.newId('vr'), recipient: r.type, expectation: r.expectation || '', confirmation: '', outcomeIds: [] });
+    });
+
+    (d.capabilities || []).forEach(function (c) {
+      if (!c.name) return;
+      var id = BP.newId('cap');
+      capIdByName[c.name.trim().toLowerCase()] = id;
+      mapping.capabilities.push({
+        id: id, name: c.name, purpose: c.purpose || '', owner: c.owner || '',
+        criticality: c.criticality || '', maturity: c.maturity || '', outcomeIds: [], valueStreamIds: []
+      });
+    });
+
+    (d.ownership || []).forEach(function (o) {
+      if (!o.itemName || !o.owner) return;
+      var key = o.itemName.trim().toLowerCase();
+      if (o.itemType === 'Outcome') {
+        var oc = mapping.outcomes.filter(function (x) { return x.name.trim().toLowerCase() === key; })[0];
+        if (oc && !oc.owner) oc.owner = o.owner;
+      } else if (o.itemType === 'Capability') {
+        var cap = mapping.capabilities.filter(function (x) { return x.name.trim().toLowerCase() === key; })[0];
+        if (cap && !cap.owner) cap.owner = o.owner;
+      }
+    });
+
+    (d.workflows || []).forEach(function (w) {
+      if (!w.name) return;
+      var capIds = (w.participatingCapabilities || []).map(function (n) { return capIdByName[n.trim().toLowerCase()]; }).filter(Boolean);
+      mapping.valueStreams.push({ id: BP.newId('vs'), name: w.name, start: '', end: '', valueCreated: '', capabilityIds: capIds, owner: '', stages: '' });
+    });
+
+    (d.interfaces || []).forEach(function (i) {
+      if (!i.capabilityA || !i.capabilityB) return;
+      var whatMoves = i.exchanged || '';
+      if (i.riskIfFails) whatMoves += (whatMoves ? ' — ' : '') + 'Risk if it fails: ' + i.riskIfFails;
+      mapping.handoffs.push({
+        id: BP.newId('ho'), from: i.capabilityA, to: i.capabilityB, whatMoves: whatMoves, status: '', impact: '',
+        fromCapabilityId: capIdByName[i.capabilityA.trim().toLowerCase()] || '',
+        toCapabilityId: capIdByName[i.capabilityB.trim().toLowerCase()] || '', valueStreamId: ''
+      });
+    });
+
+    var g = d.governance || {};
+    [
+      ['performanceReviewCadence', 'Performance Review', 'Operating model performance', 'cadence'],
+      ['strategicReviewCadence', 'Strategic Review', 'Strategic direction', 'cadence'],
+      ['riskReview', 'Risk Review', 'Operational risk', 'cadence'],
+      ['capacityReview', 'Capacity Review', 'Resource and capacity', 'cadence'],
+      ['changeGovernance', 'Change Governance', 'Changes to the operating model', 'decisionAuthority'],
+      ['decisionEscalation', 'Decision Escalation', 'Cross-functional decision conflicts', 'escalationPath']
+    ].forEach(function (row) {
+      var val = g[row[0]];
+      if (!val) return;
+      var entry = { id: BP.newId('gov'), mechanism: row[1], whatIsGoverned: row[2], owner: '', cadence: '', threshold: '', decisionAuthority: '', escalationPath: '', rhythmIds: [] };
+      entry[row[3]] = val;
+      mapping.governance.push(entry);
+    });
+
+    return mapping;
+  }
+
   function chainNode(label, items) {
     return '<div class="builder-flow__node"><div class="builder-flow__node-title">' + label + '</div>' + items + '</div>' +
       '<div class="builder-flow__connector">&#8595;</div>';
@@ -378,10 +461,18 @@
       '</ul>' +
       '<div class="section-head" style="margin-top:var(--space-6)"><span class="eyebrow">Next Systems To Design</span></div>' +
       '<div class="related-links" id="next-systems-mount"></div>' +
-      '<div id="output-actions-mount" style="margin-top:var(--space-7)"></div>';
+      '<div id="add-to-blueprint-mount" style="margin-top:var(--space-7)"></div>' +
+      '<div id="output-actions-mount" style="margin-top:var(--space-5)"></div>';
 
     B.renderRiskFlags(container.querySelector('#output-risk-mount'), critical);
     if (gaps.length) B.renderRiskFlags(container.querySelector('#output-gap-mount'), gaps);
+
+    if (global.OMSBlueprintImport) {
+      global.OMSBlueprintImport.renderButton(container.querySelector('#add-to-blueprint-mount'), {
+        sourceLabel: d.scopeName || 'Operating Model Designer',
+        buildMapping: function () { return buildBlueprintMapping(project.data); }
+      });
+    }
 
     container.querySelector('#next-systems-mount').innerHTML = global.OMSLinks.renderList([
       { label: 'Decision Rights Architect', type: 'page', id: 'decision-rights' },

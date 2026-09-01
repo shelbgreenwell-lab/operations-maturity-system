@@ -342,6 +342,74 @@
     B.renderRiskFlags(container.querySelector('#risk-mount'), flags);
   }
 
+  /* ----------------------------------------------------------
+     Blueprint mapping — see js/blueprint-import.js for how this
+     gets merged. Blueprint has no separate "control" entity, so
+     each control folds into a Governance mechanism (a control is,
+     structurally, a small governance mechanism over one risk).
+     Stage-level detail stays here — Blueprint models a process as
+     one object, not a stage-by-stage sequence.
+     ---------------------------------------------------------- */
+
+  function buildBlueprintMapping(d) {
+    var BP = global.OMSBlueprint;
+    var mapping = { valueRecipients: [], processes: [], handoffs: [], decisions: [], metrics: [], governance: [] };
+    var header = d.header || {};
+    var processId = null;
+
+    if (header.processName) {
+      processId = BP.newId('proc');
+      mapping.processes.push({
+        id: processId, name: header.processName, purpose: header.processPurpose || '', owner: header.owner || '',
+        capabilityId: '', valueStreamId: '', criticality: header.criticality || '', outcomeId: ''
+      });
+    }
+
+    if (header.customer) {
+      mapping.valueRecipients.push({ id: BP.newId('vr'), recipient: header.customer, expectation: header.expectedOutcome || '', confirmation: '', outcomeIds: [] });
+    }
+
+    (d.handoffs || []).forEach(function (h) {
+      if (!h.sender || !h.receiver) return;
+      var status = (h.acceptanceCriteria && h.receiptConfirmation) ? 'Defined' : (h.acceptanceCriteria || h.receiptConfirmation) ? 'Partially Defined' : 'Undefined';
+      mapping.handoffs.push({
+        id: BP.newId('ho'), from: h.sender, to: h.receiver, whatMoves: h.transferred || '', status: status, impact: '',
+        fromCapabilityId: '', toCapabilityId: '', valueStreamId: ''
+      });
+    });
+
+    (d.decisions || []).forEach(function (dec) {
+      if (!dec.decision) return;
+      mapping.decisions.push({
+        id: BP.newId('dec'), name: dec.decision, owner: dec.owner || '', frequency: '', impact: '',
+        escalationOwner: '', roleId: '', processId: processId || ''
+      });
+    });
+
+    (d.metrics || []).forEach(function (m) {
+      if (!m.name) return;
+      var decisionEnabled = m.decisionSupported || '';
+      if (m.type) decisionEnabled += (decisionEnabled ? ' ' : '') + '(' + m.type + ' metric)';
+      mapping.metrics.push({
+        id: BP.newId('met'), name: m.name, outcomeId: '', processId: processId || '', owner: '', frequency: '', type: '', decisionEnabled: decisionEnabled
+      });
+    });
+
+    (d.controls || []).forEach(function (c) {
+      if (!c.risk) return;
+      var authorityParts = [];
+      if (c.preventive) authorityParts.push('Preventive: ' + c.preventive);
+      if (c.detective) authorityParts.push('Detective: ' + c.detective);
+      if (c.corrective) authorityParts.push('Corrective: ' + c.corrective);
+      mapping.governance.push({
+        id: BP.newId('gov'), mechanism: 'Control: ' + c.risk, whatIsGoverned: c.risk, owner: c.owner || '',
+        cadence: c.frequency || '', threshold: '', decisionAuthority: authorityParts.join('; '), escalationPath: '', rhythmIds: []
+      });
+    });
+
+    return mapping;
+  }
+
   function flowNode(cls, title, body) {
     return '<div class="builder-flow__node ' + cls + '"><div class="builder-flow__node-title">' + title + '</div>' + body + '</div>' +
       '<div class="builder-flow__connector">&#8595;</div>';
@@ -401,7 +469,8 @@
       '</ul>' +
       '<div class="section-head" style="margin-top:var(--space-6)"><span class="eyebrow">Related Systems</span></div>' +
       '<div class="related-links" id="next-systems-mount"></div>' +
-      '<div id="output-actions-mount" style="margin-top:var(--space-7)"></div>';
+      '<div id="add-to-blueprint-mount" style="margin-top:var(--space-7)"></div>' +
+      '<div id="output-actions-mount" style="margin-top:var(--space-5)"></div>';
 
     B.renderRiskFlags(container.querySelector('#output-risk-mount'), flags);
 
@@ -410,6 +479,13 @@
       { label: 'Operating Model Designer', type: 'page', id: 'operating-model' },
       { label: 'Continuous Improvement', type: 'resource', id: 'continuous-improvement' }
     ]);
+
+    if (global.OMSBlueprintImport) {
+      global.OMSBlueprintImport.renderButton(container.querySelector('#add-to-blueprint-mount'), {
+        sourceLabel: header.processName || 'Process Architect',
+        buildMapping: function () { return buildBlueprintMapping(project.data); }
+      });
+    }
 
     B.renderOutputActions(container.querySelector('#output-actions-mount'), project, {
       learnLinks: [
