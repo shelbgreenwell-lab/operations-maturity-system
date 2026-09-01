@@ -409,8 +409,26 @@
     els.wizard.hidden = true;
     els.viewer.hidden = false;
     if (els.viewerSection) els.viewerSection.hidden = false;
+    renderSampleBanner();
     renderViewer();
     updateUrl();
+  }
+
+  function renderSampleBanner() {
+    if (!els.sampleBanner) return;
+    if (!project || !project.isSample) { els.sampleBanner.innerHTML = ''; return; }
+    els.sampleBanner.innerHTML = global.OMSData.sampleBannerHtml(
+      ' this is the Northstar Software sample Blueprint, used to show how the analysis rules behave. It does not represent your organization.'
+    );
+    global.OMSData.bindSampleBanner(els.sampleBanner, {
+      onExit: function () { backToLauncher(); },
+      onClear: function () {
+        if (!global.confirm('Delete the sample Blueprint? This cannot be undone.')) return;
+        BP.store.remove(project.id);
+        project = null;
+        backToLauncher();
+      }
+    });
   }
 
   function backToLauncher() {
@@ -504,6 +522,7 @@
     els.wizard = byId('blueprint-wizard');
     els.viewer = byId('blueprint-viewer');
     els.viewerBody = byId('blueprint-viewer-body');
+    els.sampleBanner = byId('bp-sample-banner');
     els.viewerSection = byId('blueprint-viewer-section');
     els.resumeList = byId('bp-resume-list');
     els.progress = byId('builder-progress');

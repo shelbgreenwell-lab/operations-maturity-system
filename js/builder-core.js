@@ -421,10 +421,27 @@
       updateUrl(null);
     }
 
+    function renderSampleBanner(project) {
+      if (!els.sampleBanner) return;
+      if (!project.isSample) { els.sampleBanner.innerHTML = ''; return; }
+      els.sampleBanner.innerHTML = global.OMSData.sampleBannerHtml(
+        ' this is a sample ' + config.label + ' project, used to show how the builder and its checks behave. It does not represent your organization.'
+      );
+      global.OMSData.bindSampleBanner(els.sampleBanner, {
+        onExit: function () { showLauncher(); },
+        onClear: function () {
+          if (!global.confirm('Delete this sample project? This cannot be undone.')) return;
+          store.remove(project.id);
+          showLauncher();
+        }
+      });
+    }
+
     function showWizard(project) {
       els.launcher.hidden = true;
       els.wizard.hidden = false;
       if (els.projectName) els.projectName.textContent = project.name;
+      renderSampleBanner(project);
       config.engineInit(project);
       updateUrl(project.id);
     }

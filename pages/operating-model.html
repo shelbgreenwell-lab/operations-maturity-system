@@ -21,6 +21,7 @@
 
     <header class="page-header">
       <div class="container">
+        <nav id="page-breadcrumb" class="breadcrumb" aria-label="Breadcrumb"></nav>
         <span class="eyebrow">Build &rsaquo; Operating Model Designer</span>
         <h1>Operating Model Designer</h1>
         <p class="lede">
@@ -52,6 +53,7 @@
             <button type="button" class="btn btn--ghost" id="builder-exit">&larr; Exit to My Projects</button>
             <span id="builder-project-name" class="text-mono text-dim" style="font-size:var(--step--1)"></span>
           </div>
+          <div id="builder-sample-banner"></div>
           <div id="builder-progress" class="builder-progress"></div>
           <p id="builder-step-label" class="text-mono text-dim" style="font-size:var(--step--1);margin-bottom:var(--space-4)"></p>
           <div id="builder-step-body"></div>
@@ -70,6 +72,7 @@
 
   <script src="../js/data.js"></script>
   <script src="../js/navigation.js"></script>
+  <script src="../js/search.js"></script>
   <script src="../js/app.js"></script>
   <script src="../js/builder-core.js"></script>
   <script src="../js/blueprint-core.js"></script>
@@ -96,11 +99,17 @@
           sampleBtn: document.getElementById('load-sample-btn'),
           exitBtn: document.getElementById('builder-exit'),
           resumeList: document.getElementById('resume-list-mount'),
-          projectName: document.getElementById('builder-project-name')
+          projectName: document.getElementById('builder-project-name'),
+          sampleBanner: document.getElementById('builder-sample-banner')
         }
       });
     });
   </script>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.OMSNav) window.OMSNav.renderBreadcrumb('page-breadcrumb', ["build"], "Operating Model Designer");
+    });
+  </script>
 </body>
 </html>

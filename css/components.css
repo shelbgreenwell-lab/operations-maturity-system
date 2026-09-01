@@ -757,6 +757,40 @@
   color: var(--color-text-muted);
 }
 
+.sample-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  background: var(--color-surface-alt, rgba(0,0,0,0.03));
+  border: var(--border-width) dashed var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-5);
+  font-size: var(--step--1);
+}
+
+.sample-banner__text strong {
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-right: var(--space-2);
+}
+
+.sample-banner__actions {
+  display: flex;
+  gap: var(--space-4);
+  flex-shrink: 0;
+}
+
+.sample-banner__actions .btn--ghost {
+  padding: 0;
+  font-size: var(--step--1);
+  text-decoration: underline;
+}
+
 .demo-notice {
   display: inline-flex;
   align-items: center;
@@ -1589,6 +1623,11 @@ select.builder-field__input {
 .friction-pill--low, .maturity-pill--strong { border-color: var(--color-positive); color: var(--color-positive); }
 .friction-pill--moderate, .maturity-pill--developing { border-color: var(--color-caution); color: var(--color-caution); }
 .friction-pill--high, .maturity-pill--weak { border-color: var(--color-critical); color: var(--color-critical); }
+
+.friction-pill[tabindex]:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
 
 /* ----- process / operating-model flow visual ----- */
 

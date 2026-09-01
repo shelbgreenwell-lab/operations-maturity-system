@@ -131,11 +131,40 @@
     return knowledgePromise;
   }
 
+  /*
+   * A consistent "Sample Data" banner for Blueprint, Builders, and
+   * Workbench. Callers own their own clear/exit logic (each store
+   * shapes that differently) and wire it via the returned markup's
+   * [data-sample-exit] / [data-sample-clear] buttons; pass null for
+   * either handler to omit that button.
+   */
+  function sampleBannerHtml(message, opts) {
+    opts = opts || {};
+    var exitBtn = opts.onExit !== null ? '<button type="button" class="btn btn--ghost" data-sample-exit>Exit Sample Mode</button>' : '';
+    var clearBtn = opts.onClear !== null ? '<button type="button" class="btn btn--ghost" data-sample-clear>Clear Sample Data</button>' : '';
+    return '' +
+      '<div class="sample-banner">' +
+        '<span class="sample-banner__text"><strong>Sample Data</strong>' + message + '</span>' +
+        (exitBtn || clearBtn ? '<span class="sample-banner__actions">' + exitBtn + clearBtn + '</span>' : '') +
+      '</div>';
+  }
+
+  function bindSampleBanner(mount, handlers) {
+    if (!mount) return;
+    handlers = handlers || {};
+    var exitBtn = mount.querySelector('[data-sample-exit]');
+    var clearBtn = mount.querySelector('[data-sample-clear]');
+    if (exitBtn && handlers.onExit) exitBtn.addEventListener('click', handlers.onExit);
+    if (clearBtn && handlers.onClear) clearBtn.addEventListener('click', handlers.onClear);
+  }
+
   global.OMSData = {
     base: BASE,
     href: href,
     load: load,
     loadKnowledge: loadKnowledge,
-    storage: storage
+    storage: storage,
+    sampleBannerHtml: sampleBannerHtml,
+    bindSampleBanner: bindSampleBanner
   };
 })(window);

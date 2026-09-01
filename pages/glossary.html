@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>OMS Glossary — Operations Maturity System</title>
+  <meta name="description" content="Terms specific to how OMS models an operating system — not a general business dictionary.">
+
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+
+<body data-page="glossary" data-base="../">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div id="site-nav"></div>
+
+  <main id="main">
+
+    <header class="page-header">
+      <div class="container">
+        <nav id="page-breadcrumb" class="breadcrumb" aria-label="Breadcrumb"></nav>
+        <span class="eyebrow">Glossary</span>
+        <h1>OMS Glossary</h1>
+        <p class="lede">Terms specific to how OMS models an operating system &mdash; not a general business dictionary.</p>
+        <p class="page-header__use-when"><strong>USE THIS WHEN</strong> a term in OMS means something more specific than it sounds like it should.</p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="container container--narrow">
+        <input type="search" class="search-input" id="glossary-search" placeholder="Search terms&hellip;" style="width:100%;margin-bottom:var(--space-4)">
+        <div class="resource-filters" id="glossary-filters" style="margin-bottom:var(--space-6)"></div>
+        <div id="glossary-list"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/navigation.js"></script>
+  <script src="../js/search.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/glossary.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      OMSGlossary.init();
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.OMSNav) window.OMSNav.renderBreadcrumb('page-breadcrumb', [], "Glossary");
+    });
+  </script>
+</body>
+</html>

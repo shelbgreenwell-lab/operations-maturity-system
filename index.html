@@ -34,10 +34,52 @@
         <div class="hero__actions">
           <a class="btn btn--primary" href="pages/explore.html">Explore the System</a>
           <a class="btn btn--secondary" href="pages/assess.html">Assess My Operations</a>
+          <button type="button" class="btn btn--ghost" id="home-router-btn">What Should I Do? &rarr;</button>
         </div>
         <p class="hero__philosophy">
           Every business has an operating system. Most just haven&rsquo;t designed it intentionally.
         </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head section-head--wide">
+          <span class="eyebrow">What You Can Do Here</span>
+          <h2>One system, six ways to work with it.</h2>
+        </div>
+        <div class="card-grid card-grid--3">
+          <a class="card card--interactive" href="pages/learn.html">
+            <div class="card__eyebrow">Understand</div>
+            <h3 style="margin:var(--space-2) 0">Learn</h3>
+            <p class="text-muted" style="font-size:var(--step--1)">See how mature operations actually work, layer by layer.</p>
+          </a>
+          <a class="card card--interactive" href="pages/assess.html">
+            <div class="card__eyebrow">Assess</div>
+            <h3 style="margin:var(--space-2) 0">Assess</h3>
+            <p class="text-muted" style="font-size:var(--step--1)">Score your own operating system against the same six layers.</p>
+          </a>
+          <a class="card card--interactive" href="pages/diagnose.html">
+            <div class="card__eyebrow">Investigate</div>
+            <h3 style="margin:var(--space-2) 0">Diagnose</h3>
+            <p class="text-muted" style="font-size:var(--step--1)">Trace a symptom to the system that may be causing it.</p>
+          </a>
+          <a class="card card--interactive" href="pages/build.html">
+            <div class="card__eyebrow">Design</div>
+            <h3 style="margin:var(--space-2) 0">Build</h3>
+            <p class="text-muted" style="font-size:var(--step--1)">Design the operating model, decision rights, or process a diagnosis points to.</p>
+          </a>
+          <a class="card card--interactive" href="pages/blueprint.html">
+            <div class="card__eyebrow">Connect</div>
+            <h3 style="margin:var(--space-2) 0">Blueprint</h3>
+            <p class="text-muted" style="font-size:var(--step--1)">Map how outcomes, capabilities, and processes connect across the organization.</p>
+          </a>
+          <a class="card card--interactive" href="pages/workbench.html">
+            <div class="card__eyebrow">Act</div>
+            <h3 style="margin:var(--space-2) 0">Workbench</h3>
+            <p class="text-muted" style="font-size:var(--step--1)">Turn a finding into an investigation, an intervention, and a measured result.</p>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -94,6 +136,7 @@
 
   <script src="js/data.js"></script>
   <script src="js/navigation.js"></script>
+  <script src="js/search.js"></script>
   <script src="js/assessment.js"></script>
   <script src="js/diagnostics.js"></script>
   <script src="js/scenarios.js"></script>
@@ -103,6 +146,12 @@
   <script src="js/learn.js"></script>
   <script src="js/anti-patterns.js"></script>
   <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var btn = document.getElementById('home-router-btn');
+      if (btn) btn.addEventListener('click', function () { if (window.OMSNav) window.OMSNav.openRouter(); });
+    });
+  </script>
 
 </body>
 </html>

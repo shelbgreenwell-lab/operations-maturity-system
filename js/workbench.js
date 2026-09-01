@@ -662,7 +662,8 @@
       defaults: function () { return { title: '', problemStatement: '', whyItMatters: '', source: '', affectedLayer: '', affectedSystem: '', relatedBlueprint: null, businessImpact: '', urgency: '', dependencyValue: '', risk: '', effort: '', owner: '', status: 'To Investigate', targetDate: '', successMeasure: '', nextAction: '', order: sorted.length + 1, relatedInvestigationId: null, relatedRootCauseId: null, relatedFindingId: null }; },
       badge: function (p) {
         var sig = WB.prioritySignal(p);
-        return '<span class="friction-pill friction-pill--' + sig.signal.toLowerCase() + '" title="' + esc(sig.reasons.join('; ')) + '">' + sig.signal + ' Priority Signal</span> <span class="' + statusClass(p.status) + '">' + esc(p.status) + '</span>';
+        var reasonText = sig.reasons.join('; ');
+        return '<span class="friction-pill friction-pill--' + sig.signal.toLowerCase() + '" tabindex="0" role="note" title="' + esc(reasonText) + '" aria-label="' + esc(sig.signal + ' Priority Signal. ' + reasonText) + '">' + sig.signal + ' Priority Signal</span> <span class="' + statusClass(p.status) + '">' + esc(p.status) + '</span>';
       },
       meta: function (p) { return layerChip(p.affectedLayer) + blueprintChip(p.relatedBlueprint) + (p.isSample ? ' <span class="badge badge--accent">Sample</span>' : ''); },
       fields: function () { return [
@@ -1185,6 +1186,7 @@
     els.tabBody = byId('wb-tab-body');
     els.search = byId('wb-search');
     els.utilityRow = byId('wb-utility-row');
+    els.sampleBanner = byId('wb-sample-banner');
 
     els.search.addEventListener('input', function (e) { state.query = e.target.value; renderTabBody(); });
     byId('wb-capture-fab').addEventListener('click', openQuickCapture);
@@ -1199,11 +1201,7 @@
       WB.save(ws);
       renderAll();
     });
-    byId('wb-clear-sample-btn').addEventListener('click', function () {
-      if (!global.confirm('Remove all sample items from this workspace? Anything you created yourself is kept.')) return;
-      WB.clearSample(ws);
-      renderAll();
-    });
+    byId('wb-clear-sample-btn').addEventListener('click', clearSampleFromWorkspace);
     byId('wb-export-btn').addEventListener('click', function () { WB.exportWorkspace(ws); });
     byId('wb-import-input').addEventListener('change', function (e) {
       var file = e.target.files[0];
@@ -1239,8 +1237,25 @@
     { id: 'workview', label: 'Work View' }
   ];
 
+  function clearSampleFromWorkspace() {
+    if (!global.confirm('Remove all sample items from this workspace? Anything you created yourself is kept.')) return;
+    WB.clearSample(ws);
+    renderAll();
+  }
+
+  function renderSampleBanner() {
+    if (!els.sampleBanner) return;
+    if (!WB.hasSample(ws)) { els.sampleBanner.innerHTML = ''; return; }
+    els.sampleBanner.innerHTML = global.OMSData.sampleBannerHtml(
+      ' this workspace includes the Northstar Software sample items, mixed in alongside anything you’ve created yourself.',
+      { onExit: null }
+    );
+    global.OMSData.bindSampleBanner(els.sampleBanner, { onClear: clearSampleFromWorkspace });
+  }
+
   function renderAll() {
     renderStatStrip();
+    renderSampleBanner();
     byId('wb-clear-sample-btn').hidden = !WB.hasSample(ws);
     els.tabs.innerHTML = TABS.map(function (t) {
       return '<button type="button" data-tab="' + t.id + '" class="' + (state.tab === t.id ? 'is-active' : '') + '">' + t.label + '</button>';
