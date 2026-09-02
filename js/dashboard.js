@@ -625,6 +625,40 @@
   }
 
   /* ----------------------------------------------------------
+     Scale Readiness — shown only once a real assessment exists,
+     replacing the assessment-based approximation above with signal
+     drawn from Capacity, Risk, and Blueprint.
+     ---------------------------------------------------------- */
+
+  function renderScale() {
+    var section = byId('command-scale-section');
+    var mount = byId('command-scale-mount');
+    var Scale = global.OMSScale;
+    if (!section || !mount) return;
+    var models = Scale ? Scale.store.list() : [];
+    if (!models.length) { section.hidden = true; return; }
+    section.hidden = false;
+
+    var criticalConstraints = 0, weakOrCritical = 0, totalConstraints = 0;
+    models.forEach(function (m) {
+      var overall = Scale.overallReadiness(m);
+      if (overall.status === 'Weak' || overall.status === 'Critical') weakOrCritical++;
+      var constraints = Scale.scaleConstraints(m);
+      totalConstraints += constraints.length;
+      criticalConstraints += constraints.filter(function (c) { return c.severity === 'Critical'; }).length;
+    });
+
+    mount.innerHTML =
+      metricGridHtml([
+        { label: 'Assessments Run', value: models.length },
+        { label: 'Weak Or Critical Readiness', value: weakOrCritical },
+        { label: 'Scale Constraints Named', value: totalConstraints },
+        { label: 'Critical Constraints', value: criticalConstraints }
+      ]) +
+      '<a class="btn btn--secondary" href="scale-readiness.html" style="margin-top:var(--space-3);display:inline-block">Open Scale Readiness &rarr;</a>';
+  }
+
+  /* ----------------------------------------------------------
      System Story — a deterministic narrative assembled only from
      what is actually stored. Not AI, not fabricated: if there isn't
      enough data, it says so.
@@ -719,6 +753,7 @@
       renderGovernance();
       renderResilience();
       renderDebt();
+      renderScale();
       renderSystemStory(results, attentionItems);
     });
   }

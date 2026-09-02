@@ -1238,6 +1238,36 @@
       : '<span class="badge badge--outline" title="Load this Operating Debt register to open it">Debt: ' + esc(label) + '</span>';
   }
 
+  function syncScaleFindings() {
+    var Scale = global.OMSScale;
+    if (!Scale) return;
+    var existingRefIds = {};
+    ws.findings.forEach(function (f) { if (f.sourceRefId) existingRefIds[f.sourceRefId] = true; });
+    Scale.store.list().forEach(function (sItem) {
+      (sItem.data.findings || []).forEach(function (sf) {
+        if (existingRefIds[sf.id]) return;
+        WB.addItem(ws, 'findings', {
+          title: sf.type, message: sf.message, sourceType: 'scale', sourceLabel: sItem.name, confidenceStatus: 'Observed',
+          relatedScaleAssessment: { modelId: sItem.id, modelName: sItem.name },
+          relatedLayer: '', evidenceNeeded: sf.why || '', systemsInvolved: '', recommendedInvestigation: '',
+          date: sf.savedAt, status: 'New', sourceRefId: sf.id
+        });
+        existingRefIds[sf.id] = true;
+      });
+    });
+  }
+
+  function scaleChip(rel) {
+    if (!rel) return '';
+    var Scale = global.OMSScale;
+    var live = rel.modelId && Scale ? Scale.store.get(rel.modelId) : null;
+    var label = rel.modelName || (live && live.name);
+    if (!label) return '';
+    return live
+      ? '<a class="badge badge--outline" href="scale-readiness.html?model=' + encodeURIComponent(rel.modelId) + '" title="Open in Scale Readiness">Scale: ' + esc(label) + ' &rarr;</a>'
+      : '<span class="badge badge--outline" title="Load this Scale Readiness assessment to open it">Scale: ' + esc(label) + '</span>';
+  }
+
   var CONFIDENCE_TONE = { Observed: '', Inferred: 'moderate', Validated: 'low' };
   function confidenceBadge(status) {
     if (!status) return '';
@@ -1256,6 +1286,7 @@
     syncRiskFindings();
     syncResilienceFindings();
     syncDebtFindings();
+    syncScaleFindings();
     mount.innerHTML =
       '<h3>From Your Assessment</h3>' +
       '<div id="wb-assessment-mount" style="margin-bottom:var(--space-7)"></div>' +
@@ -1277,7 +1308,7 @@
         '<div class="risk-flag" data-finding="' + f.id + '">' +
           '<div class="risk-flag__header">' + confidenceBadge(f.confidenceStatus) + '<span class="risk-flag__rule">' + esc(f.title) + '</span></div>' +
           '<p class="risk-flag__message">' + esc(f.message || f.recommendedInvestigation || '') + '</p>' +
-          '<div class="build-project-row__meta" style="margin-bottom:var(--space-3)">' + blueprintChip(f.relatedBlueprint) + valueStreamChip(f.relatedValueStream) + capacityChip(f.relatedCapacityModel) + kpiChip(f.relatedKpiModel) + healthChip(f.relatedHealthModel) + rhythmChip(f.relatedRhythm) + governanceChip(f.relatedGovernanceModel) + riskChip(f.relatedRiskModel) + resilienceChip(f.relatedResilienceModel) + debtChip(f.relatedDebtRegister) + '<span class="text-dim text-mono" style="font-size:var(--step--1)">From ' + esc(f.sourceLabel || f.sourceType) + (f.date ? ' &middot; ' + fmtDate(f.date) : '') + '</span></div>' +
+          '<div class="build-project-row__meta" style="margin-bottom:var(--space-3)">' + blueprintChip(f.relatedBlueprint) + valueStreamChip(f.relatedValueStream) + capacityChip(f.relatedCapacityModel) + kpiChip(f.relatedKpiModel) + healthChip(f.relatedHealthModel) + rhythmChip(f.relatedRhythm) + governanceChip(f.relatedGovernanceModel) + riskChip(f.relatedRiskModel) + resilienceChip(f.relatedResilienceModel) + debtChip(f.relatedDebtRegister) + scaleChip(f.relatedScaleAssessment) + '<span class="text-dim text-mono" style="font-size:var(--step--1)">From ' + esc(f.sourceLabel || f.sourceType) + (f.date ? ' &middot; ' + fmtDate(f.date) : '') + '</span></div>' +
           '<div class="inspector-panel__actions">' +
             '<button type="button" class="btn btn--secondary" data-add-priority="' + f.id + '">Add To Priorities</button>' +
             '<button type="button" class="btn btn--secondary" data-start-inv="' + f.id + '">Start Investigation</button>' +
