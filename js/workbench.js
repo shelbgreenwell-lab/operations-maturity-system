@@ -1268,6 +1268,36 @@
       : '<span class="badge badge--outline" title="Load this Scale Readiness assessment to open it">Scale: ' + esc(label) + '</span>';
   }
 
+  function syncTransformationFindings() {
+    var T = global.OMSTransformation;
+    if (!T) return;
+    var existingRefIds = {};
+    ws.findings.forEach(function (f) { if (f.sourceRefId) existingRefIds[f.sourceRefId] = true; });
+    T.store.list().forEach(function (tItem) {
+      (tItem.data.findings || []).forEach(function (tf) {
+        if (existingRefIds[tf.id]) return;
+        WB.addItem(ws, 'findings', {
+          title: tf.type, message: tf.message, sourceType: 'transformation', sourceLabel: tItem.name, confidenceStatus: 'Observed',
+          relatedTransformationPlan: { modelId: tItem.id, modelName: tItem.name },
+          relatedLayer: '', evidenceNeeded: tf.why || '', systemsInvolved: '', recommendedInvestigation: '',
+          date: tf.savedAt, status: 'New', sourceRefId: tf.id
+        });
+        existingRefIds[tf.id] = true;
+      });
+    });
+  }
+
+  function transformationChip(rel) {
+    if (!rel) return '';
+    var T = global.OMSTransformation;
+    var live = rel.modelId && T ? T.store.get(rel.modelId) : null;
+    var label = rel.modelName || (live && live.name);
+    if (!label) return '';
+    return live
+      ? '<a class="badge badge--outline" href="transformation.html?model=' + encodeURIComponent(rel.modelId) + '" title="Open in Transformation">Transformation: ' + esc(label) + ' &rarr;</a>'
+      : '<span class="badge badge--outline" title="Load this Transformation Plan to open it">Transformation: ' + esc(label) + '</span>';
+  }
+
   var CONFIDENCE_TONE = { Observed: '', Inferred: 'moderate', Validated: 'low' };
   function confidenceBadge(status) {
     if (!status) return '';
@@ -1287,6 +1317,7 @@
     syncResilienceFindings();
     syncDebtFindings();
     syncScaleFindings();
+    syncTransformationFindings();
     mount.innerHTML =
       '<h3>From Your Assessment</h3>' +
       '<div id="wb-assessment-mount" style="margin-bottom:var(--space-7)"></div>' +
@@ -1308,7 +1339,7 @@
         '<div class="risk-flag" data-finding="' + f.id + '">' +
           '<div class="risk-flag__header">' + confidenceBadge(f.confidenceStatus) + '<span class="risk-flag__rule">' + esc(f.title) + '</span></div>' +
           '<p class="risk-flag__message">' + esc(f.message || f.recommendedInvestigation || '') + '</p>' +
-          '<div class="build-project-row__meta" style="margin-bottom:var(--space-3)">' + blueprintChip(f.relatedBlueprint) + valueStreamChip(f.relatedValueStream) + capacityChip(f.relatedCapacityModel) + kpiChip(f.relatedKpiModel) + healthChip(f.relatedHealthModel) + rhythmChip(f.relatedRhythm) + governanceChip(f.relatedGovernanceModel) + riskChip(f.relatedRiskModel) + resilienceChip(f.relatedResilienceModel) + debtChip(f.relatedDebtRegister) + scaleChip(f.relatedScaleAssessment) + '<span class="text-dim text-mono" style="font-size:var(--step--1)">From ' + esc(f.sourceLabel || f.sourceType) + (f.date ? ' &middot; ' + fmtDate(f.date) : '') + '</span></div>' +
+          '<div class="build-project-row__meta" style="margin-bottom:var(--space-3)">' + blueprintChip(f.relatedBlueprint) + valueStreamChip(f.relatedValueStream) + capacityChip(f.relatedCapacityModel) + kpiChip(f.relatedKpiModel) + healthChip(f.relatedHealthModel) + rhythmChip(f.relatedRhythm) + governanceChip(f.relatedGovernanceModel) + riskChip(f.relatedRiskModel) + resilienceChip(f.relatedResilienceModel) + debtChip(f.relatedDebtRegister) + scaleChip(f.relatedScaleAssessment) + transformationChip(f.relatedTransformationPlan) + '<span class="text-dim text-mono" style="font-size:var(--step--1)">From ' + esc(f.sourceLabel || f.sourceType) + (f.date ? ' &middot; ' + fmtDate(f.date) : '') + '</span></div>' +
           '<div class="inspector-panel__actions">' +
             '<button type="button" class="btn btn--secondary" data-add-priority="' + f.id + '">Add To Priorities</button>' +
             '<button type="button" class="btn btn--secondary" data-start-inv="' + f.id + '">Start Investigation</button>' +

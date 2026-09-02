@@ -25,45 +25,55 @@
         <span class="eyebrow">Improve &rsaquo; Transformation</span>
         <h1>Operations Transformation</h1>
         <p class="lede">
-          Foundational operating maturity should not be skipped in pursuit of
-          advanced capabilities. This experience will help you move intentionally
-          from your current state to a more mature target state.
+          Foundational operating maturity should not be skipped in pursuit
+          of advanced capabilities. This tool sequences five fixed phases —
+          Stabilize, Standardize, Control, Optimize, Adapt — against a
+          current-state maturity read live from your Assessment, and flags
+          it directly when a later phase is being pursued while an earlier,
+          foundational one hasn't started.
         </p>
-        <div class="foundational-notice">
-          <span class="badge">Coming Into The System</span>
-        </div>
+        <p class="page-header__use-when"><strong>USE THIS WHEN</strong> you're moving intentionally from a current operating state toward a named target state.</p>
       </div>
     </header>
 
     <section class="section">
       <div class="container container--narrow">
-        <div class="framework-preview">
-          <h3 style="margin-bottom: var(--space-4);">Transformation phases</h3>
-          <div class="tag-list" style="align-items: center;">
-            <span class="pill">Stabilize</span>
-            <span class="text-dim">&rarr;</span>
-            <span class="pill">Standardize</span>
-            <span class="text-dim">&rarr;</span>
-            <span class="pill">Control</span>
-            <span class="text-dim">&rarr;</span>
-            <span class="pill">Optimize</span>
-            <span class="text-dim">&rarr;</span>
-            <span class="pill">Adapt</span>
+
+        <div id="xform-launcher">
+          <div style="display:flex; gap: var(--space-3); flex-wrap: wrap;">
+            <button type="button" class="btn btn--primary" id="new-xform-btn">Start Transformation Plan</button>
+            <button type="button" class="btn btn--secondary" id="load-sample-xform-btn">Load Sample</button>
+          </div>
+          <p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-3)"><a href="assess.html">Take the Assessment</a> first if you haven't — this plan reads current-state maturity from it directly.</p>
+          <div id="xform-resume-list"></div>
+        </div>
+
+        <div id="xform-wizard" hidden>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-5);flex-wrap:wrap;gap:var(--space-2)">
+            <button type="button" class="btn btn--ghost" id="builder-exit">&larr; Exit to My Transformation Plans</button>
+            <span id="builder-project-name" class="text-mono text-dim" style="font-size:var(--step--1)"></span>
+          </div>
+          <div id="builder-progress" class="builder-progress"></div>
+          <p id="builder-step-label" class="text-mono text-dim" style="font-size:var(--step--1);margin-bottom:var(--space-4)"></p>
+          <div id="builder-step-body"></div>
+          <div class="builder-step-nav">
+            <button type="button" class="btn btn--secondary" id="builder-prev">&larr; Previous</button>
+            <button type="button" class="btn btn--primary" id="builder-next">Next &rarr;</button>
           </div>
         </div>
 
-        <p class="callout" style="margin-top: var(--space-6);">
-          A future version will map current-state and target-state maturity,
-          sequence dependencies, and track transformation risk and success
-          measures against exit criteria for each phase.
-        </p>
+      </div>
+    </section>
 
-        <div style="margin-top: var(--space-6);">
-          <span class="eyebrow">Related Now</span>
-          <div class="related-links" style="margin-top: var(--space-4);">
-            <a href="assess.html">See Your Current-State Maturity</a>
-            <a href="command-center.html">View Command Center</a>
+    <section class="section" id="xform-viewer-section">
+      <div class="container">
+        <div id="xform-viewer" hidden>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);flex-wrap:wrap;gap:var(--space-3)">
+            <button type="button" class="btn btn--ghost" id="viewer-exit">&larr; Exit to My Transformation Plans</button>
+            <button type="button" class="btn btn--secondary" id="viewer-edit">Edit Plan</button>
           </div>
+          <div id="xform-sample-banner"></div>
+          <div id="xform-viewer-body"></div>
         </div>
       </div>
     </section>
@@ -75,15 +85,16 @@
   <script src="../js/data.js"></script>
   <script src="../js/navigation.js"></script>
   <script src="../js/search.js"></script>
-  <script src="../js/assessment.js"></script>
-  <script src="../js/diagnostics.js"></script>
-  <script src="../js/scenarios.js"></script>
-  <script src="../js/dashboard.js"></script>
-  <script src="../js/resource-detail.js"></script>
-  <script src="../js/explore.js"></script>
-  <script src="../js/learn.js"></script>
-  <script src="../js/anti-patterns.js"></script>
   <script src="../js/app.js"></script>
+  <script src="../js/builder-core.js"></script>
+  <script src="../js/transformation-core.js"></script>
+  <script src="../js/transformation-sample.js"></script>
+  <script src="../js/transformation.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      OMSTransformationPage.init();
+    });
+  </script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {

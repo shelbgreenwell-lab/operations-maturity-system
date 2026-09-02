@@ -659,6 +659,38 @@
   }
 
   /* ----------------------------------------------------------
+     Transformation — shown only once a real plan exists.
+     ---------------------------------------------------------- */
+
+  function renderTransformation() {
+    var section = byId('command-transformation-section');
+    var mount = byId('command-transformation-mount');
+    var T = global.OMSTransformation;
+    if (!section || !mount) return;
+    var models = T ? T.store.list() : [];
+    if (!models.length) { section.hidden = true; return; }
+    section.hidden = false;
+
+    var totalPhases = 0, complete = 0, blocked = 0, sequencingSkips = 0;
+    models.forEach(function (m) {
+      var progress = T.phaseProgress(m);
+      totalPhases += progress.total;
+      complete += progress.complete;
+      blocked += progress.blocked;
+      sequencingSkips += T.phaseSequenceFindings(m).length;
+    });
+
+    mount.innerHTML =
+      metricGridHtml([
+        { label: 'Plans Active', value: models.length },
+        { label: 'Phases Complete', value: complete + ' / ' + totalPhases },
+        { label: 'Phases Blocked', value: blocked },
+        { label: 'Phases Skipping Ahead', value: sequencingSkips }
+      ]) +
+      '<a class="btn btn--secondary" href="transformation.html" style="margin-top:var(--space-3);display:inline-block">Open Transformation &rarr;</a>';
+  }
+
+  /* ----------------------------------------------------------
      System Story — a deterministic narrative assembled only from
      what is actually stored. Not AI, not fabricated: if there isn't
      enough data, it says so.
@@ -754,6 +786,7 @@
       renderResilience();
       renderDebt();
       renderScale();
+      renderTransformation();
       renderSystemStory(results, attentionItems);
     });
   }

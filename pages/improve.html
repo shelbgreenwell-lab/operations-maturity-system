@@ -59,16 +59,21 @@
         </div>
 
         <p class="callout" style="margin-top: var(--space-6);">
-          A future version will hold your improvement backlog, experiments, and
-          results tracking. Today, Diagnose and Scenario Lab already exercise the
-          Observe → Diagnose → Validate steps of this flow.
+          This full flow already runs live in the Workbench — every observation,
+          root cause, and intervention you capture there moves through these
+          same eight stages. This page is a portfolio view onto that pipeline,
+          not a separate backlog.
         </p>
+
+        <div id="improve-pipeline-mount"></div>
 
         <div style="margin-top: var(--space-6);">
           <span class="eyebrow">Available Now</span>
           <div class="related-links" style="margin-top: var(--space-4);">
+            <a href="workbench.html">Open the Workbench</a>
             <a href="diagnose.html">Run a Diagnostic</a>
             <a href="scenario-lab.html">Try the Scenario Lab</a>
+            <a href="transformation.html">Sequence a Transformation Plan</a>
             <a href="learn.html?resource=continuous-improvement">Continuous Improvement</a>
             <a href="learn.html?resource=root-cause-analysis">Root Cause Analysis</a>
           </div>
@@ -92,10 +97,23 @@
   <script src="../js/learn.js"></script>
   <script src="../js/anti-patterns.js"></script>
   <script src="../js/app.js"></script>
+  <script src="../js/workbench-core.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.OMSNav) window.OMSNav.renderBreadcrumb('page-breadcrumb', [], "Improve");
+
+      var mount = document.getElementById('improve-pipeline-mount');
+      var WB = window.OMSWorkbenchCore;
+      if (!mount || !WB) return;
+      var ws = WB.load ? WB.load() : null;
+      if (!ws) { return; }
+      var stages = WB.pipelineStages(ws);
+      var esc = function (s) { return (s == null ? '' : String(s)).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+      mount.innerHTML = '<div class="section-head" style="margin-top: var(--space-6);"><span class="eyebrow">Your Live Pipeline</span><h3>From your Workbench, right now</h3></div>' +
+        '<div class="metric-grid">' + stages.map(function (s) {
+          return '<div class="metric-card"><span class="metric-card__label">' + esc(s.label) + '</span><span class="metric-card__value metric-card__value--accent">' + s.count + '</span></div>';
+        }).join('') + '</div>';
     });
   </script>
 </body>
