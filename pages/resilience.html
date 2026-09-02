@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Governance Architecture — Operations Maturity System</title>
-  <meta name="description" content="Define how the operating system is reviewed, controlled, changed, and improved.">
+  <title>Resilience Intelligence — Operations Maturity System</title>
+  <meta name="description" content="Understand whether critical systems can withstand disruption and recover without depending on heroics.">
 
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/components.css">
   <link rel="stylesheet" href="../css/responsive.css">
 </head>
 
-<body data-page="governance" data-base="../">
+<body data-page="resilience" data-base="../">
 
   <a class="skip-link" href="#main">Skip to content</a>
   <div id="site-nav"></div>
@@ -22,34 +22,32 @@
     <header class="page-header">
       <div class="container">
         <nav id="page-breadcrumb" class="breadcrumb" aria-label="Breadcrumb"></nav>
-        <span class="eyebrow">Governance Architecture</span>
-        <h1>Define how the operating system is reviewed, controlled, changed, and improved.</h1>
+        <span class="eyebrow">Resilience Intelligence</span>
+        <h1>Understand whether critical systems can withstand disruption and recover without depending on heroics.</h1>
         <p class="lede">
-          A dashboard is not a management system. Governance without decision
-          authority is ceremony. This is broader than meetings — policies,
-          standards, controls, escalation paths, and change authority all
-          belong here.
+          Risk asks what could fail. Resilience asks what happens when it
+          does. A system can be healthy and still be fragile — this is
+          where that gets tested.
         </p>
-        <p class="page-header__use-when"><strong>USE THIS WHEN</strong> you need to see whether something important is actually governed, or whether it just looks that way.</p>
+        <p class="page-header__use-when"><strong>USE THIS WHEN</strong> a system looks fine today and you need to know whether it could absorb, respond to, and recover from a real disruption.</p>
       </div>
     </header>
 
     <section class="section">
       <div class="container container--narrow">
 
-        <div id="gov-launcher">
+        <div id="res-launcher">
           <div style="display:flex; gap: var(--space-3); flex-wrap: wrap;">
-            <button type="button" class="btn btn--primary" id="new-gov-btn">Design Governance</button>
-            <button type="button" class="btn btn--secondary" id="load-sample-gov-btn">Load Sample</button>
-            <button type="button" class="btn btn--secondary" id="import-bp-gov-btn">Import From Blueprint</button>
+            <button type="button" class="btn btn--primary" id="new-res-btn">Analyze Resilience</button>
+            <button type="button" class="btn btn--secondary" id="load-sample-res-btn">Load Sample</button>
           </div>
-          <p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-3)">To design one recurring meeting or review in depth, use the <a href="operating-rhythm.html">Operating Rhythm Designer</a> instead — this page manages governance more broadly.</p>
-          <div id="gov-resume-list"></div>
+          <p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-3)">Start from a mapped system in <a href="risk.html">Operational Risk</a> — its dependencies and single points of failure carry straight into the resilience profile here.</p>
+          <div id="res-resume-list"></div>
         </div>
 
-        <div id="gov-wizard" hidden>
+        <div id="res-wizard" hidden>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-5);flex-wrap:wrap;gap:var(--space-2)">
-            <button type="button" class="btn btn--ghost" id="builder-exit">&larr; Exit to My Governance Models</button>
+            <button type="button" class="btn btn--ghost" id="builder-exit">&larr; Exit to My Resilience Models</button>
             <span id="builder-project-name" class="text-mono text-dim" style="font-size:var(--step--1)"></span>
           </div>
           <div id="builder-progress" class="builder-progress"></div>
@@ -64,15 +62,15 @@
       </div>
     </section>
 
-    <section class="section" id="gov-viewer-section">
+    <section class="section" id="res-viewer-section">
       <div class="container">
-        <div id="gov-viewer" hidden>
+        <div id="res-viewer" hidden>
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);flex-wrap:wrap;gap:var(--space-3)">
-            <button type="button" class="btn btn--ghost" id="viewer-exit">&larr; Exit to My Governance Models</button>
-            <button type="button" class="btn btn--secondary" id="viewer-edit">Edit Governance Model</button>
+            <button type="button" class="btn btn--ghost" id="viewer-exit">&larr; Exit to My Resilience Models</button>
+            <button type="button" class="btn btn--secondary" id="viewer-edit">Edit Resilience Model</button>
           </div>
-          <div id="gov-sample-banner"></div>
-          <div id="gov-viewer-body"></div>
+          <div id="res-sample-banner"></div>
+          <div id="res-viewer-body"></div>
         </div>
       </div>
     </section>
@@ -89,23 +87,24 @@
   <script src="../js/blueprint-core.js"></script>
   <script src="../js/valuestream-core.js"></script>
   <script src="../js/capacity-core.js"></script>
+  <script src="../js/rhythm-core.js"></script>
   <script src="../js/kpi-core.js"></script>
   <script src="../js/health-core.js"></script>
-  <script src="../js/rhythm-core.js"></script>
-  <script src="../js/builder-decision-rights.js"></script>
-  <script src="../js/risk-core.js"></script>
   <script src="../js/governance-core.js"></script>
-  <script src="../js/governance-sample.js"></script>
-  <script src="../js/governance.js"></script>
+  <script src="../js/risk-core.js"></script>
+  <script src="../js/risk-sample.js"></script>
+  <script src="../js/resilience-core.js"></script>
+  <script src="../js/resilience-sample.js"></script>
+  <script src="../js/resilience.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      OMSGovernancePage.init();
+      OMSResiliencePage.init();
     });
   </script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      if (window.OMSNav) window.OMSNav.renderBreadcrumb('page-breadcrumb', [], "Governance");
+      if (window.OMSNav) window.OMSNav.renderBreadcrumb('page-breadcrumb', [], "Resilience Intelligence");
     });
   </script>
 </body>

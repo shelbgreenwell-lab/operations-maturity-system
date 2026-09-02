@@ -37,11 +37,42 @@
     return item ? BP.entityName(type, item) : null;
   }
 
+  /* ----------------------------------------------------------
+     Section 49 — risk overlays. Read-only, reusing js/risk-core.js
+     and js/resilience-core.js directly; nothing new is stored here.
+     ---------------------------------------------------------- */
+
+  function riskOverlayBadges(type, id) {
+    var Risk = global.OMSRisk;
+    var Res = global.OMSResilience;
+    if (!Risk) return '';
+    var models = Risk.store.list().filter(function (m) {
+      return m.data.relatedBlueprintProjectId === state.blueprintId && m.data.relatedBlueprintType === type && m.data.relatedBlueprintId === id;
+    });
+    if (!models.length) return '';
+    var badges = [];
+    models.forEach(function (m) {
+      if (Risk.singlePointsOfFailure(m).length) badges.push('SPOF');
+      if ((m.data.dependencies || []).some(function (d) { return d.concentrationDescription; })) badges.push('Concentration');
+      if (m.data.criticality === 'Critical' || m.data.criticality === 'High') badges.push('Critical Dependency');
+    });
+    if (Res) {
+      var riskIds = models.map(function (m) { return m.id; });
+      Res.store.list().filter(function (rm) { return riskIds.indexOf(rm.data.relatedRiskModelId) !== -1; }).forEach(function (rm) {
+        var overall = Res.overallHealth(rm);
+        if (overall.status === 'Weak' || overall.status === 'Critical') badges.push('Weak Resilience');
+      });
+    }
+    badges = badges.filter(function (b, i) { return badges.indexOf(b) === i; });
+    if (!badges.length) return '';
+    return badges.map(function (b) { return '<span class="badge badge--outline" style="border-color:var(--color-critical);color:var(--color-critical);margin-left:4px" title="From a linked Risk or Resilience Model">' + esc(b) + '</span>'; }).join('');
+  }
+
   function nodeHtml(n) {
     var bp = BP.store.get(state.blueprintId);
     var name = nameOf(bp.data, n.node.type, n.node.id) || BP.ENTITY_META[n.node.type].label;
     return '<button type="button" class="trace-node" data-node-type="' + n.node.type + '" data-node-id="' + n.node.id + '">' +
-      '<span>' + esc(name) + '</span>' +
+      '<span>' + esc(name) + riskOverlayBadges(n.node.type, n.node.id) + '</span>' +
       '<span class="trace-node__relation">' + esc(n.relation) + '</span>' +
     '</button>';
   }
@@ -107,7 +138,7 @@
     var dependsOn = deps.filter(function (d) { return classify(d.relation) === 'depends'; });
 
     els.results.innerHTML =
-      '<p class="lede" style="margin-bottom:var(--space-5)">Focused on <strong>' + esc(name) + '</strong> (' + esc(BP.ENTITY_META[type].label) + ')</p>' +
+      '<p class="lede" style="margin-bottom:var(--space-5)">Focused on <strong>' + esc(name) + '</strong> (' + esc(BP.ENTITY_META[type].label) + ')' + riskOverlayBadges(type, id) + '</p>' +
       group('Depends On', dependsOn, 'Nothing explicitly linked yet.') +
       group('Enables', enables, 'Nothing explicitly linked yet.') +
       group('Measured By', measured, 'No metric or data source is linked to this yet.') +

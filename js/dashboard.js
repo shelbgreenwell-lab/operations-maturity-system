@@ -536,6 +536,59 @@
   }
 
   /* ----------------------------------------------------------
+     Resilience — a modest summary shown only once a Risk Model or
+     Resilience Model exists. Functional is not the same thing as
+     resilient — this section stays deliberately separate from the
+     Operational Health section above.
+     ---------------------------------------------------------- */
+
+  function renderResilience() {
+    var section = byId('command-resilience-section');
+    var mount = byId('command-resilience-mount');
+    var Risk = global.OMSRisk;
+    var Res = global.OMSResilience;
+    if (!section || !mount) return;
+    var riskModels = Risk ? Risk.store.list() : [];
+    var resModels = Res ? Res.store.list() : [];
+    if (!riskModels.length && !resModels.length) { section.hidden = true; return; }
+    section.hidden = false;
+
+    var criticalRisks = 0, spofCount = 0, lowDetectability = 0, highConcentration = 0, untestedFallbacks = 0;
+    riskModels.forEach(function (m) {
+      (m.data.risks || []).forEach(function (r) {
+        if (r.likelihood === 'Critical' || r.impact === 'Critical') criticalRisks++;
+        if (Risk.detectability(r).level === 'Low') lowDetectability++;
+      });
+      (m.data.dependencies || []).forEach(function (d) {
+        if (d.concentrationDescription) highConcentration++;
+      });
+      spofCount += Risk.singlePointsOfFailure(m).length;
+      (m.data.technologyDependencies || []).forEach(function (t) {
+        if (Risk.technologyFlags(t).some(function (f) { return f.rule === 'Manual Fallback Untested'; })) untestedFallbacks++;
+      });
+    });
+
+    var weakResilienceSystems = 0;
+    resModels.forEach(function (m) {
+      var overall = Res.overallHealth(m);
+      if (overall.status === 'Weak' || overall.status === 'Critical') weakResilienceSystems++;
+      untestedFallbacks += Res.paperResilienceFlags(m).length;
+    });
+
+    mount.innerHTML =
+      metricGridHtml([
+        { label: 'Critical Operational Risks', value: criticalRisks },
+        { label: 'Single Points Of Failure', value: spofCount },
+        { label: 'Critical Systems With Weak Resilience', value: weakResilienceSystems },
+        { label: 'Untested Fallbacks', value: untestedFallbacks },
+        { label: 'Low-Detectability Risks', value: lowDetectability },
+        { label: 'High-Concentration Dependencies', value: highConcentration }
+      ]) +
+      '<a class="btn btn--secondary" href="risk.html" style="margin-top:var(--space-3);display:inline-block;margin-right:var(--space-3)">Open Operational Risk &rarr;</a>' +
+      '<a class="btn btn--secondary" href="resilience.html" style="margin-top:var(--space-3);display:inline-block">Open Resilience Intelligence &rarr;</a>';
+  }
+
+  /* ----------------------------------------------------------
      System Story — a deterministic narrative assembled only from
      what is actually stored. Not AI, not fabricated: if there isn't
      enough data, it says so.
@@ -628,6 +681,7 @@
       renderCapacity();
       renderOperationalHealth();
       renderGovernance();
+      renderResilience();
       renderSystemStory(results, attentionItems);
     });
   }

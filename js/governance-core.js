@@ -293,6 +293,17 @@
       }
     }
 
+    if (global.OMSRisk) {
+      var hasRiskRhythm2 = rhythms.some(function (r) { return r.data.purposeCategory === 'Risk'; });
+      var hasRiskGovernance = govModels.some(function (g) { return (g.data.objects || []).some(function (o) { return o.type === 'Risk Governance'; }); });
+      global.OMSRisk.store.list().forEach(function (rm) {
+        var highImpactRisks = (rm.data.risks || []).filter(function (r) { return (r.impact === 'High' || r.impact === 'Critical') && r.status !== 'Closed'; });
+        if (highImpactRisks.length && !hasRiskRhythm2 && !hasRiskGovernance) {
+          flags.push({ severity: 'critical', rule: 'Critical Risk With No Governance', message: '"' + (rm.name || 'This Risk Model') + '" has ' + highImpactRisks.length + ' high or critical impact risk(s), but no operating rhythm has a Risk purpose and no Risk Governance object exists.', why: 'No rhythm\'s purpose category is set to Risk, and no governance object of type Risk Governance references this.' });
+        }
+      });
+    }
+
     return flags.concat(decisionRightsInsights());
   }
 

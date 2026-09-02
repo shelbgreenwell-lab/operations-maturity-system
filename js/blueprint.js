@@ -1164,6 +1164,42 @@
       }).join('');
   }
 
+  function riskSignalHtml(type, item) {
+    var Risk = global.OMSRisk;
+    if (!Risk) return '';
+    var models = Risk.store.list().filter(function (m) {
+      return m.data.relatedBlueprintProjectId === project.id && m.data.relatedBlueprintType === type && m.data.relatedBlueprintId === item.id;
+    });
+    if (!models.length) return '';
+    return '<h5 class="text-mono text-dim" style="text-transform:uppercase;font-size:var(--step--1);margin-top:var(--space-5)">Risk Signal</h5>' +
+      models.map(function (m) {
+        var spofCount = Risk.singlePointsOfFailure(m).length;
+        return '<p class="text-muted" style="margin-bottom:var(--space-2)"><a href="risk.html?model=' + encodeURIComponent(m.id) + '">' + esc(m.name) + '</a> &mdash; ' +
+          esc(m.data.criticality || 'Criticality not set') + ' criticality, ' + (m.data.dependencies || []).length + ' dependencies, ' +
+          (m.data.risks || []).length + ' risks, ' + (m.data.controls || []).length + ' controls' +
+          (spofCount ? ', <strong>' + spofCount + ' single point' + (spofCount === 1 ? '' : 's') + ' of failure</strong>' : '') + '.</p>' +
+          '<p style="margin-bottom:var(--space-3)"><a class="btn btn--ghost" style="font-size:var(--step--1)" href="risk.html?model=' + encodeURIComponent(m.id) + '#blast">View Blast Radius &rarr;</a> <a class="btn btn--ghost" style="font-size:var(--step--1)" href="resilience.html?fromRisk=' + encodeURIComponent(m.id) + '">Analyze Resilience &rarr;</a></p>';
+      }).join('');
+  }
+
+  function resilienceSignalHtml(type, item) {
+    var Risk = global.OMSRisk;
+    var Res = global.OMSResilience;
+    if (!Risk || !Res) return '';
+    var riskModels = Risk.store.list().filter(function (m) {
+      return m.data.relatedBlueprintProjectId === project.id && m.data.relatedBlueprintType === type && m.data.relatedBlueprintId === item.id;
+    });
+    var riskIds = riskModels.map(function (m) { return m.id; });
+    var models = Res.store.list().filter(function (m) { return riskIds.indexOf(m.data.relatedRiskModelId) !== -1; });
+    if (!models.length) return '';
+    return '<h5 class="text-mono text-dim" style="text-transform:uppercase;font-size:var(--step--1);margin-top:var(--space-5)">Resilience Signal</h5>' +
+      models.map(function (m) {
+        var overall = Res.overallHealth(m);
+        return '<p class="text-muted" style="margin-bottom:var(--space-2)"><a href="resilience.html?model=' + encodeURIComponent(m.id) + '">' + esc(m.name) + '</a> &mdash; ' +
+          '<span class="health-badge health-badge--' + (overall.status || 'unknown').toLowerCase() + '">' + esc(overall.status) + '</span></p>';
+      }).join('');
+  }
+
   /* ----------------------------------------------------------
      Section 38, 44, 45 — measurement coverage. A high-criticality
      object with no linked KPI Model and no linked Health Model
@@ -1236,6 +1272,8 @@
       capacitySignalHtml(type, item) +
       kpiSignalHtml(type, item) +
       healthSignalHtml(type, item) +
+      riskSignalHtml(type, item) +
+      resilienceSignalHtml(type, item) +
       '<div class="inspector-panel__actions">' +
         '<button type="button" class="btn btn--secondary" id="insp-edit">Edit</button>' +
         '<button type="button" class="btn btn--secondary" id="insp-focus">Focus</button>' +
