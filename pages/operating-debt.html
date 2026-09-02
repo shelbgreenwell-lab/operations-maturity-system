@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Operating Debt — Operations Maturity System</title>
-  <meta name="description" content="Identify accumulated operational complexity, workarounds, and structural weaknesses that make future execution harder.">
+  <meta name="description" content="Name the cost of yesterday's workarounds before they quietly become tomorrow's constraint.">
 
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/components.css">
@@ -25,47 +25,54 @@
         <span class="eyebrow">Operating Debt</span>
         <h1>The cost of yesterday's workarounds.</h1>
         <p class="lede">
-          Short-term operational workarounds often create long-term operating
-          cost. This experience will help you see, name, and prioritize it.
+          Short-term operational workarounds accumulate into long-term cost.
+          This tool draws candidate debt from findings already produced by
+          Capacity, Blueprint, Governance, Risk, and Resilience — you decide
+          what's actually worth tracking, what it costs to keep carrying, and
+          who owns paying it down.
         </p>
-        <div class="foundational-notice">
-          <span class="badge">Coming Into The System</span>
-        </div>
+        <p class="page-header__use-when"><strong>USE THIS WHEN</strong> a workaround has been "temporary" for long enough that it deserves to be named, owned, and prioritized.</p>
       </div>
     </header>
 
     <section class="section">
       <div class="container container--narrow">
-        <div class="framework-preview">
-          <h3 style="margin-bottom: var(--space-4);">Categories of operating debt</h3>
-          <div class="tag-list">
-            <span class="pill">Process debt</span>
-            <span class="pill">Technology debt</span>
-            <span class="pill">Governance debt</span>
-            <span class="pill">Data debt</span>
-            <span class="pill">Knowledge debt</span>
-            <span class="pill">Decision debt</span>
-            <span class="pill">Control debt</span>
-            <span class="pill">Meeting debt</span>
+
+        <div id="debt-launcher">
+          <div style="display:flex; gap: var(--space-3); flex-wrap: wrap;">
+            <button type="button" class="btn btn--primary" id="new-debt-btn">Start Operating Debt Register</button>
+            <button type="button" class="btn btn--secondary" id="load-sample-debt-btn">Load Sample</button>
+          </div>
+          <p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-3)">Command Center already surfaces a rough approximation of operating debt from your assessment. A real register replaces that approximation with named, owned items.</p>
+          <div id="debt-resume-list"></div>
+        </div>
+
+        <div id="debt-wizard" hidden>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-5);flex-wrap:wrap;gap:var(--space-2)">
+            <button type="button" class="btn btn--ghost" id="builder-exit">&larr; Exit to My Operating Debt Registers</button>
+            <span id="builder-project-name" class="text-mono text-dim" style="font-size:var(--step--1)"></span>
+          </div>
+          <div id="builder-progress" class="builder-progress"></div>
+          <p id="builder-step-label" class="text-mono text-dim" style="font-size:var(--step--1);margin-bottom:var(--space-4)"></p>
+          <div id="builder-step-body"></div>
+          <div class="builder-step-nav">
+            <button type="button" class="btn btn--secondary" id="builder-prev">&larr; Previous</button>
+            <button type="button" class="btn btn--primary" id="builder-next">Next &rarr;</button>
           </div>
         </div>
 
-        <p class="callout" style="margin-top: var(--space-6);">
-          A future version will score operating debt, connect it to business
-          impact, and rank remediation priorities alongside your Command Center.
-          Command Center already surfaces a first approximation of operating debt
-          from your assessment.
-        </p>
+      </div>
+    </section>
 
-        <div id="debt-capacity-mount"></div>
-
-        <div style="margin-top: var(--space-6);">
-          <span class="eyebrow">Related Now</span>
-          <div class="related-links" style="margin-top: var(--space-4);">
-            <a href="command-center.html">View Operating Debt in Command Center</a>
-            <a href="diagnose.html">Run a Diagnostic</a>
-            <a href="anti-patterns.html?pattern=sop-graveyard">Read: SOP Graveyard</a>
+    <section class="section" id="debt-viewer-section">
+      <div class="container">
+        <div id="debt-viewer" hidden>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);flex-wrap:wrap;gap:var(--space-3)">
+            <button type="button" class="btn btn--ghost" id="viewer-exit">&larr; Exit to My Operating Debt Registers</button>
+            <button type="button" class="btn btn--secondary" id="viewer-edit">Edit Register</button>
           </div>
+          <div id="debt-sample-banner"></div>
+          <div id="debt-viewer-body"></div>
         </div>
       </div>
     </section>
@@ -77,44 +84,33 @@
   <script src="../js/data.js"></script>
   <script src="../js/navigation.js"></script>
   <script src="../js/search.js"></script>
-  <script src="../js/assessment.js"></script>
-  <script src="../js/diagnostics.js"></script>
-  <script src="../js/scenarios.js"></script>
-  <script src="../js/dashboard.js"></script>
-  <script src="../js/resource-detail.js"></script>
-  <script src="../js/explore.js"></script>
-  <script src="../js/learn.js"></script>
-  <script src="../js/anti-patterns.js"></script>
   <script src="../js/app.js"></script>
+  <script src="../js/builder-core.js"></script>
+  <script src="../js/blueprint-core.js"></script>
+  <script src="../js/valuestream-core.js"></script>
   <script src="../js/capacity-core.js"></script>
+  <script src="../js/capacity-sample.js"></script>
+  <script src="../js/rhythm-core.js"></script>
+  <script src="../js/kpi-core.js"></script>
+  <script src="../js/health-core.js"></script>
+  <script src="../js/governance-core.js"></script>
+  <script src="../js/governance-sample.js"></script>
+  <script src="../js/risk-core.js"></script>
+  <script src="../js/risk-sample.js"></script>
+  <script src="../js/resilience-core.js"></script>
+  <script src="../js/resilience-sample.js"></script>
+  <script src="../js/debt-core.js"></script>
+  <script src="../js/debt-sample.js"></script>
+  <script src="../js/debt.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      OMSDebtPage.init();
+    });
+  </script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.OMSNav) window.OMSNav.renderBreadcrumb('page-breadcrumb', [], "Operating Debt");
-
-      var mount = document.getElementById('debt-capacity-mount');
-      var Cap = window.OMSCapacity;
-      if (!mount || !Cap) return;
-      var DEBT_LIKE_RULES = ['Rework Consuming Material Capacity', 'Meeting Load High', 'Manual Allocation Bottleneck', 'Failure Demand High'];
-      var esc = function (s) { return (s == null ? '' : String(s)).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
-
-      var candidates = [];
-      Cap.store.list().forEach(function (m) {
-        Cap.findings(m).forEach(function (f) {
-          if (DEBT_LIKE_RULES.indexOf(f.rule) !== -1) candidates.push({ model: m, finding: f });
-        });
-      });
-      if (!candidates.length) return;
-
-      mount.innerHTML = '<div class="section-head" style="margin-top: var(--space-6);"><span class="eyebrow">From Your Capacity Models</span><h3>Candidates worth calling operating debt</h3></div>' +
-        '<p class="text-dim" style="font-size: var(--step--1); margin-bottom: var(--space-4);">These are capacity findings that often indicate operating debt &mdash; not an automatic classification. Decide case by case whether each represents debt worth tracking.</p>' +
-        candidates.map(function (c) {
-          return '<div class="risk-flag risk-flag--warning" style="margin-bottom: var(--space-3)">' +
-            '<div class="risk-flag__header"><span class="badge risk-flag__badge risk-flag__badge--warning">' + esc(c.finding.rule) + '</span></div>' +
-            '<p class="risk-flag__message">' + esc(c.finding.message) + '</p>' +
-            '<p class="text-dim" style="font-size: var(--step--1)">From "' + esc(c.model.name) + '" &mdash; <a href="capacity.html?model=' + encodeURIComponent(c.model.id) + '">View As Operating Debt In Capacity &rarr;</a></p>' +
-          '</div>';
-        }).join('');
     });
   </script>
 </body>

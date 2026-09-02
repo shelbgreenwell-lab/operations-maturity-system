@@ -1208,6 +1208,36 @@
       : '<span class="badge badge--outline" title="Load this Resilience Model to open it">Resilience: ' + esc(label) + '</span>';
   }
 
+  function syncDebtFindings() {
+    var D = global.OMSDebt;
+    if (!D) return;
+    var existingRefIds = {};
+    ws.findings.forEach(function (f) { if (f.sourceRefId) existingRefIds[f.sourceRefId] = true; });
+    D.store.list().forEach(function (dItem) {
+      (dItem.data.findings || []).forEach(function (df) {
+        if (existingRefIds[df.id]) return;
+        WB.addItem(ws, 'findings', {
+          title: df.type, message: df.message, sourceType: 'debt', sourceLabel: dItem.name, confidenceStatus: 'Observed',
+          relatedDebtRegister: { modelId: dItem.id, modelName: dItem.name },
+          relatedLayer: '', evidenceNeeded: df.why || '', systemsInvolved: '', recommendedInvestigation: '',
+          date: df.savedAt, status: 'New', sourceRefId: df.id
+        });
+        existingRefIds[df.id] = true;
+      });
+    });
+  }
+
+  function debtChip(rel) {
+    if (!rel) return '';
+    var D = global.OMSDebt;
+    var live = rel.modelId && D ? D.store.get(rel.modelId) : null;
+    var label = rel.modelName || (live && live.name);
+    if (!label) return '';
+    return live
+      ? '<a class="badge badge--outline" href="operating-debt.html?model=' + encodeURIComponent(rel.modelId) + '" title="Open in Operating Debt">Debt: ' + esc(label) + ' &rarr;</a>'
+      : '<span class="badge badge--outline" title="Load this Operating Debt register to open it">Debt: ' + esc(label) + '</span>';
+  }
+
   var CONFIDENCE_TONE = { Observed: '', Inferred: 'moderate', Validated: 'low' };
   function confidenceBadge(status) {
     if (!status) return '';
@@ -1225,6 +1255,7 @@
     syncGovernanceFindings();
     syncRiskFindings();
     syncResilienceFindings();
+    syncDebtFindings();
     mount.innerHTML =
       '<h3>From Your Assessment</h3>' +
       '<div id="wb-assessment-mount" style="margin-bottom:var(--space-7)"></div>' +
@@ -1237,7 +1268,7 @@
     var findingsMount = mount.querySelector('#wb-findings-mount');
     var list = ws.findings.filter(function (f) { return f.status !== 'Dismissed'; });
     if (!list.length) {
-      findingsMount.innerHTML = '<p class="callout">No open findings. Findings arrive here from a Blueprint\'s Health &amp; Risk view, a Value Stream\'s flow signals, a KPI Architect quality flag, an Operational Health signal, an Operating Rhythm anti-pattern, a Governance gap, an Operational Risk or Resilience finding, or from "Add Finding to Workbench" on a Diagnose result.</p>';
+      findingsMount.innerHTML = '<p class="callout">No open findings. Findings arrive here from a Blueprint\'s Health &amp; Risk view, a Value Stream\'s flow signals, a KPI Architect quality flag, an Operational Health signal, an Operating Rhythm anti-pattern, a Governance gap, an Operational Risk or Resilience finding, an Operating Debt register, or from "Add Finding to Workbench" on a Diagnose result.</p>';
       return;
     }
 
@@ -1246,7 +1277,7 @@
         '<div class="risk-flag" data-finding="' + f.id + '">' +
           '<div class="risk-flag__header">' + confidenceBadge(f.confidenceStatus) + '<span class="risk-flag__rule">' + esc(f.title) + '</span></div>' +
           '<p class="risk-flag__message">' + esc(f.message || f.recommendedInvestigation || '') + '</p>' +
-          '<div class="build-project-row__meta" style="margin-bottom:var(--space-3)">' + blueprintChip(f.relatedBlueprint) + valueStreamChip(f.relatedValueStream) + capacityChip(f.relatedCapacityModel) + kpiChip(f.relatedKpiModel) + healthChip(f.relatedHealthModel) + rhythmChip(f.relatedRhythm) + governanceChip(f.relatedGovernanceModel) + riskChip(f.relatedRiskModel) + resilienceChip(f.relatedResilienceModel) + '<span class="text-dim text-mono" style="font-size:var(--step--1)">From ' + esc(f.sourceLabel || f.sourceType) + (f.date ? ' &middot; ' + fmtDate(f.date) : '') + '</span></div>' +
+          '<div class="build-project-row__meta" style="margin-bottom:var(--space-3)">' + blueprintChip(f.relatedBlueprint) + valueStreamChip(f.relatedValueStream) + capacityChip(f.relatedCapacityModel) + kpiChip(f.relatedKpiModel) + healthChip(f.relatedHealthModel) + rhythmChip(f.relatedRhythm) + governanceChip(f.relatedGovernanceModel) + riskChip(f.relatedRiskModel) + resilienceChip(f.relatedResilienceModel) + debtChip(f.relatedDebtRegister) + '<span class="text-dim text-mono" style="font-size:var(--step--1)">From ' + esc(f.sourceLabel || f.sourceType) + (f.date ? ' &middot; ' + fmtDate(f.date) : '') + '</span></div>' +
           '<div class="inspector-panel__actions">' +
             '<button type="button" class="btn btn--secondary" data-add-priority="' + f.id + '">Add To Priorities</button>' +
             '<button type="button" class="btn btn--secondary" data-start-inv="' + f.id + '">Start Investigation</button>' +

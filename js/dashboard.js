@@ -589,6 +589,42 @@
   }
 
   /* ----------------------------------------------------------
+     Operating Debt — shown only once a real register exists,
+     replacing the assessment-based approximation above with
+     named, owned items.
+     ---------------------------------------------------------- */
+
+  function renderDebt() {
+    var section = byId('command-debt-section');
+    var mount = byId('command-debt-mount');
+    var D = global.OMSDebt;
+    if (!section || !mount) return;
+    var models = D ? D.store.list() : [];
+    if (!models.length) { section.hidden = true; return; }
+    section.hidden = false;
+
+    var totalItems = 0, highCost = 0, unowned = 0, untracked = 0;
+    models.forEach(function (m) {
+      var items = m.data.debtItems || [];
+      totalItems += items.length;
+      items.forEach(function (i) {
+        if (i.costOfCarrying === 'High' || i.costOfCarrying === 'Severe') highCost++;
+        if (!i.owner) unowned++;
+        if (!i.remediationStatus || i.remediationStatus === 'Untracked') untracked++;
+      });
+    });
+
+    mount.innerHTML =
+      metricGridHtml([
+        { label: 'Debt Items Named', value: totalItems },
+        { label: 'High Or Severe Cost', value: highCost },
+        { label: 'Without An Owner', value: unowned },
+        { label: 'Untracked', value: untracked }
+      ]) +
+      '<a class="btn btn--secondary" href="operating-debt.html" style="margin-top:var(--space-3);display:inline-block">Open Operating Debt &rarr;</a>';
+  }
+
+  /* ----------------------------------------------------------
      System Story — a deterministic narrative assembled only from
      what is actually stored. Not AI, not fabricated: if there isn't
      enough data, it says so.
@@ -682,6 +718,7 @@
       renderOperationalHealth();
       renderGovernance();
       renderResilience();
+      renderDebt();
       renderSystemStory(results, attentionItems);
     });
   }
