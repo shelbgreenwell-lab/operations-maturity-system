@@ -626,6 +626,16 @@
     return base + '?fromCapacity=' + encodeURIComponent(capacityModelId);
   }
 
+  function operationalRiskHref(capacityModelId) {
+    var base = global.OMSData ? global.OMSData.href('pages/risk.html') : 'risk.html';
+    return base + '?fromCapacity=' + encodeURIComponent(capacityModelId);
+  }
+
+  function resilienceHref(capacityModelId) {
+    var base = global.OMSData ? global.OMSData.href('pages/resilience.html') : 'resilience.html';
+    return base + '?withCapacity=' + encodeURIComponent(capacityModelId);
+  }
+
   /* ----------------------------------------------------------
      Capacity Detail — waterfall, queue, distribution, skills,
      allocation, priority load (Sections 13, 15, 17-20)
@@ -1075,7 +1085,7 @@
         '<span class="eyebrow" style="margin-top:var(--space-5);display:block">Major Findings</span>' +
         (flags.length ? '<ul style="margin:var(--space-2) 0 0 1.2em">' + flags.slice(0, 6).map(function (f) { return '<li>' + esc(f.rule) + '</li>'; }).join('') + '</ul>' : '<p class="text-dim">None flagged.</p>') +
       '</div>' +
-      '<div class="hero__actions" style="margin-top:var(--space-5)"><button type="button" class="btn btn--secondary" id="cap-export-btn">Export JSON</button><button type="button" class="btn btn--secondary" id="cap-print-btn">Print / Save As PDF</button><a class="btn btn--secondary" href="' + operationalHealthHref('importCap', project.id) + '">Send To Health Model</a><a class="btn btn--secondary" href="' + operatingRhythmHref(project.id) + '">Add Capacity Review Rhythm</a></div>';
+      '<div class="hero__actions" style="margin-top:var(--space-5)"><button type="button" class="btn btn--secondary" id="cap-export-btn">Export JSON</button><button type="button" class="btn btn--secondary" id="cap-print-btn">Print / Save As PDF</button><a class="btn btn--secondary" href="' + operationalHealthHref('importCap', project.id) + '">Send To Health Model</a><a class="btn btn--secondary" href="' + operatingRhythmHref(project.id) + '">Add Capacity Review Rhythm</a><a class="btn btn--secondary" href="' + operationalRiskHref(project.id) + '">Map Operational Risk</a><a class="btn btn--secondary" href="' + resilienceHref(project.id) + '">Analyze Resilience</a></div>';
     mount.querySelector('#cap-export-btn').addEventListener('click', function () { B.exportJson(project); });
     mount.querySelector('#cap-print-btn').addEventListener('click', function () { global.print(); });
   }

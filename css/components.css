@@ -1623,6 +1623,7 @@ select.builder-field__input {
 .friction-pill--low, .maturity-pill--strong { border-color: var(--color-positive); color: var(--color-positive); }
 .friction-pill--moderate, .maturity-pill--developing { border-color: var(--color-caution); color: var(--color-caution); }
 .friction-pill--high, .maturity-pill--weak { border-color: var(--color-critical); color: var(--color-critical); }
+.friction-pill--critical { border-color: var(--color-critical); color: var(--color-bg); background: var(--color-critical); font-weight: 600; }
 
 .friction-pill[tabindex]:focus-visible {
   outline: 2px solid var(--color-accent);

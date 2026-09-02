@@ -563,6 +563,21 @@
     else if (viewerState.flowView === 'approvals') renderApprovalsView(body);
     else if (viewerState.flowView === 'systems') renderSystemsView(body);
     else renderQueuesView(body);
+
+    var resMount = document.createElement('div');
+    resMount.className = 'constraint-panel';
+    resMount.style.marginTop = 'var(--space-7)';
+    resMount.innerHTML =
+      '<span class="eyebrow">Resilience At Critical Stages</span>' +
+      '<p class="text-muted" style="margin-top:var(--space-2)">A value stream can perform well today and still be fragile at any single stage or handoff.</p>' +
+      '<ul style="margin:var(--space-3) 0 0 1.2em">' +
+        '<li style="margin-bottom:var(--space-2)">What if this stage stops?</li>' +
+        '<li style="margin-bottom:var(--space-2)">What if the handoff receiver is unavailable?</li>' +
+        '<li style="margin-bottom:var(--space-2)">What if the queue doubles?</li>' +
+        '<li style="margin-bottom:var(--space-2)">What if the underlying system fails?</li>' +
+      '</ul>' +
+      '<a class="btn btn--secondary" style="margin-top:var(--space-4);display:inline-block" href="' + operationalRiskHref(project.id) + '">Map Operational Risk &rarr;</a>';
+    mount.appendChild(resMount);
   }
 
   function renderQueuesView(mount) {
@@ -710,6 +725,11 @@
 
   function operatingRhythmHref(valueStreamId) {
     var base = global.OMSData ? global.OMSData.href('pages/operating-rhythm.html') : 'operating-rhythm.html';
+    return base + '?fromValueStream=' + encodeURIComponent(valueStreamId);
+  }
+
+  function operationalRiskHref(valueStreamId) {
+    var base = global.OMSData ? global.OMSData.href('pages/risk.html') : 'risk.html';
     return base + '?fromValueStream=' + encodeURIComponent(valueStreamId);
   }
 
@@ -1002,6 +1022,7 @@
         '<button type="button" class="btn btn--secondary" id="vs-print-btn">Print / Save As PDF</button>' +
         '<a class="btn btn--secondary" href="' + operationalHealthHref('importVs', project.id) + '">Send To Health Model</a>' +
         '<a class="btn btn--secondary" href="' + operatingRhythmHref(project.id) + '">Add Review Rhythm</a>' +
+        '<a class="btn btn--secondary" href="' + operationalRiskHref(project.id) + '">Map Operational Risk</a>' +
       '</div>';
 
     mount.querySelector('#vs-export-json-btn').addEventListener('click', function () { B.exportJson(project); });

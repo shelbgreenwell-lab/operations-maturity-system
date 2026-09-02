@@ -17,6 +17,7 @@
   var Cap = null; // OMSCapacity (import integration)
   var BP = null;  // OMSBlueprint (link picker)
   var Rhy = null; // OMSRhythm (reviewed-in lookup)
+  var Res = null; // OMSResilience (used-as-detection-signal lookup)
   var els = {};
   var project = null;
   var viewerState = { tab: 'overview', openDimIndex: 0, exceptionOnly: false };
@@ -315,6 +316,21 @@
     return rhythmId ? base + '?rhythm=' + encodeURIComponent(rhythmId) : base;
   }
 
+  function resilienceHref(modelId) {
+    var base = global.OMSData ? global.OMSData.href('pages/resilience.html') : 'resilience.html';
+    return modelId ? base + '?model=' + encodeURIComponent(modelId) : base;
+  }
+
+  function usedAsDetectionSignalHtml(dim) {
+    if (!Res) return '';
+    var models = Res.store.list().filter(function (m) { return m.data.detection && m.data.detection.relatedHealthDimensionId === dim.id; });
+    if (!models.length) return '';
+    return '<span class="eyebrow" style="margin-top:var(--space-5);display:block">Used As Detection Signal By</span>' +
+      '<div class="build-project-row__meta" style="margin-top:var(--space-2)">' +
+      models.map(function (m) { return '<a class="badge badge--outline" href="' + resilienceHref(m.id) + '">' + esc(m.name) + ' &rarr;</a>'; }).join('') +
+      '</div>';
+  }
+
   function renderDimensionsTab(mount) {
     var dims = project.data.dimensions || [];
     if (!dims.length) { mount.innerHTML = '<p class="callout">No health dimensions defined yet. Add them from the wizard.</p>'; return; }
@@ -353,6 +369,7 @@
         '</div>' +
         (flags.length ? '<span class="eyebrow" style="margin-top:var(--space-5);display:block">Coverage Gaps</span><ul style="margin:var(--space-2) 0 0 1.2em;font-size:var(--step--1)">' + flags.map(function (f) { return '<li><strong>' + esc(f.rule) + ':</strong> ' + esc(f.message) + '</li>'; }).join('') + '</ul>' : '<p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-4)">No coverage gaps for this dimension.</p>') +
         reviewedInHtml(dim) +
+        usedAsDetectionSignalHtml(dim) +
         '<span class="eyebrow" style="margin-top:var(--space-5);display:block">Health Trend (Manual Entry)</span>' +
         '<p class="text-dim" style="font-size:var(--step--1)">Add a data point per review period. At least three are needed to describe a trend — this is a simple transparent calculation, not statistical process control.</p>' +
         '<div id="trend-mount"></div>' +
@@ -589,6 +606,7 @@
     Cap = global.OMSCapacity;
     BP = global.OMSBlueprint;
     Rhy = global.OMSRhythm;
+    Res = global.OMSResilience;
 
     els.launcher = byId('health-launcher');
     els.wizard = byId('health-wizard');

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Operational Risk — Operations Maturity System</title>
-  <meta name="description" content="Identify, assess, connect, and manage risks across the operating system.">
+  <meta name="description" content="See where the operating system is exposed before disruption becomes failure.">
 
   <link rel="stylesheet" href="../css/styles.css">
   <link rel="stylesheet" href="../css/components.css">
@@ -23,56 +23,55 @@
       <div class="container">
         <nav id="page-breadcrumb" class="breadcrumb" aria-label="Breadcrumb"></nav>
         <span class="eyebrow">Operational Risk</span>
-        <h1>Make risk visible before it becomes failure.</h1>
+        <h1>See where the operating system is exposed before disruption becomes failure.</h1>
         <p class="lede">
-          Mature operations make risk visible before it becomes failure. This
-          experience will help you identify, connect, and manage risk across the
-          operating system.
+          A system can be healthy and still be fragile. Critical dependencies
+          become dangerous when they are invisible — this tool exists to make
+          them visible.
         </p>
-        <div class="foundational-notice">
-          <span class="badge">Coming Into The System</span>
-        </div>
+        <p class="page-header__use-when"><strong>USE THIS WHEN</strong> you need to know what a system depends on, what could fail, and how exposed that failure would leave you.</p>
       </div>
     </header>
 
     <section class="section">
       <div class="container container--narrow">
-        <div class="framework-preview">
-          <h3 style="margin-bottom: var(--space-4);">What this will help you assess</h3>
-          <div class="tag-list">
-            <span class="pill">Likelihood &amp; impact</span>
-            <span class="pill">Affected processes &amp; capabilities</span>
-            <span class="pill">Risk ownership</span>
-            <span class="pill">Existing controls</span>
-            <span class="pill">Mitigation actions</span>
-            <span class="pill">Early warning indicators</span>
-            <span class="pill">Systemic risk</span>
-            <span class="pill">Shared dependencies</span>
-            <span class="pill">Risk prioritization</span>
+
+        <div id="risk-launcher">
+          <div style="display:flex; gap: var(--space-3); flex-wrap: wrap;">
+            <button type="button" class="btn btn--primary" id="new-risk-btn">Map Operational Risk</button>
+            <button type="button" class="btn btn--secondary" id="import-bp-risk-btn">Import From Blueprint</button>
+            <button type="button" class="btn btn--secondary" id="load-sample-risk-btn">Load Sample</button>
           </div>
-          <h4 style="margin: var(--space-6) 0 var(--space-3); font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-dim);">Risk Categories</h4>
-          <div class="tag-list">
-            <span class="pill">Process</span>
-            <span class="pill">People</span>
-            <span class="pill">Capacity</span>
-            <span class="pill">Technology</span>
-            <span class="pill">Data</span>
-            <span class="pill">Customer</span>
-            <span class="pill">Financial</span>
-            <span class="pill">Vendor</span>
-            <span class="pill">Change</span>
-            <span class="pill">Compliance</span>
-            <span class="pill">Strategic</span>
+          <p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-3)">Once a system is mapped here, use <a href="resilience.html">Resilience Intelligence</a> to analyze whether it can withstand and recover from disruption.</p>
+          <div id="risk-resume-list"></div>
+        </div>
+
+        <div id="risk-wizard" hidden>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-5);flex-wrap:wrap;gap:var(--space-2)">
+            <button type="button" class="btn btn--ghost" id="builder-exit">&larr; Exit to My Risk Models</button>
+            <span id="builder-project-name" class="text-mono text-dim" style="font-size:var(--step--1)"></span>
+          </div>
+          <div id="builder-progress" class="builder-progress"></div>
+          <p id="builder-step-label" class="text-mono text-dim" style="font-size:var(--step--1);margin-bottom:var(--space-4)"></p>
+          <div id="builder-step-body"></div>
+          <div class="builder-step-nav">
+            <button type="button" class="btn btn--secondary" id="builder-prev">&larr; Previous</button>
+            <button type="button" class="btn btn--primary" id="builder-next">Next &rarr;</button>
           </div>
         </div>
 
-        <div style="margin-top: var(--space-6);">
-          <span class="eyebrow">Related Now</span>
-          <div class="related-links" style="margin-top: var(--space-4);">
-            <a href="diagnose.html">Run a Diagnostic</a>
-            <a href="command-center.html">View Command Center</a>
-            <a href="capacity.html">Capacity Architecture</a>
+      </div>
+    </section>
+
+    <section class="section" id="risk-viewer-section">
+      <div class="container">
+        <div id="risk-viewer" hidden>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);flex-wrap:wrap;gap:var(--space-3)">
+            <button type="button" class="btn btn--ghost" id="viewer-exit">&larr; Exit to My Risk Models</button>
+            <button type="button" class="btn btn--secondary" id="viewer-edit">Edit Risk Model</button>
           </div>
+          <div id="risk-sample-banner"></div>
+          <div id="risk-viewer-body"></div>
         </div>
       </div>
     </section>
@@ -84,15 +83,23 @@
   <script src="../js/data.js"></script>
   <script src="../js/navigation.js"></script>
   <script src="../js/search.js"></script>
-  <script src="../js/assessment.js"></script>
-  <script src="../js/diagnostics.js"></script>
-  <script src="../js/scenarios.js"></script>
-  <script src="../js/dashboard.js"></script>
-  <script src="../js/resource-detail.js"></script>
-  <script src="../js/explore.js"></script>
-  <script src="../js/learn.js"></script>
-  <script src="../js/anti-patterns.js"></script>
   <script src="../js/app.js"></script>
+  <script src="../js/builder-core.js"></script>
+  <script src="../js/blueprint-core.js"></script>
+  <script src="../js/valuestream-core.js"></script>
+  <script src="../js/capacity-core.js"></script>
+  <script src="../js/rhythm-core.js"></script>
+  <script src="../js/kpi-core.js"></script>
+  <script src="../js/health-core.js"></script>
+  <script src="../js/governance-core.js"></script>
+  <script src="../js/risk-core.js"></script>
+  <script src="../js/risk-sample.js"></script>
+  <script src="../js/risk.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      OMSRiskPage.init();
+    });
+  </script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
