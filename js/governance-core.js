@@ -304,6 +304,42 @@
       });
     }
 
+    if (global.OMSDebt) {
+      var hasImprovementRhythm = rhythms.some(function (r) { return r.data.purposeCategory === 'Improvement'; });
+      if (!hasImprovementRhythm) {
+        global.OMSDebt.store.list().forEach(function (dm) {
+          var highCostNoPlan = (dm.data.debtItems || []).filter(function (i) { return (i.costOfCarrying === 'High' || i.costOfCarrying === 'Severe') && (!i.remediationStatus || i.remediationStatus === 'Untracked'); });
+          if (highCostNoPlan.length) {
+            flags.push({ severity: 'warning', rule: 'High-Cost Debt With No Review', message: '"' + (dm.name || 'This Operating Debt register') + '" has ' + highCostNoPlan.length + ' High or Severe cost item(s) with no remediation plan, but no operating rhythm has an Improvement purpose.', why: 'No rhythm\'s purpose category is set to Improvement.' });
+          }
+        });
+      }
+    }
+
+    if (global.OMSScale) {
+      var hasCapacityRhythm = rhythms.some(function (r) { return r.data.purposeCategory === 'Capacity'; });
+      if (!hasCapacityRhythm) {
+        global.OMSScale.store.list().forEach(function (sm) {
+          var overall = global.OMSScale.overallReadiness(sm);
+          if (overall.status === 'Weak' || overall.status === 'Critical') {
+            flags.push({ severity: 'warning', rule: 'Weak Scale Readiness With No Review', message: '"' + (sm.name || 'This Scale Readiness assessment') + '" resolves to ' + overall.status + ' readiness, but no operating rhythm has a Capacity purpose.', why: 'No rhythm\'s purpose category is set to Capacity.' });
+          }
+        });
+      }
+    }
+
+    if (global.OMSTransformation) {
+      var hasChangeRhythm = rhythms.some(function (r) { return r.data.purposeCategory === 'Change'; });
+      if (!hasChangeRhythm) {
+        global.OMSTransformation.store.list().forEach(function (tm) {
+          var inProgress = (tm.data.phases || []).filter(function (p) { return p.status === 'In Progress'; });
+          if (inProgress.length) {
+            flags.push({ severity: 'warning', rule: 'Transformation Phase In Progress With No Review Rhythm', message: '"' + (tm.name || 'This Transformation Plan') + '" has ' + inProgress.length + ' phase(s) in progress, but no operating rhythm has a Change purpose.', why: 'No rhythm\'s purpose category is set to Change.' });
+          }
+        });
+      }
+    }
+
     return flags.concat(decisionRightsInsights());
   }
 
