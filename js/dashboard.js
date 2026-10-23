@@ -575,6 +575,8 @@
       untestedFallbacks += Res.paperResilienceFlags(m).length;
     });
 
+    var crossSystemConcentration = Risk ? Risk.organizationalFindings().length : 0;
+
     mount.innerHTML =
       metricGridHtml([
         { label: 'Critical Operational Risks', value: criticalRisks },
@@ -582,10 +584,12 @@
         { label: 'Critical Systems With Weak Resilience', value: weakResilienceSystems },
         { label: 'Untested Fallbacks', value: untestedFallbacks },
         { label: 'Low-Detectability Risks', value: lowDetectability },
-        { label: 'High-Concentration Dependencies', value: highConcentration }
+        { label: 'High-Concentration Dependencies', value: highConcentration },
+        { label: 'Cross-System Concentration Patterns', value: crossSystemConcentration }
       ]) +
       '<a class="btn btn--secondary" href="risk.html" style="margin-top:var(--space-3);display:inline-block;margin-right:var(--space-3)">Open Operational Risk &rarr;</a>' +
-      '<a class="btn btn--secondary" href="resilience.html" style="margin-top:var(--space-3);display:inline-block">Open Resilience Intelligence &rarr;</a>';
+      '<a class="btn btn--secondary" href="resilience.html" style="margin-top:var(--space-3);display:inline-block;margin-right:var(--space-3)">Open Resilience Intelligence &rarr;</a>' +
+      '<a class="btn btn--secondary" href="risk.html?view=orgmap" style="margin-top:var(--space-3);display:inline-block">Open Organizational Resilience Map &rarr;</a>';
   }
 
   /* ----------------------------------------------------------

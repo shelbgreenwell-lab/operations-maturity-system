@@ -384,6 +384,77 @@
     return flags;
   }
 
+  /* ----------------------------------------------------------
+     Organizational Resilience Map — a cross-model rollup. Not
+     tied to any single Risk Model: scans every stored model and
+     groups repeated dependency names (same person, platform,
+     vendor, team, etc.) that appear in two or more of them.
+     Every cluster states exactly which models it comes from —
+     no fabricated score, no inferred relationship.
+     ---------------------------------------------------------- */
+
+  function organizationalConcentration() {
+    var models = store.list();
+    var clusters = {};
+
+    function addOccurrence(category, name, model, detail) {
+      if (!name || !String(name).trim()) return;
+      var trimmed = String(name).trim();
+      var key = category + '::' + trimmed.toLowerCase();
+      if (!clusters[key]) clusters[key] = { category: category || 'Other', name: trimmed, occurrences: [] };
+      clusters[key].occurrences.push({ modelId: model.id, modelName: model.name, systemType: model.data.systemType, detail: detail || '' });
+    }
+
+    models.forEach(function (m) {
+      (m.data.dependencies || []).forEach(function (d) {
+        addOccurrence(d.category, d.whatDependedOn, m, d.why);
+      });
+      (m.data.technologyDependencies || []).forEach(function (t) {
+        addOccurrence('Technology', t.system, m, t.purpose);
+      });
+      (m.data.vendorDependencies || []).forEach(function (v) {
+        addOccurrence('Vendors', v.vendor, m, v.service);
+      });
+    });
+
+    var multi = Object.keys(clusters).map(function (k) { return clusters[k]; }).filter(function (c) {
+      var distinct = {};
+      c.occurrences.forEach(function (o) { distinct[o.modelId] = true; });
+      return Object.keys(distinct).length >= 2;
+    });
+
+    multi.sort(function (a, b) {
+      var da = {}, db = {};
+      a.occurrences.forEach(function (o) { da[o.modelId] = true; });
+      b.occurrences.forEach(function (o) { db[o.modelId] = true; });
+      return Object.keys(db).length - Object.keys(da).length;
+    });
+
+    var grouped = {};
+    multi.forEach(function (c) {
+      grouped[c.category] = grouped[c.category] || [];
+      grouped[c.category].push(c);
+    });
+
+    return { clusters: multi, grouped: grouped, modelsScanned: models.length };
+  }
+
+  function organizationalFindings() {
+    var result = organizationalConcentration();
+    var flags = [];
+    result.clusters.forEach(function (c) {
+      var distinct = {};
+      c.occurrences.forEach(function (o) { distinct[o.modelId] = true; });
+      var count = Object.keys(distinct).length;
+      if (count >= 3) {
+        flags.push({ severity: 'critical', rule: 'Cross-System Concentration', message: '"' + c.name + '" (' + c.category + ') is a recorded dependency in ' + count + ' different systems.', why: 'This name appears as a dependency in 3 or more Risk Models.' });
+      } else if (count === 2) {
+        flags.push({ severity: 'warning', rule: 'Shared Dependency Across Systems', message: '"' + c.name + '" (' + c.category + ') is a recorded dependency in 2 systems.', why: 'This name appears as a dependency in 2 Risk Models.' });
+      }
+    });
+    return flags;
+  }
+
   global.OMSRisk = {
     STORAGE_KEY: STORAGE_KEY,
     SYSTEM_TYPES: SYSTEM_TYPES, IMPACT_CATEGORIES: IMPACT_CATEGORIES, CRITICALITY_LEVELS: CRITICALITY_LEVELS, CRITICALITY_RANK: CRITICALITY_RANK,
@@ -395,6 +466,7 @@
     knowledgeRiskFlags: knowledgeRiskFlags, technologyFlags: technologyFlags, technologyConcentration: technologyConcentration,
     dataFlags: dataFlags, vendorFlags: vendorFlags, controlFlags: controlFlags, controlCoverage: controlCoverage,
     detectability: detectability, recoverability: recoverability, exposureProfile: exposureProfile,
-    topSystemicRisks: topSystemicRisks, modelFindings: modelFindings
+    topSystemicRisks: topSystemicRisks, modelFindings: modelFindings,
+    organizationalConcentration: organizationalConcentration, organizationalFindings: organizationalFindings
   };
 })(window);

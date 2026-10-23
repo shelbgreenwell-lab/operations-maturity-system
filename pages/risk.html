@@ -41,6 +41,7 @@
             <button type="button" class="btn btn--primary" id="new-risk-btn">Map Operational Risk</button>
             <button type="button" class="btn btn--secondary" id="import-bp-risk-btn">Import From Blueprint</button>
             <button type="button" class="btn btn--secondary" id="load-sample-risk-btn">Load Sample</button>
+            <button type="button" class="btn btn--secondary" id="view-orgmap-btn">View Organizational Resilience Map</button>
           </div>
           <p class="text-dim" style="font-size:var(--step--1);margin-top:var(--space-3)">Once a system is mapped here, use <a href="resilience.html">Resilience Intelligence</a> to analyze whether it can withstand and recover from disruption.</p>
           <div id="risk-resume-list"></div>
@@ -72,6 +73,17 @@
           </div>
           <div id="risk-sample-banner"></div>
           <div id="risk-viewer-body"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="risk-orgmap-section">
+      <div class="container">
+        <div id="risk-orgmap" hidden>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);flex-wrap:wrap;gap:var(--space-3)">
+            <button type="button" class="btn btn--ghost" id="orgmap-exit">&larr; Exit to My Risk Models</button>
+          </div>
+          <div id="risk-orgmap-body"></div>
         </div>
       </div>
     </section>

@@ -352,6 +352,7 @@
     els.launcher.hidden = true;
     els.viewer.hidden = true;
     if (els.viewerSection) els.viewerSection.hidden = true;
+    if (els.orgMap) els.orgMap.hidden = true;
     els.wizard.hidden = false;
     els.projectName.textContent = project.name;
     B.initWizard({ project: project, steps: WIZARD_STEPS, store: K.store, els: { progress: els.progress, body: els.stepBody, prev: els.prev, next: els.next, stepLabel: els.stepLabel } });
@@ -367,6 +368,7 @@
     els.wizard.hidden = true;
     els.viewer.hidden = false;
     if (els.viewerSection) els.viewerSection.hidden = false;
+    if (els.orgMap) els.orgMap.hidden = true;
     renderSampleBanner();
     renderViewer();
     updateUrl();
@@ -719,8 +721,50 @@
     els.wizard.hidden = true;
     els.viewer.hidden = true;
     if (els.viewerSection) els.viewerSection.hidden = true;
+    if (els.orgMap) els.orgMap.hidden = true;
     renderResumeList();
     updateUrl();
+  }
+
+  /* ----------------------------------------------------------
+     Organizational Resilience Map — a cross-model rollup, not
+     tied to any single Risk Model.
+     ---------------------------------------------------------- */
+
+  function enterOrgMap() {
+    els.launcher.hidden = true;
+    els.wizard.hidden = true;
+    els.viewer.hidden = true;
+    if (els.viewerSection) els.viewerSection.hidden = true;
+    if (els.orgMap) els.orgMap.hidden = false;
+    renderOrgMap();
+    global.history.replaceState(null, '', global.location.pathname + '?view=orgmap');
+  }
+
+  function renderOrgMap() {
+    if (!els.orgMapBody) return;
+    var result = K.organizationalConcentration();
+    var findings = K.organizationalFindings();
+    var categories = Object.keys(result.grouped);
+    els.orgMapBody.innerHTML =
+      '<div class="section-head"><span class="eyebrow">Organizational Resilience Map</span><h2>Where the same person, platform, or vendor shows up more than once</h2></div>' +
+      '<p class="lede">Scanned ' + result.modelsScanned + ' Risk Model(s). Grouped patterns below appear in two or more of them — nothing here is inferred, only counted.</p>' +
+      (categories.length ? categories.map(function (cat) {
+        return '<div class="section-head" style="margin-top:var(--space-7)"><span class="eyebrow">' + esc(cat) + '</span></div>' +
+          result.grouped[cat].map(function (c) {
+            var distinct = {};
+            c.occurrences.forEach(function (o) { distinct[o.modelId] = true; });
+            var count = Object.keys(distinct).length;
+            return '<div class="card" style="margin-bottom:var(--space-4)">' +
+              '<div class="bp-chain-section__header"><h4 style="margin:0">' + esc(c.name) + '</h4><span class="badge risk-flag__badge risk-flag__badge--' + (count >= 3 ? 'critical' : 'warning') + '">' + count + ' systems</span></div>' +
+              '<div class="build-project-row__meta" style="margin-top:var(--space-2)">' +
+              c.occurrences.map(function (o) { return '<a class="badge badge--outline" href="risk.html?model=' + encodeURIComponent(o.modelId) + '" title="' + esc(o.detail) + '">' + esc(o.modelName) + ' &rarr;</a>'; }).join('') +
+              '</div>' +
+            '</div>';
+          }).join('');
+      }).join('') : '<p class="callout">No shared dependencies found across your Risk Models yet — either you have fewer than two models, or nothing in them overlaps by name.</p>') +
+      '<div class="section-head" style="margin-top:var(--space-8)"><span class="eyebrow">Findings</span></div>' +
+      flagList(findings);
   }
 
   function updateUrl() {
@@ -746,6 +790,8 @@
     els.viewerSection = byId('risk-viewer-section');
     els.sampleBanner = byId('risk-sample-banner');
     els.resumeList = byId('risk-resume-list');
+    els.orgMap = byId('risk-orgmap');
+    els.orgMapBody = byId('risk-orgmap-body');
     els.progress = byId('builder-progress');
     els.stepBody = byId('builder-step-body');
     els.prev = byId('builder-prev');
@@ -759,6 +805,8 @@
     var exitBtn = byId('builder-exit');
     var viewerExitBtn = byId('viewer-exit');
     var viewerEditBtn = byId('viewer-edit');
+    var orgMapBtn = byId('view-orgmap-btn');
+    var orgMapExitBtn = byId('orgmap-exit');
 
     if (newBtn) newBtn.addEventListener('click', function () {
       var name = global.prompt('Name this Risk Model:', 'New Risk Model');
@@ -784,14 +832,18 @@
     if (exitBtn) exitBtn.addEventListener('click', backToLauncher);
     if (viewerExitBtn) viewerExitBtn.addEventListener('click', backToLauncher);
     if (viewerEditBtn) viewerEditBtn.addEventListener('click', function () { enterWizard(); });
+    if (orgMapBtn) orgMapBtn.addEventListener('click', enterOrgMap);
+    if (orgMapExitBtn) orgMapExitBtn.addEventListener('click', backToLauncher);
 
     var params = new URLSearchParams(global.location.search);
     var requestedId = params.get('model');
     var existing = requestedId ? K.store.get(requestedId) : null;
     var fromVs = params.get('fromValueStream');
     var fromCap = params.get('fromCapacity');
+    var viewParam = params.get('view');
 
-    if (existing) { project = existing; enterViewer(); }
+    if (viewParam === 'orgmap') { enterOrgMap(); }
+    else if (existing) { project = existing; enterViewer(); }
     else if (fromVs && VS && VS.store.get(fromVs)) {
       var vs = VS.store.get(fromVs);
       var vsData = K.blankData();
