@@ -45,23 +45,28 @@
   function riskOverlayBadges(type, id) {
     var Risk = global.OMSRisk;
     var Res = global.OMSResilience;
-    if (!Risk) return '';
-    var models = Risk.store.list().filter(function (m) {
+    var D = global.OMSDebt;
+    var models = Risk ? Risk.store.list().filter(function (m) {
       return m.data.relatedBlueprintProjectId === state.blueprintId && m.data.relatedBlueprintType === type && m.data.relatedBlueprintId === id;
-    });
-    if (!models.length) return '';
+    }) : [];
     var badges = [];
     models.forEach(function (m) {
       if (Risk.singlePointsOfFailure(m).length) badges.push('SPOF');
       if ((m.data.dependencies || []).some(function (d) { return d.concentrationDescription; })) badges.push('Concentration');
       if (m.data.criticality === 'Critical' || m.data.criticality === 'High') badges.push('Critical Dependency');
     });
-    if (Res) {
+    if (Res && models.length) {
       var riskIds = models.map(function (m) { return m.id; });
       Res.store.list().filter(function (rm) { return riskIds.indexOf(rm.data.relatedRiskModelId) !== -1; }).forEach(function (rm) {
         var overall = Res.overallHealth(rm);
         if (overall.status === 'Weak' || overall.status === 'Critical') badges.push('Weak Resilience');
       });
+    }
+    if (D) {
+      var hasDebt = D.store.list().some(function (dm) {
+        return (dm.data.debtItems || []).some(function (di) { return di.linkedBlueprintObject === type + '::' + id; });
+      });
+      if (hasDebt) badges.push('Operating Debt');
     }
     badges = badges.filter(function (b, i) { return badges.indexOf(b) === i; });
     if (!badges.length) return '';

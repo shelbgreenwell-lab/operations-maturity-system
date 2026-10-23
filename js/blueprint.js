@@ -1200,6 +1200,24 @@
       }).join('');
   }
 
+  function debtSignalHtml(type, item) {
+    var D = global.OMSDebt;
+    if (!D) return '';
+    var matches = [];
+    D.store.list().forEach(function (m) {
+      (m.data.debtItems || []).forEach(function (di) {
+        if (di.linkedBlueprintObject === type + '::' + item.id) matches.push({ model: m, item: di });
+      });
+    });
+    if (!matches.length) return '';
+    return '<h5 class="text-mono text-dim" style="text-transform:uppercase;font-size:var(--step--1);margin-top:var(--space-5)">Operating Debt Signal</h5>' +
+      matches.map(function (x) {
+        return '<p class="text-muted" style="margin-bottom:var(--space-2)"><a href="operating-debt.html?model=' + encodeURIComponent(x.model.id) + '">' + esc(x.item.title || 'Untitled debt item') + '</a> &mdash; ' +
+          esc(x.item.category || 'Uncategorized') + ', ' + esc(x.item.costOfCarrying || 'cost not set') + ' cost, ' + esc(x.item.remediationStatus || 'Untracked') + '.</p>';
+      }).join('') +
+      '<p style="margin-bottom:var(--space-3)"><a class="btn btn--ghost" style="font-size:var(--step--1)" href="operating-debt.html">Review Operating Debt &rarr;</a></p>';
+  }
+
   /* ----------------------------------------------------------
      Section 38, 44, 45 — measurement coverage. A high-criticality
      object with no linked KPI Model and no linked Health Model
@@ -1274,6 +1292,7 @@
       healthSignalHtml(type, item) +
       riskSignalHtml(type, item) +
       resilienceSignalHtml(type, item) +
+      debtSignalHtml(type, item) +
       '<div class="inspector-panel__actions">' +
         '<button type="button" class="btn btn--secondary" id="insp-edit">Edit</button>' +
         '<button type="button" class="btn btn--secondary" id="insp-focus">Focus</button>' +

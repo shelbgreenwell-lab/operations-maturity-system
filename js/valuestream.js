@@ -733,6 +733,14 @@
     return base + '?fromValueStream=' + encodeURIComponent(valueStreamId);
   }
 
+  function operatingDebtHref() {
+    return global.OMSData ? global.OMSData.href('pages/operating-debt.html') : 'operating-debt.html';
+  }
+
+  function scaleReadinessHref() {
+    return global.OMSData ? global.OMSData.href('pages/scale-readiness.html') : 'scale-readiness.html';
+  }
+
   function renderSystemsView(mount) {
     var stages = project.data.stages || [];
     var chain = [];
@@ -1023,6 +1031,8 @@
         '<a class="btn btn--secondary" href="' + operationalHealthHref('importVs', project.id) + '">Send To Health Model</a>' +
         '<a class="btn btn--secondary" href="' + operatingRhythmHref(project.id) + '">Add Review Rhythm</a>' +
         '<a class="btn btn--secondary" href="' + operationalRiskHref(project.id) + '">Map Operational Risk</a>' +
+        '<a class="btn btn--secondary" href="' + operatingDebtHref() + '">Review Operating Debt</a>' +
+        '<a class="btn btn--secondary" href="' + scaleReadinessHref() + '">Check Scale Readiness</a>' +
       '</div>';
 
     mount.querySelector('#vs-export-json-btn').addEventListener('click', function () { B.exportJson(project); });
