@@ -48,6 +48,11 @@
 
   var BP_LINK_TYPES = ['teams', 'roles', 'processes', 'capabilities', 'valueStreams', 'technology'];
 
+  function operatingRhythmHref(debtId) {
+    var base = global.OMSData ? global.OMSData.href('pages/operating-rhythm.html') : 'operating-rhythm.html';
+    return base + '?fromDebt=' + encodeURIComponent(debtId);
+  }
+
   function blueprintObjectOptions(proj) {
     if (!BP) return [];
     var bps = BP.store.list();
@@ -318,6 +323,7 @@
       '<div class="hero__actions" style="margin-top:var(--space-5)">' +
         '<button type="button" class="btn btn--secondary" id="debt-export-btn">Export Operating Debt JSON</button>' +
         '<button type="button" class="btn btn--secondary" id="debt-print-btn">Print Debt Register</button>' +
+        '<a class="btn btn--secondary" href="' + operatingRhythmHref(project.id) + '">Add Review Rhythm</a>' +
         '<button type="button" class="btn btn--ghost" id="debt-save-finding-btn">Save Findings To Workbench</button>' +
       '</div>';
     mount.querySelector('#debt-export-btn').addEventListener('click', function () { B.exportJson(project); });

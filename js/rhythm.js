@@ -17,6 +17,9 @@
   var K = null;    // OMSKpi
   var H = null;    // OMSHealth
   var BP = null;   // OMSBlueprint
+  var D = null;    // OMSDebt
+  var Scale = null; // OMSScale
+  var T = null;    // OMSTransformation
   var els = {};
   var project = null;
   var viewerState = { tab: 'overview', importOpen: null };
@@ -603,6 +606,9 @@
     K = global.OMSKpi;
     H = global.OMSHealth;
     BP = global.OMSBlueprint;
+    D = global.OMSDebt;
+    Scale = global.OMSScale;
+    T = global.OMSTransformation;
 
     els.launcher = byId('rhythm-launcher');
     els.wizard = byId('rhythm-wizard');
@@ -651,15 +657,24 @@
     var existing = requestedId ? R.store.get(requestedId) : null;
     var fromCapacityId = params.get('fromCapacity');
     var fromValueStreamId = params.get('fromValueStream');
+    var fromDebtId = params.get('fromDebt');
+    var fromScaleId = params.get('fromScale');
+    var fromTransformationId = params.get('fromTransformation');
 
     if (existing) { project = existing; enterViewer(); }
     else if (fromCapacityId && Cap) { project = createFromCapacity(fromCapacityId); enterWizard(); }
     else if (fromValueStreamId && VS) { project = createFromValueStream(fromValueStreamId); enterWizard(); }
+    else if (fromDebtId && D) { project = createFromDebt(fromDebtId); enterWizard(); }
+    else if (fromScaleId && Scale) { project = createFromScale(fromScaleId); enterWizard(); }
+    else if (fromTransformationId && T) { project = createFromTransformation(fromTransformationId); enterWizard(); }
     else { backToLauncher(); }
   }
 
   var CAP_SIGNAL_CANDIDATES = ['Demand Load', 'Capacity Buffer', 'Queue Growth', 'Skill Coverage', 'Demand Forecast'];
   var VS_SIGNAL_CANDIDATES = ['Lead Time', 'Wait Time', 'Rework Rate', 'Handoff Defect Rate', 'Queue Age', 'First-Pass Quality'];
+  var DEBT_SIGNAL_CANDIDATES = ['High-Cost Items Without A Plan', 'Chronic Untracked Debt', 'Debt Concentration By Category'];
+  var SCALE_SIGNAL_CANDIDATES = ['Capacity Headroom At Target Multiplier', 'Dependency Concentration', 'Critical Scale Constraints'];
+  var TRANSFORMATION_SIGNAL_CANDIDATES = ['Phase Status', 'Exit Criteria Completion', 'Phase Sequencing'];
 
   function createFromCapacity(capId) {
     var cap = Cap.store.get(capId);
@@ -689,6 +704,54 @@
     var name = (vs ? vs.name : 'Value Stream') + ' — End-To-End Review';
     var p = R.store.create(name, data, false);
     R.logActivity(p, 'Created from Value Stream "' + (vs ? vs.name : vsId) + '".');
+    R.store.save(p);
+    return p;
+  }
+
+  function createFromDebt(debtId) {
+    var dm = D.store.get(debtId);
+    var data = R.blankData();
+    data.purposeCategory = 'Improvement';
+    data.purpose = 'Review named operating debt before "temporary" becomes permanent.';
+    data.systemScope = dm ? dm.name : '';
+    data.cadence = 'Monthly';
+    data.relatedDebtRegisterId = debtId;
+    data.signals = DEBT_SIGNAL_CANDIDATES.map(function (name) { return { id: R.newId('sig'), name: name, whyReviewed: '', decisionSupported: '', owner: '', threshold: '', status: '', trend: 'Unknown', dataConfidence: 'Unknown', disposition: '' }; });
+    var name = (dm ? dm.name : 'Operating Debt') + ' — Monthly Review';
+    var p = R.store.create(name, data, false);
+    R.logActivity(p, 'Created from Operating Debt register "' + (dm ? dm.name : debtId) + '".');
+    R.store.save(p);
+    return p;
+  }
+
+  function createFromScale(scaleId) {
+    var sm = Scale.store.get(scaleId);
+    var data = R.blankData();
+    data.purposeCategory = 'Capacity';
+    data.purpose = 'Review scale readiness before growth, not after it exposes a constraint.';
+    data.systemScope = sm ? sm.name : '';
+    data.cadence = 'Quarterly';
+    data.relatedScaleAssessmentId = scaleId;
+    data.signals = SCALE_SIGNAL_CANDIDATES.map(function (name) { return { id: R.newId('sig'), name: name, whyReviewed: '', decisionSupported: '', owner: '', threshold: '', status: '', trend: 'Unknown', dataConfidence: 'Unknown', disposition: '' }; });
+    var name = (sm ? sm.name : 'Scale Readiness') + ' — Quarterly Review';
+    var p = R.store.create(name, data, false);
+    R.logActivity(p, 'Created from Scale Readiness assessment "' + (sm ? sm.name : scaleId) + '".');
+    R.store.save(p);
+    return p;
+  }
+
+  function createFromTransformation(xformId) {
+    var tm = T.store.get(xformId);
+    var data = R.blankData();
+    data.purposeCategory = 'Change';
+    data.purpose = 'Review transformation phase progress and sequencing, not just milestones.';
+    data.systemScope = tm ? tm.name : '';
+    data.cadence = 'Monthly';
+    data.relatedTransformationPlanId = xformId;
+    data.signals = TRANSFORMATION_SIGNAL_CANDIDATES.map(function (name) { return { id: R.newId('sig'), name: name, whyReviewed: '', decisionSupported: '', owner: '', threshold: '', status: '', trend: 'Unknown', dataConfidence: 'Unknown', disposition: '' }; });
+    var name = (tm ? tm.name : 'Transformation Plan') + ' — Monthly Review';
+    var p = R.store.create(name, data, false);
+    R.logActivity(p, 'Created from Transformation Plan "' + (tm ? tm.name : xformId) + '".');
     R.store.save(p);
     return p;
   }

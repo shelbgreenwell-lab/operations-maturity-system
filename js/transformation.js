@@ -45,6 +45,11 @@
     }).join('');
   }
 
+  function operatingRhythmHref(xformId) {
+    var base = global.OMSData ? global.OMSData.href('pages/operating-rhythm.html') : 'operating-rhythm.html';
+    return base + '?fromTransformation=' + encodeURIComponent(xformId);
+  }
+
   /* ----------------------------------------------------------
      Wizard — Step 1: Setup
      ---------------------------------------------------------- */
@@ -279,6 +284,7 @@
       '<div class="hero__actions" style="margin-top:var(--space-5)">' +
         '<button type="button" class="btn btn--secondary" id="xform-export-btn">Export Transformation Plan JSON</button>' +
         '<button type="button" class="btn btn--secondary" id="xform-print-btn">Print Transformation Plan</button>' +
+        '<a class="btn btn--secondary" href="' + operatingRhythmHref(project.id) + '">Add Review Rhythm</a>' +
         '<button type="button" class="btn btn--ghost" id="xform-save-finding-btn">Save Findings To Workbench</button>' +
       '</div>';
     mount.querySelector('#xform-export-btn').addEventListener('click', function () { B.exportJson(project); });

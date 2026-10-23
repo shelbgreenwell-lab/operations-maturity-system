@@ -49,6 +49,11 @@
     }).join('');
   }
 
+  function operatingRhythmHref(scaleId) {
+    var base = global.OMSData ? global.OMSData.href('pages/operating-rhythm.html') : 'operating-rhythm.html';
+    return base + '?fromScale=' + encodeURIComponent(scaleId);
+  }
+
   /* ----------------------------------------------------------
      Wizard — Step 1: Setup
      ---------------------------------------------------------- */
@@ -284,6 +289,7 @@
       '<div class="hero__actions" style="margin-top:var(--space-5)">' +
         '<button type="button" class="btn btn--secondary" id="scale-export-btn">Export Scale Readiness JSON</button>' +
         '<button type="button" class="btn btn--secondary" id="scale-print-btn">Print Scale Readiness Profile</button>' +
+        '<a class="btn btn--secondary" href="' + operatingRhythmHref(project.id) + '">Add Review Rhythm</a>' +
         '<button type="button" class="btn btn--ghost" id="scale-save-finding-btn">Save Findings To Workbench</button>' +
       '</div>';
     mount.querySelector('#scale-export-btn').addEventListener('click', function () { B.exportJson(project); });

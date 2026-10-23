@@ -38,6 +38,7 @@
       decisions: [], signals: [], participants: [], inputs: [],
       relatedBlueprintProjectId: '', relatedBlueprintType: '', relatedBlueprintId: '',
       relatedValueStreamId: '', relatedCapacityModelId: '', relatedKpiModelId: '', relatedHealthModelId: '', relatedDecisionRightsProjectId: '',
+      relatedDebtRegisterId: '', relatedScaleAssessmentId: '', relatedTransformationPlanId: '',
       findings: [], activity: []
     };
   }
