@@ -158,6 +158,31 @@
     if (clearBtn && handlers.onClear) clearBtn.addEventListener('click', handlers.onClear);
   }
 
+  /*
+   * Identity — not a login. There is no backend and no account; this
+   * is a browser-local label, set once from the Profile page, so the
+   * rest of OMS (starting with the nav bar) can say whose seat you're
+   * sitting in. It never leaves this browser and controls nothing.
+   */
+  function getIdentity() {
+    return storage.get('identity', { name: '', role: '' });
+  }
+  function setIdentity(identity) {
+    storage.set('identity', { name: (identity.name || '').trim(), role: (identity.role || '').trim() });
+  }
+  function clearIdentity() {
+    storage.remove('identity');
+  }
+  function identityLabel() {
+    var id = getIdentity();
+    if (id.name && id.role) return id.name + ' — ' + id.role;
+    return id.name || id.role || '';
+  }
+  function identityInitial() {
+    var label = identityLabel();
+    return label ? label.charAt(0).toUpperCase() : 'P';
+  }
+
   global.OMSData = {
     base: BASE,
     href: href,
@@ -165,6 +190,11 @@
     loadKnowledge: loadKnowledge,
     storage: storage,
     sampleBannerHtml: sampleBannerHtml,
-    bindSampleBanner: bindSampleBanner
+    bindSampleBanner: bindSampleBanner,
+    getIdentity: getIdentity,
+    setIdentity: setIdentity,
+    clearIdentity: clearIdentity,
+    identityLabel: identityLabel,
+    identityInitial: identityInitial
   };
 })(window);

@@ -89,6 +89,43 @@
   }
 
   /* ----------------------------------------------------------
+     Identity — not a login. A browser-local label only.
+     ---------------------------------------------------------- */
+
+  function renderIdentityStatus(mount) {
+    if (!mount) return;
+    var label = global.OMSData.identityLabel();
+    mount.textContent = label ? 'Viewing as: ' + label : 'Not set — the nav bar shows a plain "P" until you save something here.';
+  }
+
+  function initIdentity() {
+    var nameInput = document.getElementById('profile-identity-name');
+    var roleInput = document.getElementById('profile-identity-role');
+    var statusMount = document.getElementById('profile-identity-status');
+    var clearBtn = document.getElementById('profile-identity-clear-btn');
+    if (!nameInput || !roleInput) return;
+
+    var current = global.OMSData.getIdentity();
+    nameInput.value = current.name || '';
+    roleInput.value = current.role || '';
+    renderIdentityStatus(statusMount);
+
+    var save = function () {
+      global.OMSData.setIdentity({ name: nameInput.value, role: roleInput.value });
+      renderIdentityStatus(statusMount);
+    };
+    nameInput.addEventListener('input', save);
+    roleInput.addEventListener('input', save);
+
+    if (clearBtn) clearBtn.addEventListener('click', function () {
+      global.OMSData.clearIdentity();
+      nameInput.value = '';
+      roleInput.value = '';
+      renderIdentityStatus(statusMount);
+    });
+  }
+
+  /* ----------------------------------------------------------
      Data management — export, import, clear sample, clear all.
      Every destructive action confirms first and states plainly
      that this only affects this browser, not a server.
@@ -152,6 +189,8 @@
   }
 
   function init() {
+    initIdentity();
+
     var summaryMount = document.getElementById('profile-summary-mount');
     var storageMount = document.getElementById('profile-storage-list');
     if (summaryMount) renderSummary(summaryMount);

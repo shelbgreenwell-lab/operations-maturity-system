@@ -33,6 +33,45 @@
     </header>
 
     <section class="section">
+      <div class="container container--narrow">
+        <div class="section-head">
+          <span class="eyebrow">Your Identity</span>
+          <h2>Who's viewing OMS</h2>
+        </div>
+        <p class="callout">
+          OMS has no login and no accounts &mdash; this is not authentication.
+          It's a label, stored only in this browser, so the nav bar and your
+          own notes can say whose seat you're sitting in while you work.
+        </p>
+        <div class="builder-field-grid">
+          <div class="builder-field">
+            <label class="builder-field__label" for="profile-identity-name">Your name (optional)</label>
+            <input type="text" class="builder-field__input" id="profile-identity-name" placeholder="e.g. Shelby Greenwell">
+          </div>
+          <div class="builder-field">
+            <label class="builder-field__label" for="profile-identity-role">Your role</label>
+            <input type="text" class="builder-field__input" id="profile-identity-role" list="profile-identity-role-options" placeholder="e.g. VP Implementation">
+            <datalist id="profile-identity-role-options">
+              <option value="Operations Leader / COO">
+              <option value="VP Implementation">
+              <option value="Process Owner">
+              <option value="Capacity / Resource Manager">
+              <option value="Risk &amp; Resilience Owner">
+              <option value="Governance Lead">
+              <option value="Executive Sponsor">
+            </datalist>
+          </div>
+        </div>
+        <div style="margin-top:var(--space-4)">
+          <span id="profile-identity-status" class="text-dim" style="font-size:var(--step--1)"></span>
+        </div>
+        <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;margin-top:var(--space-4)">
+          <button type="button" class="btn btn--ghost" id="profile-identity-clear-btn">Clear Identity</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">Your Operating System</span>

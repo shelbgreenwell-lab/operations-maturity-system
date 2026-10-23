@@ -125,11 +125,14 @@
   }
 
   function renderSecondary(page) {
+    var identityLabel = global.OMSData ? global.OMSData.identityLabel() : '';
+    var identityInitial = global.OMSData ? global.OMSData.identityInitial() : 'P';
+    var profileTitle = identityLabel ? 'Profile — viewing as ' + identityLabel : 'Profile — not set';
     return '' +
       '<button type="button" class="secondary-nav__icon" id="nav-search-trigger" aria-label="Search OMS" title="Search">&#128269;</button>' +
       '<button type="button" class="secondary-nav__icon" id="nav-router-trigger" aria-label="What should I do?" title="What should I do?">?</button>' +
       '<a class="secondary-nav__icon" href="' + href(PROFILE_LINK.path) + '" data-nav="profile"' +
-        currentAttr('profile', page) + ' aria-label="Profile">P</a>';
+        currentAttr('profile', page) + ' aria-label="' + escBc(profileTitle) + '" title="' + escBc(profileTitle) + '">' + escBc(identityInitial) + '</a>';
   }
 
   function renderMobile(page) {
@@ -141,7 +144,8 @@
       return '<a href="' + href(link.path) + '" data-nav="' + link.id + '"' +
         currentAttr(link.id, page) + '>' + link.label + '</a>';
     }).join('');
-    var profileLink = '<a href="' + href(PROFILE_LINK.path) + '" data-nav="profile"' + currentAttr('profile', page) + '>' + PROFILE_LINK.label + '</a>';
+    var identityLabelMobile = global.OMSData ? global.OMSData.identityLabel() : '';
+    var profileLink = '<a href="' + href(PROFILE_LINK.path) + '" data-nav="profile"' + currentAttr('profile', page) + '>' + PROFILE_LINK.label + (identityLabelMobile ? ' (' + escBc(identityLabelMobile) + ')' : '') + '</a>';
 
     return '' +
       '<div class="mobile-nav__utility">' +
